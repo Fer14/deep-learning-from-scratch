@@ -1,0 +1,80 @@
+[
+  {
+    "id": "norm-pre-1",
+    "stage": "pre",
+    "question": "For an activation matrix of shape (batch, features), over which axis does batch normalization compute its mean?",
+    "options": [
+      "Over the batch, separately for each feature",
+      "Over the features, separately for each example",
+      "Over the whole matrix at once",
+      "Over the weights of the previous layer"
+    ],
+    "correct": 0,
+    "explanation": "Batch norm gives each feature zero mean and unit variance across the examples in the batch. Layer norm does it across features within each example."
+  },
+  {
+    "id": "norm-pre-2",
+    "stage": "pre",
+    "question": "Why does a deep network benefit from keeping each layer's activations at a fixed scale during training?",
+    "options": [
+      "It makes the model smaller",
+      "It removes the need for a loss function",
+      "It keeps signals and gradients from vanishing or exploding as the weights change",
+      "It guarantees zero training error"
+    ],
+    "correct": 2,
+    "explanation": "A good init only fixes the scale at step 0. Normalization keeps it fixed at every step, which makes deep networks trainable with larger learning rates."
+  },
+  {
+    "id": "norm-post-1",
+    "stage": "post",
+    "question": "What are gamma and beta in a normalization layer?",
+    "options": [
+      "The running mean and variance",
+      "Learned per-feature scale and shift applied after normalizing",
+      "Hyperparameters set by the user",
+      "The momentum and epsilon"
+    ],
+    "correct": 1,
+    "explanation": "y = gamma * x_hat + beta. They let the network choose the output scale directly, initialized to 1 and 0."
+  },
+  {
+    "id": "norm-post-2",
+    "stage": "post",
+    "question": "You run a batch norm model in train mode on a single example. What happens?",
+    "options": [
+      "It uses the running statistics automatically",
+      "It raises an error in NumPy",
+      "It gives the same output as eval mode",
+      "Every normalized feature is 0, so the output is beta regardless of the input"
+    ],
+    "correct": 3,
+    "explanation": "With one example the batch mean equals the value itself, so x - mean = 0. That is why inference must use eval mode and running statistics."
+  },
+  {
+    "id": "norm-post-3",
+    "stage": "post",
+    "question": "Why do transformers use layer norm rather than batch norm?",
+    "options": [
+      "Layer norm does not depend on other examples in the batch, works with any batch size and behaves the same at train and test time",
+      "Layer norm has no learnable parameters",
+      "Batch norm cannot be differentiated",
+      "Layer norm is the only norm that supports GPUs"
+    ],
+    "correct": 0,
+    "explanation": "Sequences of varying length, small per-device batches and autoregressive inference all make batch statistics awkward. Layer norm sidesteps them."
+  },
+  {
+    "id": "norm-post-4",
+    "stage": "post",
+    "question": "Why can the linear layer just before a batch norm drop its bias?",
+    "options": [
+      "Biases are never useful",
+      "Batch norm subtracts the per-feature mean, which removes any constant bias, and beta plays its role",
+      "The bias would double the learning rate",
+      "PyTorch forbids it"
+    ],
+    "correct": 1,
+    "explanation": "A constant added to every example in a feature is removed by the mean subtraction, so the bias has no effect. beta adds a learned shift after the norm instead."
+  }
+]

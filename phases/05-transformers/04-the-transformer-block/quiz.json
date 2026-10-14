@@ -1,0 +1,80 @@
+[
+  {
+    "id": "block-pre-1",
+    "stage": "pre",
+    "question": "What does the feed-forward sub-layer of a transformer block do?",
+    "options": [
+      "Mixes information across positions",
+      "Applies the same two-layer MLP to each position independently",
+      "Computes the attention weights",
+      "Adds positional information"
+    ],
+    "correct": 1,
+    "explanation": "Attention moves information between tokens; the feed-forward network transforms each token's vector on its own."
+  },
+  {
+    "id": "block-pre-2",
+    "stage": "pre",
+    "question": "Which normalization does a transformer block use, and over which axis?",
+    "options": [
+      "Batch norm, over the batch",
+      "Layer norm, over the features of each token separately",
+      "Group norm, over the sequence",
+      "No normalization"
+    ],
+    "correct": 1,
+    "explanation": "LayerNorm normalizes each token's d_model features, independently of other tokens and examples."
+  },
+  {
+    "id": "block-post-1",
+    "stage": "post",
+    "question": "What is the pre-norm form of the attention sub-layer?",
+    "options": [
+      "x = LayerNorm(x + Attention(x))",
+      "x = Attention(LayerNorm(x))",
+      "x = x + Attention(LayerNorm(x))",
+      "x = LayerNorm(Attention(x))"
+    ],
+    "correct": 2,
+    "explanation": "The input is normalized before entering the sub-layer, and the result is added to the unnormalized residual stream."
+  },
+  {
+    "id": "block-post-2",
+    "stage": "post",
+    "question": "Roughly what share of a standard block's parameters (FFN hidden size 4 d_model) are in the feed-forward network?",
+    "options": [
+      "About two thirds",
+      "About 10%",
+      "About half",
+      "Almost all of them"
+    ],
+    "correct": 0,
+    "explanation": "Attention has about 4 d^2 parameters and the FFN about 8 d^2. In the lesson: 66% FFN, 33% attention."
+  },
+  {
+    "id": "block-post-3",
+    "stage": "post",
+    "question": "In the 12-block gradient experiment, how did post-norm differ from pre-norm at initialization?",
+    "options": [
+      "Post-norm gradients were exactly zero",
+      "There was no difference",
+      "Pre-norm gradients exploded",
+      "Post-norm gave larger gradients to blocks near the output than near the input, while pre-norm was uniform"
+    ],
+    "correct": 3,
+    "explanation": "The mismatch grows with depth and is why post-norm transformers need learning-rate warmup."
+  },
+  {
+    "id": "block-post-4",
+    "stage": "post",
+    "question": "Which LayerNorm detail made your implementation match nn.LayerNorm?",
+    "options": [
+      "Using the population variance (unbiased=False)",
+      "Normalizing over the batch axis",
+      "Omitting epsilon",
+      "Initializing the scale to zero"
+    ],
+    "correct": 0,
+    "explanation": "Layer norm divides by sqrt(var + eps) with the biased (population) variance over the feature axis."
+  }
+]

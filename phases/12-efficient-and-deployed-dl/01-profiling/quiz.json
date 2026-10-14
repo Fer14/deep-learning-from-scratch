@@ -1,0 +1,80 @@
+[
+  {
+    "id": "profiling-pre-1",
+    "stage": "pre",
+    "question": "How many FLOPs does a Linear(100, 50) layer need for one input vector?",
+    "options": [
+      "150",
+      "5,000",
+      "10,000",
+      "100"
+    ],
+    "correct": 2,
+    "explanation": "There are 100 * 50 multiply-adds, and each counts as 2 FLOPs, so 2 * 100 * 50 = 10,000 (the bias add is usually ignored)."
+  },
+  {
+    "id": "profiling-pre-2",
+    "stage": "pre",
+    "question": "You time a GPU forward pass with time.perf_counter() before and after the call, without synchronizing. What are you most likely measuring?",
+    "options": [
+      "Mostly the time to enqueue the kernels, not to run them",
+      "The exact GPU execution time",
+      "The time for the backward pass",
+      "The data loading time"
+    ],
+    "correct": 0,
+    "explanation": "CUDA launches are asynchronous. The call returns before the GPU finishes, so you need torch.cuda.synchronize() before stopping the clock."
+  },
+  {
+    "id": "profiling-post-1",
+    "stage": "post",
+    "question": "In SmallCNN, fc1 has about 7 times more parameters than conv2. Which one costs more compute per image?",
+    "options": [
+      "fc1, because compute is proportional to parameters",
+      "They cost the same",
+      "It depends only on the batch size",
+      "conv2, because each convolution weight is reused at every output position"
+    ],
+    "correct": 3,
+    "explanation": "conv2 applies its weights at 64 spatial positions, so it does about 2.4 MFLOPs per image versus 0.26 MFLOPs for fc1."
+  },
+  {
+    "id": "profiling-post-2",
+    "stage": "post",
+    "question": "On the GPU, batch sizes 1, 8 and 64 took about the same time per batch. What does that tell you?",
+    "options": [
+      "The GPU is compute-bound at batch 1",
+      "The time is dominated by fixed overhead such as kernel launches, so larger batches are almost free",
+      "The model is too large for the GPU",
+      "The timer is broken"
+    ],
+    "correct": 1,
+    "explanation": "In the overhead-bound regime, adding work does not add time until the hardware is busy, so throughput rises with batch size."
+  },
+  {
+    "id": "profiling-post-3",
+    "stage": "post",
+    "question": "Why report the median of many timed runs after warm-up instead of a single measurement?",
+    "options": [
+      "The median is always smaller",
+      "Because PyTorch requires it",
+      "Warm-up removes one-time costs and the median is robust to background noise and outliers",
+      "To include the compilation time"
+    ],
+    "correct": 2,
+    "explanation": "First calls pay for caches and kernel selection, and individual runs can be disturbed by other processes. The median of steady-state runs is a stable estimate."
+  },
+  {
+    "id": "profiling-post-4",
+    "stage": "post",
+    "question": "Profiling shows conv2 takes 70% of inference time. Which change would most reduce latency?",
+    "options": [
+      "Reducing the size of conv2 (fewer channels or a cheaper convolution)",
+      "Removing fc2",
+      "Shrinking fc1 to 64 units",
+      "Using a larger batch size for single requests"
+    ],
+    "correct": 0,
+    "explanation": "Optimize the bottleneck. Changes to layers that take a small share of the time cannot reduce latency by much (Amdahl's law)."
+  }
+]

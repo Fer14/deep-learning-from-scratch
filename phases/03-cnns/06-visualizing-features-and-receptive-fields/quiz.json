@@ -1,0 +1,80 @@
+[
+  {
+    "id": "visualizing-pre-1",
+    "stage": "pre",
+    "question": "Which layer's kernels can you meaningfully plot as small images?",
+    "options": [
+      "The last convolutional layer",
+      "The first convolutional layer, because its kernels live in pixel space",
+      "Only the dense head",
+      "None; kernels are always random-looking"
+    ],
+    "correct": 1,
+    "explanation": "First-layer kernels multiply raw pixels, so they look like edge and blob detectors. Deeper kernels mix many feature channels and are not readable by eye."
+  },
+  {
+    "id": "visualizing-pre-2",
+    "stage": "pre",
+    "question": "What is a saliency map?",
+    "options": [
+      "The output of the first layer",
+      "A segmentation mask predicted by the network",
+      "The absolute gradient of a class score with respect to each input pixel",
+      "The average of all feature maps"
+    ],
+    "correct": 2,
+    "explanation": "Saliency = |d s_c / d x|, computed with one backward pass to the input."
+  },
+  {
+    "id": "visualizing-post-1",
+    "stage": "post",
+    "question": "For the network conv3 - pool2 - conv3 - pool2 - conv3, what is the theoretical receptive field of the last layer?",
+    "options": [
+      "9",
+      "10",
+      "12",
+      "18"
+    ],
+    "correct": 3,
+    "explanation": "r goes 3, 4 (pool, j=2), 8, 10 (pool, j=4), 18."
+  },
+  {
+    "id": "visualizing-post-2",
+    "stage": "post",
+    "question": "How does the effective receptive field differ from the theoretical one?",
+    "options": [
+      "The gradient is concentrated near the center, so the effective field is smaller and roughly Gaussian",
+      "It is always larger than the theoretical field",
+      "They are identical by definition",
+      "The effective field only exists for untrained networks"
+    ],
+    "correct": 0,
+    "explanation": "Central pixels reach the unit through many more paths than border pixels, so most gradient mass sits in the middle."
+  },
+  {
+    "id": "visualizing-post-3",
+    "stage": "post",
+    "question": "During activation maximization (class visualization), what is optimized?",
+    "options": [
+      "The model weights, with the input fixed",
+      "The input pixels, with the model weights frozen",
+      "The learning rate",
+      "Both weights and pixels jointly"
+    ],
+    "correct": 1,
+    "explanation": "The optimizer only receives the image tensor; gradient ascent changes pixels to increase the chosen class score."
+  },
+  {
+    "id": "visualizing-post-4",
+    "stage": "post",
+    "question": "Why is occlusion often considered more trustworthy than a raw saliency map?",
+    "options": [
+      "It is faster to compute",
+      "It uses second derivatives",
+      "It needs no forward passes",
+      "It measures the actual drop in probability when information is removed, instead of a local linear approximation"
+    ],
+    "correct": 3,
+    "explanation": "Saliency only describes infinitesimal changes around x. Occlusion directly tests what happens when a region is hidden, at the cost of many forward passes."
+  }
+]

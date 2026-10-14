@@ -1,0 +1,80 @@
+[
+  {
+    "id": "dropout-wd-pre-1",
+    "stage": "pre",
+    "question": "A network reaches 99% training accuracy but 83% test accuracy on the same distribution. What is the most likely problem?",
+    "options": [
+      "Underfitting",
+      "A learning rate that is too small",
+      "Overfitting: the model has fit noise in the training set",
+      "A bug in the test set"
+    ],
+    "correct": 2,
+    "explanation": "A large gap between training and test performance is the signature of overfitting. Regularization, more data or a smaller model reduce it."
+  },
+  {
+    "id": "dropout-wd-pre-2",
+    "stage": "pre",
+    "question": "What does an L2 penalty (lambda/2) ||W||^2 add to the gradient of a weight matrix W?",
+    "options": [
+      "lambda * W",
+      "lambda",
+      "lambda * sign(W)",
+      "lambda / W"
+    ],
+    "correct": 0,
+    "explanation": "The derivative of (lambda/2) W^2 is lambda W, so each step also pulls the weights toward zero in proportion to their size."
+  },
+  {
+    "id": "dropout-wd-post-1",
+    "stage": "post",
+    "question": "With inverted dropout at p = 0.5, what is done to the surviving activations during training?",
+    "options": [
+      "Nothing",
+      "They are multiplied by 2",
+      "They are multiplied by 0.5",
+      "They are normalized to unit variance"
+    ],
+    "correct": 1,
+    "explanation": "Survivors are divided by 1 - p = 0.5, so the expected activation matches eval mode, where dropout is the identity."
+  },
+  {
+    "id": "dropout-wd-post-2",
+    "stage": "post",
+    "question": "What does nn.Dropout do after you call model.eval()?",
+    "options": [
+      "Drops units with probability p and rescales",
+      "Drops units but does not rescale",
+      "Raises an error",
+      "Passes its input through unchanged"
+    ],
+    "correct": 3,
+    "explanation": "In eval mode dropout is the identity. Forgetting model.eval() makes predictions random and slightly worse."
+  },
+  {
+    "id": "dropout-wd-post-3",
+    "stage": "post",
+    "question": "How does torch.optim.Adam(weight_decay=w) differ from torch.optim.AdamW(weight_decay=w)?",
+    "options": [
+      "They are identical",
+      "Adam adds w * param to the gradient so it goes through the adaptive normalization; AdamW shrinks the weights directly by lr * w * param",
+      "AdamW does not use momentum",
+      "Adam applies decay only to biases"
+    ],
+    "correct": 1,
+    "explanation": "Coupled L2 is rescaled per parameter by 1/sqrt(v), so its strength depends on gradient history. AdamW decouples the decay so every weight shrinks by the same factor."
+  },
+  {
+    "id": "dropout-wd-post-4",
+    "stage": "post",
+    "question": "Which parameters are usually excluded from weight decay?",
+    "options": [
+      "Biases and normalization scales and shifts",
+      "The first layer's weights",
+      "The output layer's weights",
+      "All convolutional weights"
+    ],
+    "correct": 0,
+    "explanation": "Shrinking biases and norm parameters does not make the function simpler and can hurt, so recipes put them in a parameter group with weight_decay = 0."
+  }
+]

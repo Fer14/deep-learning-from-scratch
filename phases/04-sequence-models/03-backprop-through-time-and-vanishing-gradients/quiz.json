@@ -1,0 +1,80 @@
+[
+  {
+    "id": "bptt-pre-1",
+    "stage": "pre",
+    "question": "In backpropagation through time, why are the gradients of W_hh summed over time steps?",
+    "options": [
+      "Because summing is faster than averaging",
+      "Because the same W_hh is used at every step, so each step contributes to its total gradient",
+      "Because only the last step matters",
+      "Because PyTorch requires it"
+    ],
+    "correct": 1,
+    "explanation": "Tied weights receive the sum of the gradients from every place they are used in the unrolled graph."
+  },
+  {
+    "id": "bptt-pre-2",
+    "stage": "pre",
+    "question": "If each backward step multiplies the gradient by about 0.5, how large is it after 10 steps?",
+    "options": [
+      "About 5",
+      "About 0.05",
+      "About 0.001",
+      "Unchanged"
+    ],
+    "correct": 2,
+    "explanation": "0.5^10 is about 0.001. Exponential decay is what makes long-range gradients vanish."
+  },
+  {
+    "id": "bptt-post-1",
+    "stage": "post",
+    "question": "What is the Jacobian dh_t/dh_(t-1) of a tanh RNN (row-vector convention)?",
+    "options": [
+      "W_xh",
+      "1 - h_t^2",
+      "W_hh only",
+      "diag(1 - h_t^2) W_hh^T"
+    ],
+    "correct": 3,
+    "explanation": "h_t = tanh(x_t W_xh + h_(t-1) W_hh + b), so the derivative combines the tanh derivative and W_hh."
+  },
+  {
+    "id": "bptt-post-2",
+    "stage": "post",
+    "question": "In the lesson, W_hh was orthogonal with radius 1, yet the gradient still vanished when the inputs were large. Why?",
+    "options": [
+      "tanh saturated, so the factors 1 - h_t^2 were well below 1 and shrank the product",
+      "Orthogonal matrices always shrink vectors",
+      "The learning rate was too small",
+      "Clipping was applied"
+    ],
+    "correct": 0,
+    "explanation": "Large inputs push activations toward +-1 where the tanh derivative is near 0, so the diagonal factor kills the gradient."
+  },
+  {
+    "id": "bptt-post-3",
+    "stage": "post",
+    "question": "What does gradient clipping fix?",
+    "options": [
+      "Vanishing gradients",
+      "Exploding gradients, by rescaling the total gradient norm to a maximum value",
+      "Overfitting",
+      "Saturated activations"
+    ],
+    "correct": 1,
+    "explanation": "Clipping bounds the step size when gradients explode. It cannot create a signal that has vanished."
+  },
+  {
+    "id": "bptt-post-4",
+    "stage": "post",
+    "question": "On the memory task, the vanilla RNN solved delays up to 30 but failed at 40. What is the main reason?",
+    "options": [
+      "The network had too many parameters",
+      "Clipping removed the gradient",
+      "The gradient from the output to the first input decays exponentially with the delay and becomes too small to learn from",
+      "The noise symbols were too similar to the first symbol"
+    ],
+    "correct": 2,
+    "explanation": "The ratio of the gradient at x_0 to the gradient at x_T fell to about 1e-10 at delay 40, so the first symbol barely influences learning."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "autograd-pre-1",
+    "stage": "pre",
+    "question": "For c = a * b, what is dc/da?",
+    "options": [
+      "a",
+      "1",
+      "b",
+      "a * b"
+    ],
+    "correct": 2,
+    "explanation": "Treating b as a constant, the derivative of a * b with respect to a is b."
+  },
+  {
+    "id": "autograd-pre-2",
+    "stage": "pre",
+    "question": "What lets a Python class make the expression a * b build a graph node?",
+    "options": [
+      "Operator overloading through methods such as __mul__",
+      "Decorators",
+      "Multiple inheritance",
+      "The global interpreter lock"
+    ],
+    "correct": 0,
+    "explanation": "Python calls a.__mul__(b) for a * b, so the method can compute the result and record its parents."
+  },
+  {
+    "id": "autograd-post-1",
+    "stage": "post",
+    "question": "y = x * x + x at x = 3. Your engine returns a dy/dx different from 7. Which bug is the most likely cause?",
+    "options": [
+      "The topological sort is reversed",
+      "Backward rules use = instead of +=, so later contributions overwrite earlier ones",
+      "tanh has the wrong derivative",
+      "The learning rate is too high"
+    ],
+    "correct": 1,
+    "explanation": "x is used three times. With = each contribution overwrites the previous one, so x.grad ends up with only one term instead of the sum 3 + 3 + 1 = 7."
+  },
+  {
+    "id": "autograd-post-2",
+    "stage": "post",
+    "question": "Why does backward() visit nodes in reverse topological order?",
+    "options": [
+      "It is faster than random order",
+      "So that a node's grad is complete before it is pushed to its parents",
+      "To free memory early",
+      "Because Python lists are reversed by default"
+    ],
+    "correct": 1,
+    "explanation": "All children of a node come later in topological order, so processing in reverse means every child has already added its contribution."
+  },
+  {
+    "id": "autograd-post-3",
+    "stage": "post",
+    "question": "Why does the engine not need a separate backward rule for division?",
+    "options": [
+      "Division has no derivative",
+      "PyTorch handles it",
+      "a / b is built as a * b ** -1, so the rules for * and ** give its gradient",
+      "Division is only used in the forward pass"
+    ],
+    "correct": 2,
+    "explanation": "Composite operations built from primitives inherit their gradients through the chain rule."
+  },
+  {
+    "id": "autograd-post-4",
+    "stage": "post",
+    "question": "Unlike the engine in this lesson, what does PyTorch do with .grad when you call backward() twice?",
+    "options": [
+      "It accumulates into the existing .grad, so you must zero it between steps",
+      "It overwrites .grad",
+      "It raises an error",
+      "It averages the two gradients"
+    ],
+    "correct": 0,
+    "explanation": "PyTorch accumulates gradients across backward calls, which is why training loops call optimizer.zero_grad()."
+  }
+]

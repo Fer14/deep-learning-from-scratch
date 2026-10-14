@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lora-pre-1",
+    "stage": "pre",
+    "question": "What is catastrophic forgetting?",
+    "options": [
+      "A model losing earlier abilities after being trained on a new task",
+      "A model failing to converge during pretraining",
+      "Running out of GPU memory",
+      "Deleting the base checkpoint by mistake"
+    ],
+    "correct": 0,
+    "explanation": "Gradients from the new data move weights that the old behavior relied on, so performance on the original data degrades."
+  },
+  {
+    "id": "lora-pre-2",
+    "stage": "pre",
+    "question": "Why is full fine-tuning of a 7B model expensive?",
+    "options": [
+      "It needs more training data than pretraining",
+      "It cannot run on GPUs",
+      "It requires a new tokenizer",
+      "Gradients and Adam states for every weight need several times the model's memory, and each variant is a full checkpoint"
+    ],
+    "correct": 3,
+    "explanation": "Weights, gradients and two Adam moments per parameter add up to over 100 GB in float32, and every fine-tuned copy is the full model size."
+  },
+  {
+    "id": "lora-post-1",
+    "stage": "post",
+    "question": "Why is LoRA's B matrix initialized to zero?",
+    "options": [
+      "To make A trainable",
+      "So the adapted model starts exactly equal to the pretrained model",
+      "To reduce the rank",
+      "Because zero gradients are faster"
+    ],
+    "correct": 1,
+    "explanation": "With B = 0 the update B A is zero, so training begins from the pretrained behavior instead of a random perturbation of it."
+  },
+  {
+    "id": "lora-post-2",
+    "stage": "post",
+    "question": "How many trainable parameters does a rank-8 LoRA add to a 4096 x 4096 weight matrix?",
+    "options": [
+      "16,777,216",
+      "4,096",
+      "65,536",
+      "32,768"
+    ],
+    "correct": 2,
+    "explanation": "A is 8 x 4096 and B is 4096 x 8, so r (in + out) = 8 x 8192 = 65,536, about 256 times fewer than the full matrix."
+  },
+  {
+    "id": "lora-post-3",
+    "stage": "post",
+    "question": "After merging a LoRA adapter, what is the inference cost compared with the base model?",
+    "options": [
+      "Doubled, because two paths are computed",
+      "The same, because W0 + scale * B A is a single matrix of the original shape",
+      "Lower, because the rank is smaller",
+      "Higher by a factor of alpha / r"
+    ],
+    "correct": 1,
+    "explanation": "Merging folds the low-rank update into the weight, leaving ordinary linear layers with no extra computation."
+  },
+  {
+    "id": "lora-post-4",
+    "stage": "post",
+    "question": "In the experiment, increasing the LoRA rank from 1 to 16 did what?",
+    "options": [
+      "Lowered task loss and increased forgetting, moving toward full fine-tuning",
+      "Raised task loss and reduced forgetting",
+      "Changed nothing, since rank only affects memory",
+      "Broke the merge step"
+    ],
+    "correct": 0,
+    "explanation": "Higher rank gives the update more capacity: it fits the new task better and also moves the model further from the base."
+  }
+]

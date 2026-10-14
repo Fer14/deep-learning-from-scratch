@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lr-schedules-pre-1",
+    "stage": "pre",
+    "question": "Why does SGD with a constant learning rate often stop improving before reaching the minimum?",
+    "options": [
+      "The gradient becomes exactly zero after a few epochs",
+      "Minibatch noise keeps kicking the weights around, and the kicks scale with the learning rate",
+      "The weights become too large",
+      "The loss function changes during training"
+    ],
+    "correct": 1,
+    "explanation": "Near the minimum the true gradient vanishes but the minibatch noise does not. Each step moves the weights by lr times that noise, so they bounce in a region whose size grows with lr."
+  },
+  {
+    "id": "lr-schedules-pre-2",
+    "stage": "pre",
+    "question": "What does a learning rate schedule change during training?",
+    "options": [
+      "The batch size",
+      "The architecture",
+      "The step size used by the optimizer at each iteration",
+      "The loss function"
+    ],
+    "correct": 2,
+    "explanation": "A schedule is just a function lr(t) that the optimizer reads every step."
+  },
+  {
+    "id": "lr-schedules-post-1",
+    "stage": "post",
+    "question": "What is the learning rate of a cosine schedule (lr_min = 0) exactly halfway through training?",
+    "options": [
+      "Half of the base rate",
+      "Zero",
+      "The base rate",
+      "A quarter of the base rate"
+    ],
+    "correct": 0,
+    "explanation": "0.5 * lr0 * (1 + cos(pi/2)) = 0.5 * lr0 * (1 + 0) = lr0 / 2."
+  },
+  {
+    "id": "lr-schedules-post-2",
+    "stage": "post",
+    "question": "In a learning rate range test, where should you pick the base learning rate?",
+    "options": [
+      "At the smallest rate tested",
+      "Exactly where the loss explodes",
+      "Anywhere, the schedule fixes it",
+      "Somewhat below the rate with the lowest smoothed loss, well before the explosion"
+    ],
+    "correct": 3,
+    "explanation": "The minimum of the range-test curve is already close to the stability limit. A rate a few times smaller trains reliably while still being fast."
+  },
+  {
+    "id": "lr-schedules-post-3",
+    "stage": "post",
+    "question": "Why is warmup especially common when training transformers with Adam?",
+    "options": [
+      "Adam cannot take large steps",
+      "Early on, Adam's second-moment estimate is based on very few gradients and large steps from a random init can destabilize training",
+      "Warmup reduces memory use",
+      "Transformers have no biases"
+    ],
+    "correct": 1,
+    "explanation": "In the first steps gradients are large and Adam's variance estimate is unreliable, so a full-size learning rate can push the weights into a bad region. Ramping the rate up avoids that."
+  },
+  {
+    "id": "lr-schedules-post-4",
+    "stage": "post",
+    "question": "In PyTorch, when do you call scheduler.step() relative to optimizer.step()?",
+    "options": [
+      "Before loss.backward()",
+      "Before optimizer.step()",
+      "After optimizer.step()",
+      "Only once at the end of training"
+    ],
+    "correct": 2,
+    "explanation": "The optimizer uses the current rate for its update, then the scheduler advances to the next rate. Calling it first skips the first value of the schedule and triggers a warning."
+  }
+]

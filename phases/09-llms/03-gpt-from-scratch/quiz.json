@@ -1,0 +1,80 @@
+[
+  {
+    "id": "gpt-pre-1",
+    "stage": "pre",
+    "question": "During training, what are the targets for an input chunk of tokens x[0..T-1]?",
+    "options": [
+      "The same tokens x[0..T-1]",
+      "The tokens shifted by one, x[1..T]",
+      "A single label for the whole chunk",
+      "The tokens in reverse order"
+    ],
+    "correct": 1,
+    "explanation": "Every position predicts the next token, so one chunk of length T gives T training examples at once."
+  },
+  {
+    "id": "gpt-pre-2",
+    "stage": "pre",
+    "question": "What prevents a GPT position from looking at future tokens?",
+    "options": [
+      "Positional embeddings",
+      "Layer normalization",
+      "Dropout",
+      "A causal mask that sets scores for future positions to minus infinity before the softmax"
+    ],
+    "correct": 3,
+    "explanation": "The lower-triangular mask gives future positions zero attention weight, so position t only sees tokens 0..t."
+  },
+  {
+    "id": "gpt-post-1",
+    "stage": "post",
+    "question": "A freshly initialized GPT with vocabulary size 30 should have an initial loss close to which value?",
+    "options": [
+      "ln(30), about 3.4",
+      "0",
+      "30",
+      "1"
+    ],
+    "correct": 0,
+    "explanation": "With small random weights the predictions are nearly uniform, and the cross-entropy of a uniform guess is ln(V)."
+  },
+  {
+    "id": "gpt-post-2",
+    "stage": "post",
+    "question": "What does weight tying in a GPT mean?",
+    "options": [
+      "All transformer blocks share the same weights",
+      "The query and key projections are equal",
+      "The output projection to logits reuses the token embedding matrix",
+      "The learning rate is the same for every layer"
+    ],
+    "correct": 2,
+    "explanation": "The head that maps hidden states to vocabulary logits shares its matrix with the input embedding, saving parameters and often improving results."
+  },
+  {
+    "id": "gpt-post-3",
+    "stage": "post",
+    "question": "Your tiny GPT reaches train loss 0.12 and val loss 2.8 on a 3 kB corpus. What is happening?",
+    "options": [
+      "The model is underfitting and needs more steps",
+      "The model memorized the training text and overfits; it needs more data, regularization or early stopping",
+      "The causal mask is broken",
+      "The learning rate is too small"
+    ],
+    "correct": 1,
+    "explanation": "A model with hundreds of thousands of parameters can store a 3.5 kB text almost verbatim. Validation loss rising while train loss falls is the signature of overfitting."
+  },
+  {
+    "id": "gpt-post-4",
+    "stage": "post",
+    "question": "In a pre-LayerNorm transformer block, where is LayerNorm applied?",
+    "options": [
+      "Only after the final block",
+      "After each residual addition",
+      "On the attention weights",
+      "On the input of each sublayer, inside the residual branch"
+    ],
+    "correct": 3,
+    "explanation": "x = x + attn(ln1(x)); x = x + mlp(ln2(x)). The residual stream itself is never normalized until the final LayerNorm."
+  }
+]

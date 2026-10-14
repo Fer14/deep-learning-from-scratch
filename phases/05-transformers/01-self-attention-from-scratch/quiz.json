@@ -1,0 +1,80 @@
+[
+  {
+    "id": "self-attention-pre-1",
+    "stage": "pre",
+    "question": "In self-attention, where do the queries, keys and values come from?",
+    "options": [
+      "Queries from the decoder, keys and values from the encoder",
+      "All three are linear projections of the same input sequence",
+      "Keys and values are fixed random vectors",
+      "Queries are the labels"
+    ],
+    "correct": 1,
+    "explanation": "Self-attention relates a sequence to itself: Q = X W_q, K = X W_k, V = X W_v."
+  },
+  {
+    "id": "self-attention-pre-2",
+    "stage": "pre",
+    "question": "For a sequence of n tokens, what is the shape of the attention weight matrix (per head, per example)?",
+    "options": [
+      "n x n",
+      "n x d",
+      "d x d",
+      "1 x n"
+    ],
+    "correct": 0,
+    "explanation": "Every query is scored against every key, giving one n x n matrix whose rows sum to 1."
+  },
+  {
+    "id": "self-attention-post-1",
+    "stage": "post",
+    "question": "Why are attention scores divided by sqrt(d_k)?",
+    "options": [
+      "To make the weights sum to 1",
+      "To reduce memory usage",
+      "Because dot products of unit-variance vectors have variance d_k; scaling keeps scores near unit scale so the softmax does not saturate",
+      "To make attention causal"
+    ],
+    "correct": 2,
+    "explanation": "In the lesson, std(q.k) was exactly sqrt(d). Unscaled, the softmax became nearly one-hot for large d."
+  },
+  {
+    "id": "self-attention-post-2",
+    "stage": "post",
+    "question": "How does a causal mask prevent position t from attending to later positions?",
+    "options": [
+      "It sets the values of later positions to zero",
+      "It removes later tokens from the input",
+      "It multiplies the attention weights by 0.5",
+      "It sets their scores to -inf before the softmax, so their weights become exactly 0"
+    ],
+    "correct": 3,
+    "explanation": "exp(-inf) = 0, so masked positions get zero weight and the remaining weights still sum to 1."
+  },
+  {
+    "id": "self-attention-post-3",
+    "stage": "post",
+    "question": "You shuffle the tokens of a sequence and run a self-attention layer (no positional information). What happens to the output?",
+    "options": [
+      "It is shuffled in the same way and otherwise unchanged",
+      "It stays in the original order",
+      "It becomes random",
+      "It becomes all zeros"
+    ],
+    "correct": 0,
+    "explanation": "Self-attention is permutation equivariant: it has no notion of position until you add one."
+  },
+  {
+    "id": "self-attention-post-4",
+    "stage": "post",
+    "question": "Why could the per-token MLP not solve the counting task, while one attention layer could?",
+    "options": [
+      "The MLP had fewer parameters",
+      "Counting needs information from other positions, and only attention moves information between tokens",
+      "The MLP used ReLU instead of softmax",
+      "The attention model was trained longer"
+    ],
+    "correct": 1,
+    "explanation": "A per-token MLP sees one token at a time. The count depends on the whole sequence, which attention aggregates."
+  }
+]

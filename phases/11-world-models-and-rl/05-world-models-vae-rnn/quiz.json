@@ -1,0 +1,80 @@
+[
+  {
+    "id": "worldmodels-pre-1",
+    "stage": "pre",
+    "question": "Why can't a single image of a moving ball serve as the full state for control?",
+    "options": [
+      "Images are too large to process",
+      "A single frame shows position but not velocity",
+      "Images contain no information about the ball",
+      "Controllers can only use numbers, not pixels"
+    ],
+    "correct": 1,
+    "explanation": "One frame is a partial observation. Velocity has to be inferred from several frames, which is what the recurrent memory provides."
+  },
+  {
+    "id": "worldmodels-pre-2",
+    "stage": "pre",
+    "question": "What does a VAE encoder output for each input?",
+    "options": [
+      "A class label",
+      "A reconstructed image",
+      "The mean and log-variance of a Gaussian over the latent code",
+      "The next frame"
+    ],
+    "correct": 2,
+    "explanation": "The encoder parameterizes q(z|x) as a diagonal Gaussian; the decoder maps samples of z back to pixels."
+  },
+  {
+    "id": "worldmodels-post-1",
+    "stage": "post",
+    "question": "Why does M predict a mixture of Gaussians over the next latent instead of a single value trained with MSE?",
+    "options": [
+      "Mixtures need fewer parameters",
+      "MSE cannot be used with recurrent networks",
+      "Mixtures are required for evolution strategies",
+      "The future can be multimodal, and MSE would predict the average of the possible outcomes"
+    ],
+    "correct": 3,
+    "explanation": "If the same situation can lead to distinct outcomes, a mean prediction falls between them. A mixture can put probability mass on each one."
+  },
+  {
+    "id": "worldmodels-post-2",
+    "stage": "post",
+    "question": "Which component of the World Models agent is trained using the reward?",
+    "options": [
+      "Only the controller C (plus M's reward head, which just predicts it)",
+      "Only the VAE",
+      "All three, end to end",
+      "None of them"
+    ],
+    "correct": 0,
+    "explanation": "V and M are trained with unsupervised or predictive losses on random-policy data. C is optimized to maximize the predicted return in the dream."
+  },
+  {
+    "id": "worldmodels-post-3",
+    "stage": "post",
+    "question": "Why is an evolution strategy a good fit for training C here?",
+    "options": [
+      "It always finds the global optimum",
+      "C is tiny and its argmax action has no useful gradient, while ES only needs return scores",
+      "ES is faster than backpropagation for large networks",
+      "ES does not need a world model"
+    ],
+    "correct": 1,
+    "explanation": "With a few hundred parameters, black-box search is cheap and avoids differentiating through discrete action choices."
+  },
+  {
+    "id": "worldmodels-post-4",
+    "stage": "post",
+    "question": "What is the purpose of the temperature parameter when sampling dreams from M?",
+    "options": [
+      "It speeds up the GRU",
+      "It changes the number of mixture components",
+      "It scales the sampling noise; a noisier dream makes it harder for C to exploit model errors",
+      "It sets the learning rate of the controller"
+    ],
+    "correct": 2,
+    "explanation": "Higher temperature produces more varied futures, so a controller that succeeds in it is less likely to rely on quirks of an imperfect model."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "pg-pre-1",
+    "stage": "pre",
+    "question": "What does a policy network output in a policy gradient method with discrete actions?",
+    "options": [
+      "A probability distribution over actions",
+      "One Q-value per action",
+      "The next state",
+      "The reward of the current step"
+    ],
+    "correct": 0,
+    "explanation": "The policy is stochastic: the network outputs logits that define a distribution you sample actions from."
+  },
+  {
+    "id": "pg-pre-2",
+    "stage": "pre",
+    "question": "Why can't you simply backpropagate the episode return into the policy network?",
+    "options": [
+      "The return is always zero",
+      "The return depends on the environment's dynamics and on sampled actions, which are not differentiable",
+      "PyTorch cannot differentiate through a softmax",
+      "Rewards are integers"
+    ],
+    "correct": 1,
+    "explanation": "The environment is a black box and sampling is discrete, so there is no gradient path from the return to theta. The log-derivative trick sidesteps this."
+  },
+  {
+    "id": "pg-post-1",
+    "stage": "post",
+    "question": "Why do the transition probabilities drop out of the REINFORCE gradient?",
+    "options": [
+      "Because they are assumed to be uniform",
+      "Because the environment is deterministic",
+      "Because they do not depend on theta, so their log has zero gradient",
+      "Because they are learned by a separate network"
+    ],
+    "correct": 2,
+    "explanation": "log p(tau) is a sum of log initial-state, log policy and log transition terms. Only the policy terms depend on theta."
+  },
+  {
+    "id": "pg-post-2",
+    "stage": "post",
+    "question": "Subtracting a baseline V(s_t) from the return...",
+    "options": [
+      "biases the gradient toward safer actions",
+      "turns REINFORCE into Q-learning",
+      "is only valid when V is exact",
+      "keeps the gradient unbiased and reduces its variance"
+    ],
+    "correct": 3,
+    "explanation": "E[grad log pi(a|s)] = 0 for any state, so subtracting any state-dependent term changes nothing in expectation but can remove a lot of noise."
+  },
+  {
+    "id": "pg-post-3",
+    "stage": "post",
+    "question": "Why is the baseline detached when computing the policy loss?",
+    "options": [
+      "To save memory",
+      "Because it should act as a constant weight, not as a path for the policy gradient into the value network",
+      "Because detach makes the loss convex",
+      "Because the value network has no parameters"
+    ],
+    "correct": 1,
+    "explanation": "The policy gradient treats the advantage as a fixed weight. The value network is trained by its own regression loss."
+  },
+  {
+    "id": "pg-post-4",
+    "stage": "post",
+    "question": "Why does REINFORCE discard its trajectories after every update while DQN keeps a replay buffer?",
+    "options": [
+      "REINFORCE is on-policy: its gradient is an expectation under the current policy",
+      "REINFORCE uses too much memory",
+      "DQN does not use a neural network",
+      "Old trajectories have negative rewards"
+    ],
+    "correct": 0,
+    "explanation": "Once the policy changes, old trajectories are samples from the wrong distribution. Q-learning is off-policy, so old data stays valid."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "latent-diffusion-pre-1",
+    "stage": "pre",
+    "question": "In latent diffusion, where does the denoising loop run?",
+    "options": [
+      "In pixel space",
+      "In the latent space of a pretrained autoencoder",
+      "Inside the decoder",
+      "On the class labels"
+    ],
+    "correct": 1,
+    "explanation": "All reverse steps operate on the small latent z; the decoder is called once at the end."
+  },
+  {
+    "id": "latent-diffusion-pre-2",
+    "stage": "pre",
+    "question": "Why is diffusion on 512x512 images in pixel space expensive?",
+    "options": [
+      "Pixels cannot be noised",
+      "The noise schedule is undefined for images",
+      "Every step processes all 786,432 numbers with a large network, for many steps",
+      "Images need a discriminator"
+    ],
+    "correct": 2,
+    "explanation": "Cost scales with input size times the number of steps; compressing first reduces the input size."
+  },
+  {
+    "id": "latent-diffusion-post-1",
+    "stage": "post",
+    "question": "Why does decoding random Gaussian latents give poor digits (19% confident) while latent diffusion gives 57%?",
+    "options": [
+      "The latents of real digits occupy an irregular region that the diffusion model learns and a Gaussian does not match",
+      "The decoder is broken for random inputs",
+      "Diffusion uses a better decoder",
+      "Gaussian latents have the wrong dimension"
+    ],
+    "correct": 0,
+    "explanation": "The decoder maps latents to images; the diffusion model's job is to produce latents that look like encoded real digits."
+  },
+  {
+    "id": "latent-diffusion-post-2",
+    "stage": "post",
+    "question": "What limits the best possible quality of a latent diffusion model?",
+    "options": [
+      "The number of classes",
+      "The learning rate of the decoder",
+      "The size of the noise schedule",
+      "The autoencoder's reconstruction quality"
+    ],
+    "correct": 3,
+    "explanation": "Samples are decoded latents, so they cannot be better than what the decoder can reconstruct (77% confident here, same as real digits)."
+  },
+  {
+    "id": "latent-diffusion-post-3",
+    "stage": "post",
+    "question": "The raw latents have std 3.05. What happens if you diffuse them without scaling?",
+    "options": [
+      "Nothing; the schedule is scale invariant",
+      "The SNR is about 9 times higher at every t, so the schedule destroys the signal later than designed and x_T is not quite N(0, I)",
+      "Training becomes impossible",
+      "The decoder output is inverted"
+    ],
+    "correct": 1,
+    "explanation": "SNR = alpha_bar * var(z) / (1 - alpha_bar); scaling to unit variance restores the intended schedule."
+  },
+  {
+    "id": "latent-diffusion-post-4",
+    "stage": "post",
+    "question": "With the same network, training budget and sampler, why did latent diffusion beat pixel diffusion on digits?",
+    "options": [
+      "It used more training steps",
+      "It used a classifier during sampling",
+      "Modeling the distribution of 8 smooth latent factors is easier than modeling 64 correlated pixels; the decoder handles the pixel patterns",
+      "Pixel diffusion cannot represent digits"
+    ],
+    "correct": 2,
+    "explanation": "The division of labor is the point: compression removes redundancy, diffusion models what is left."
+  }
+]

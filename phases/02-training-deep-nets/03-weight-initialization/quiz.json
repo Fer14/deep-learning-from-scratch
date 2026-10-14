@@ -1,0 +1,80 @@
+[
+  {
+    "id": "init-pre-1",
+    "stage": "pre",
+    "question": "A linear layer has 256 inputs and weights drawn from N(0, 1). By roughly what factor does it multiply the variance of unit-variance inputs?",
+    "options": [
+      "1",
+      "16",
+      "256",
+      "0.5"
+    ],
+    "correct": 2,
+    "explanation": "Var(z) = n_in * Var(W) * Var(x) = 256 * 1 * 1. Ten such layers multiply the variance by 256^10."
+  },
+  {
+    "id": "init-pre-2",
+    "stage": "pre",
+    "question": "What happens if every weight in a hidden layer starts at the same constant value?",
+    "options": [
+      "All hidden units compute the same thing and get the same gradient, so they stay identical",
+      "Training is faster because the network starts symmetric",
+      "The network becomes linear",
+      "Only the biases are learned"
+    ],
+    "correct": 0,
+    "explanation": "Identical units get identical gradients, so they never diverge. Random init breaks this symmetry."
+  },
+  {
+    "id": "init-post-1",
+    "stage": "post",
+    "question": "What is the He (Kaiming) variance for a ReLU layer with n_in inputs?",
+    "options": [
+      "1 / n_in",
+      "2 / (n_in + n_out)",
+      "0.01",
+      "2 / n_in"
+    ],
+    "correct": 3,
+    "explanation": "ReLU zeroes half of its inputs, halving the second moment, so you double the 1/n_in variance to keep the signal scale constant."
+  },
+  {
+    "id": "init-post-2",
+    "stage": "post",
+    "question": "Why does Xavier init make activations shrink slowly in a deep ReLU network?",
+    "options": [
+      "Xavier only works for convolutional layers",
+      "It was derived for activations that keep the full variance; ReLU halves it, so each layer loses a factor of about 2 in variance",
+      "It sets the biases to zero",
+      "It uses a uniform distribution"
+    ],
+    "correct": 1,
+    "explanation": "With n_in = n_out, Xavier gives Var(W) = 1/n_in. ReLU then keeps half the second moment, so the per-layer factor is about 0.5 instead of 1."
+  },
+  {
+    "id": "init-post-3",
+    "stage": "post",
+    "question": "With weights drawn from N(0, 0.01) in a deep ReLU MLP, why does training stay at chance level?",
+    "options": [
+      "The loss starts too high",
+      "The learning rate is automatically set to zero",
+      "Activations and gradients shrink exponentially with depth, so the early layers receive almost no gradient",
+      "The weights immediately overflow"
+    ],
+    "correct": 2,
+    "explanation": "Each layer multiplies the variance by about n_in * 1e-4 / 2, far below 1, so both the forward signal and the backward gradient vanish."
+  },
+  {
+    "id": "init-post-4",
+    "stage": "post",
+    "question": "What is the default weight init of torch.nn.Linear?",
+    "options": [
+      "Uniform on [-1/sqrt(n_in), 1/sqrt(n_in)], variance 1/(3 n_in)",
+      "He normal",
+      "All zeros",
+      "Xavier normal"
+    ],
+    "correct": 0,
+    "explanation": "PyTorch uses kaiming_uniform_ with a=sqrt(5), which works out to that uniform range. It is smaller than He, which normalization layers and residuals usually compensate for."
+  }
+]

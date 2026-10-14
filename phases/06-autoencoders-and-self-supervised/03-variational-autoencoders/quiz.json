@@ -1,0 +1,80 @@
+[
+  {
+    "id": "vae-pre-1",
+    "stage": "pre",
+    "question": "Why is a plain autoencoder's decoder a poor generator when you feed it random codes?",
+    "options": [
+      "The decoder is too small",
+      "Nothing constrains where codes live, so random codes often fall in regions no training image maps to",
+      "Decoders can only reconstruct, never generate",
+      "Random codes are always zero"
+    ],
+    "correct": 1,
+    "explanation": "Without a prior on the code space you do not know where to sample; the script shows plain-AE samples collapsing onto a few classes."
+  },
+  {
+    "id": "vae-pre-2",
+    "stage": "pre",
+    "question": "What does a VAE encoder output for each input?",
+    "options": [
+      "The mean and log variance of a Gaussian over codes",
+      "A single deterministic code",
+      "The class label",
+      "A reconstruction of the input"
+    ],
+    "correct": 0,
+    "explanation": "The encoder defines q(z|x) = N(mu(x), sigma^2(x)); a code is sampled from it with the reparameterization trick."
+  },
+  {
+    "id": "vae-post-1",
+    "stage": "post",
+    "question": "What does the reparameterization trick z = mu + sigma * eps make possible?",
+    "options": [
+      "Sampling without a random number generator",
+      "Exact computation of log p(x)",
+      "Gradients of the loss with respect to mu and sigma, because the randomness moves into a parameter-free eps",
+      "Removing the KL term"
+    ],
+    "correct": 2,
+    "explanation": "dz/dmu = 1 and dz/dsigma = eps, so backpropagation flows through the sample."
+  },
+  {
+    "id": "vae-post-2",
+    "stage": "post",
+    "question": "For q = N(mu, sigma^2) and p = N(0, 1) in one dimension, when is KL(q || p) equal to zero?",
+    "options": [
+      "When sigma = 0",
+      "When mu = 1 and sigma = 0",
+      "Never, KL is always positive",
+      "When mu = 0 and sigma = 1"
+    ],
+    "correct": 3,
+    "explanation": "0.5 * (mu^2 + sigma^2 - 1 - log sigma^2) is zero only at mu = 0, sigma = 1."
+  },
+  {
+    "id": "vae-post-3",
+    "stage": "post",
+    "question": "With beta = 4 the script reports a KL of exactly 0.00 and no confident samples. What happened?",
+    "options": [
+      "Posterior collapse: every input is encoded as the prior, so the decoder ignores z and outputs an average digit",
+      "The model overfit the training set",
+      "The learning rate was too low",
+      "The KL formula has a sign error"
+    ],
+    "correct": 0,
+    "explanation": "A large KL weight makes encoding any information too expensive, so q(z|x) becomes N(0, I) for every x."
+  },
+  {
+    "id": "vae-post-4",
+    "stage": "post",
+    "question": "Why does the code sum the BCE over the 64 pixels instead of averaging it?",
+    "options": [
+      "Summing is faster",
+      "So reconstruction and KL are both in nats per image; averaging would effectively multiply beta by 64",
+      "Because BCE cannot be averaged",
+      "To make the loss always positive"
+    ],
+    "correct": 1,
+    "explanation": "The ELBO is a per-example log-likelihood; mixing per-pixel and per-image scales silently reweights the KL."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "dreamer-pre-1",
+    "stage": "pre",
+    "question": "What makes it possible to train a policy by backpropagating through a learned world model?",
+    "options": [
+      "The environment exposes its gradients",
+      "The reward is always differentiable in the real world",
+      "The world model is a neural network, so imagined returns are differentiable functions of the actions",
+      "The policy is a lookup table"
+    ],
+    "correct": 2,
+    "explanation": "The real environment is a black box, but a learned model is a differentiable function, so you can compute d(return)/d(action) inside it."
+  },
+  {
+    "id": "dreamer-pre-2",
+    "stage": "pre",
+    "question": "In the lesson's point-mass world, what does the agent observe?",
+    "options": [
+      "A noisy position only; velocity must be inferred",
+      "Position and velocity",
+      "The reward only",
+      "A 64x64 image"
+    ],
+    "correct": 0,
+    "explanation": "The observation is position plus noise. The RSSM's recurrent state has to infer velocity from the history."
+  },
+  {
+    "id": "dreamer-post-1",
+    "stage": "post",
+    "question": "During imagination, which distribution does the RSSM sample z_t from, and why?",
+    "options": [
+      "The posterior, because it is more accurate",
+      "The prior p(z_t | h_t), because there is no observation in imagination",
+      "A standard normal, because the model is untrained",
+      "The decoder, because it outputs observations"
+    ],
+    "correct": 1,
+    "explanation": "The posterior needs o_t. In imagination there is none, so the prior, trained via the KL term to anticipate the posterior, generates the latent."
+  },
+  {
+    "id": "dreamer-post-2",
+    "stage": "post",
+    "question": "What is the role of free nats in the world-model loss?",
+    "options": [
+      "They speed up the GRU",
+      "They set the imagination horizon",
+      "They add exploration noise",
+      "They stop penalizing the KL below a threshold, so the posterior is not pushed to ignore the observation"
+    ],
+    "correct": 3,
+    "explanation": "Minimizing KL to zero is easiest if the posterior ignores o_t and copies the prior. Free nats remove that pressure once the KL is small."
+  },
+  {
+    "id": "dreamer-post-3",
+    "stage": "post",
+    "question": "Why are the world model's parameters frozen while the actor is updated?",
+    "options": [
+      "To save memory",
+      "Because the critic needs them",
+      "Otherwise the actor's loss would also change the model to predict higher rewards, instead of improving the behavior",
+      "Because GRU weights cannot be updated twice"
+    ],
+    "correct": 2,
+    "explanation": "The model should describe the world; only the actor should change to maximize return. Gradients still flow through the frozen model to the actions."
+  },
+  {
+    "id": "dreamer-post-4",
+    "stage": "post",
+    "question": "With lambda = 0, the lambda-return R_t reduces to...",
+    "options": [
+      "The one-step TD target r_t + gamma v(s_{t+1})",
+      "The full Monte Carlo return over the horizon",
+      "Zero",
+      "The critic's value v(s_t)"
+    ],
+    "correct": 0,
+    "explanation": "Setting lambda = 0 removes the recursive term, leaving r_t + gamma v(s_{t+1}). With lambda = 1 you get the imagined return bootstrapped only at the horizon."
+  }
+]

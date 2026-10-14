@@ -1,0 +1,80 @@
+[
+  {
+    "id": "audio-pre-1",
+    "stage": "pre",
+    "question": "What does a spectrogram show?",
+    "options": [
+      "Energy at each frequency over time",
+      "The waveform's amplitude only",
+      "The words in a recording",
+      "The phase of the microphone"
+    ],
+    "correct": 0,
+    "explanation": "A spectrogram is the magnitude of short-time Fourier transforms: time on one axis, frequency on the other."
+  },
+  {
+    "id": "audio-pre-2",
+    "stage": "pre",
+    "question": "What makes speech recognition training hard even with a transcript for every clip?",
+    "options": [
+      "Audio cannot be converted to numbers",
+      "Transcripts are always wrong",
+      "You do not know which frames correspond to which symbol of the transcript",
+      "Neural networks cannot process time series"
+    ],
+    "correct": 2,
+    "explanation": "The alignment between frames and labels is unknown; CTC sums over all alignments instead of requiring one."
+  },
+  {
+    "id": "audio-post-1",
+    "stage": "post",
+    "question": "Why is each frame multiplied by a Hann window before the FFT?",
+    "options": [
+      "To make the frame louder",
+      "To taper the edges so the cut does not create spurious high-frequency energy",
+      "To convert to the mel scale",
+      "To remove the pitch"
+    ],
+    "correct": 1,
+    "explanation": "Abrupt frame boundaries act like discontinuities and leak energy across frequencies; a smooth taper reduces that leakage."
+  },
+  {
+    "id": "audio-post-2",
+    "stage": "post",
+    "question": "Under CTC, which transcript does the frame path 'u u - u a a -' produce?",
+    "options": [
+      "uua",
+      "ua",
+      "uuuaa",
+      "u-ua"
+    ],
+    "correct": 0,
+    "explanation": "Collapse repeats first (u - u a -), then remove blanks (u u a). The blank keeps the two u's separate."
+  },
+  {
+    "id": "audio-post-3",
+    "stage": "post",
+    "question": "In the CTC forward recursion, when is a path allowed to skip from extended position s-2 to s?",
+    "options": [
+      "Always",
+      "Only when s is a blank",
+      "Only at the first frame",
+      "Only when s is a label different from the label at s-2"
+    ],
+    "correct": 3,
+    "explanation": "Skipping the blank between two different labels is allowed; between identical labels the blank is required, or they would collapse."
+  },
+  {
+    "id": "audio-post-4",
+    "stage": "post",
+    "question": "Why does the hand-written CTC use -1e9 instead of -inf for impossible states?",
+    "options": [
+      "-inf is not a valid float",
+      "It makes the loss smaller",
+      "logsumexp over all -inf values has a NaN gradient, which would corrupt training",
+      "F.ctc_loss requires it"
+    ],
+    "correct": 2,
+    "explanation": "The forward value is fine, but the backward pass computes 0/0. A large finite negative number avoids it."
+  }
+]

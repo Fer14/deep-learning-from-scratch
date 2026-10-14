@@ -1,0 +1,80 @@
+[
+  {
+    "id": "flow-matching-pre-1",
+    "stage": "pre",
+    "question": "What does a flow matching model output?",
+    "options": [
+      "A velocity v(x, t) that moves samples from noise toward data",
+      "The probability that x is real",
+      "The noise schedule",
+      "A class label"
+    ],
+    "correct": 0,
+    "explanation": "Sampling integrates dx/dt = v(x, t) from t = 0 (noise) to t = 1 (data)."
+  },
+  {
+    "id": "flow-matching-pre-2",
+    "stage": "pre",
+    "question": "Along the straight path x_t = (1 - t) x_0 + t x_1, what is dx_t/dt?",
+    "options": [
+      "x_t",
+      "Zero",
+      "x_1 - x_0, constant along the path",
+      "t * x_1"
+    ],
+    "correct": 2,
+    "explanation": "A straight line traversed at constant speed has constant velocity; this is the regression target."
+  },
+  {
+    "id": "flow-matching-post-1",
+    "stage": "post",
+    "question": "Why does the flow matching loss not go to zero with independent pairs?",
+    "options": [
+      "The learning rate is too high",
+      "Many lines with different directions pass through the same point, so the best prediction is their average",
+      "The network is too small",
+      "Euler integration is inaccurate"
+    ],
+    "correct": 1,
+    "explanation": "The minimizer is E[x_1 - x_0 | x_t]; the spread of directions around it is irreducible (the loss plateaus near 0.95)."
+  },
+  {
+    "id": "flow-matching-post-2",
+    "stage": "post",
+    "question": "Why do one or two Euler steps of the original model give blurry samples?",
+    "options": [
+      "The averaged trajectories are curved (straightness 0.58), so big straight steps miss the target",
+      "The model was not trained long enough",
+      "Euler steps add noise",
+      "The data is too large"
+    ],
+    "correct": 0,
+    "explanation": "An Euler step assumes a straight path; with one step every sample lands at its average destination."
+  },
+  {
+    "id": "flow-matching-post-3",
+    "stage": "post",
+    "question": "What does reflow change?",
+    "options": [
+      "The network architecture",
+      "The source distribution",
+      "The loss function",
+      "The training pairs: it uses the model's own ODE (noise, sample) pairs, whose paths do not cross, making the learned flow nearly straight"
+    ],
+    "correct": 3,
+    "explanation": "Straightness rose to 0.993 and one Euler step matched 100 steps of the original model."
+  },
+  {
+    "id": "flow-matching-post-4",
+    "stage": "post",
+    "question": "How is flow matching related to diffusion models?",
+    "options": [
+      "They are unrelated",
+      "Flow matching requires a discriminator",
+      "Both interpolate between noise and data; diffusion uses a curved schedule-dependent path, flow matching here uses straight lines, and their predictions are linear transformations of each other",
+      "Flow matching can only generate 2D data"
+    ],
+    "correct": 2,
+    "explanation": "Noise prediction, score and velocity are interchangeable for Gaussian paths; straight paths are easier to integrate."
+  }
+]

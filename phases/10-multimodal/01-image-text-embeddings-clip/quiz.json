@@ -1,0 +1,80 @@
+[
+  {
+    "id": "clip-pre-1",
+    "stage": "pre",
+    "question": "What does CLIP learn from image-caption pairs?",
+    "options": [
+      "To generate captions word by word",
+      "An image encoder and a text encoder whose embeddings are close for matching pairs",
+      "To segment objects in images",
+      "To translate captions into other languages"
+    ],
+    "correct": 1,
+    "explanation": "CLIP trains two encoders into a shared space with a contrastive objective; it does not generate text."
+  },
+  {
+    "id": "clip-pre-2",
+    "stage": "pre",
+    "question": "Why are CLIP embeddings L2-normalized before the dot product?",
+    "options": [
+      "So the dot product is cosine similarity and only direction matters",
+      "To make the model smaller",
+      "Because images have no magnitude",
+      "To remove the temperature"
+    ],
+    "correct": 0,
+    "explanation": "Normalized vectors give dot products in [-1, 1], comparable across modalities; the temperature then sets the scale."
+  },
+  {
+    "id": "clip-post-1",
+    "stage": "post",
+    "question": "In a batch of N pairs, what are the targets for the row-wise cross-entropy of the similarity matrix?",
+    "options": [
+      "All zeros",
+      "The class labels of the images",
+      "The indices 0..N-1, so each image's target is its own caption on the diagonal",
+      "Random indices"
+    ],
+    "correct": 2,
+    "explanation": "Image i was paired with caption i, so each row is classified against arange(N); the column-wise loss does the same for captions."
+  },
+  {
+    "id": "clip-post-2",
+    "stage": "post",
+    "question": "Training loss plateaued near 2.6 with batch 128 and 10 digit classes. Why?",
+    "options": [
+      "The learning rate was too high",
+      "The temperature was frozen",
+      "The image encoder was too small",
+      "About 14 captions per batch describe each image equally well, so the best achievable loss is about ln 14"
+    ],
+    "correct": 3,
+    "explanation": "Same-class captions are false negatives; the model can only spread probability over them, which gives a floor near ln(14)."
+  },
+  {
+    "id": "clip-post-3",
+    "stage": "post",
+    "question": "How does CLIP perform zero-shot classification?",
+    "options": [
+      "It fine-tunes on a few labeled examples",
+      "It embeds a text prompt per class and picks the class with the highest cosine similarity to the image",
+      "It clusters the images with k-means",
+      "It generates a caption and parses the label"
+    ],
+    "correct": 1,
+    "explanation": "Class names become prompts like 'a handwritten seven'; their embeddings act as the weights of a classifier built from text."
+  },
+  {
+    "id": "clip-post-4",
+    "stage": "post",
+    "question": "What does a linear probe measure?",
+    "options": [
+      "How linearly separable the classes are in the frozen embedding space",
+      "The speed of the text encoder",
+      "The temperature of the softmax",
+      "The number of false negatives"
+    ],
+    "correct": 0,
+    "explanation": "Training only a linear classifier on frozen features shows how much class information the representation already exposes."
+  }
+]

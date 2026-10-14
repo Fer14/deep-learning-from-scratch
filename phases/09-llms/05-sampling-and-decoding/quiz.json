@@ -1,0 +1,80 @@
+[
+  {
+    "id": "decoding-pre-1",
+    "stage": "pre",
+    "question": "What does greedy decoding do at each step?",
+    "options": [
+      "Samples a random token",
+      "Picks the most likely token",
+      "Keeps several candidate sequences",
+      "Picks the least likely token to increase diversity"
+    ],
+    "correct": 1,
+    "explanation": "Greedy decoding takes the argmax of the next-token distribution, so it is deterministic."
+  },
+  {
+    "id": "decoding-pre-2",
+    "stage": "pre",
+    "question": "What happens to the next-token distribution when you lower the temperature below 1?",
+    "options": [
+      "It becomes uniform",
+      "Tokens are removed from the vocabulary",
+      "It becomes sharper, concentrating mass on the most likely tokens",
+      "Nothing; temperature only affects training"
+    ],
+    "correct": 2,
+    "explanation": "Dividing logits by T < 1 magnifies the gaps between them, so the softmax puts more mass on the top tokens."
+  },
+  {
+    "id": "decoding-post-1",
+    "stage": "post",
+    "question": "Why does top-p adapt better than top-k to the model's confidence?",
+    "options": [
+      "Top-p keeps a variable number of tokens: few when the distribution is peaked, many when it is flat",
+      "Top-p always keeps more tokens than top-k",
+      "Top-p does not require a softmax",
+      "Top-p is deterministic"
+    ],
+    "correct": 0,
+    "explanation": "Top-p keeps the smallest set reaching cumulative probability p, so its size follows the shape of the distribution; top-k always keeps exactly k."
+  },
+  {
+    "id": "decoding-post-2",
+    "stage": "post",
+    "question": "With temperature 1.5 and no other filter, how many vocabulary tokens can be sampled?",
+    "options": [
+      "Only the top one",
+      "Only the top 5",
+      "Half of the vocabulary",
+      "All of them, since temperature never sets a probability to zero"
+    ],
+    "correct": 3,
+    "explanation": "Temperature rescales logits but keeps them finite, so every token keeps a nonzero probability. Only top-k or top-p truncate."
+  },
+  {
+    "id": "decoding-post-3",
+    "stage": "post",
+    "question": "In the experiment, beam search produced the highest log-likelihood. Why is it still a poor default for open-ended text?",
+    "options": [
+      "It is too slow to run",
+      "It always produces random text",
+      "The most likely sequence tends to be dull, repetitive or a verbatim quote of training data",
+      "It cannot use a causal mask"
+    ],
+    "correct": 2,
+    "explanation": "High-likelihood text is not human-like text; beam search excels when there is one correct answer, such as translation."
+  },
+  {
+    "id": "decoding-post-4",
+    "stage": "post",
+    "question": "Why does beam search sum log-probabilities instead of multiplying probabilities?",
+    "options": [
+      "Products of many probabilities below 1 underflow to zero",
+      "Log-probabilities are always positive",
+      "Multiplication is not differentiable",
+      "Sums make the search deterministic"
+    ],
+    "correct": 0,
+    "explanation": "Summing logs is numerically stable and ranks sequences exactly the same way as the product."
+  }
+]

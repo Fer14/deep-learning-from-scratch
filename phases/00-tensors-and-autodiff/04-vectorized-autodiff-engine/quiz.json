@@ -1,0 +1,80 @@
+[
+  {
+    "id": "vecautodiff-pre-1",
+    "stage": "pre",
+    "question": "Why is a scalar autograd engine too slow for real networks?",
+    "options": [
+      "Scalar math is less accurate than matrix math",
+      "Every number becomes a Python object with its own closure, so the Python overhead dominates",
+      "It cannot compute second derivatives",
+      "It needs a GPU"
+    ],
+    "correct": 1,
+    "explanation": "The arithmetic is cheap; creating and visiting millions of Python objects per step is not. Vectorized nodes push the loops into C."
+  },
+  {
+    "id": "vecautodiff-pre-2",
+    "stage": "pre",
+    "question": "A has shape (32, 64) and B has shape (64, 10). What is the shape of A @ B?",
+    "options": [
+      "(64, 64)",
+      "(32, 64)",
+      "(10, 32)",
+      "(32, 10)"
+    ],
+    "correct": 3,
+    "explanation": "The inner dimensions (64) contract, leaving the outer ones: (32, 10)."
+  },
+  {
+    "id": "vecautodiff-post-1",
+    "stage": "post",
+    "question": "For out = A @ B with A of shape (n, k) and B of shape (k, m), what is the gradient of the loss with respect to A?",
+    "options": [
+      "grad_out @ B.T",
+      "B.T @ grad_out",
+      "A.T @ grad_out",
+      "grad_out * B"
+    ],
+    "correct": 0,
+    "explanation": "grad_out has shape (n, m) and B.T has shape (m, k), so grad_out @ B.T is the only product with A's shape (n, k)."
+  },
+  {
+    "id": "vecautodiff-post-2",
+    "stage": "post",
+    "question": "In out = x + b, x has shape (64, 10) and b has shape (10,). What shape must b.grad have, and how is it obtained?",
+    "options": [
+      "(64, 10), copied from grad_out",
+      "(10,), the mean of grad_out over axis 0",
+      "(10,), the sum of grad_out over axis 0",
+      "(64,), the sum of grad_out over axis 1"
+    ],
+    "correct": 2,
+    "explanation": "A gradient has the shape of its tensor. b was broadcast over 64 rows, so its gradient sums the 64 contributions."
+  },
+  {
+    "id": "vecautodiff-post-3",
+    "stage": "post",
+    "question": "Why can the row max subtracted inside log_softmax be treated as a constant with no gradient?",
+    "options": [
+      "Because max is not differentiable anywhere",
+      "Because the shift cancels out, so the output does not depend on it",
+      "Because it is always zero",
+      "Because PyTorch does the same"
+    ],
+    "correct": 1,
+    "explanation": "(z - m) - log(sum exp(z - m)) equals z - log(sum exp(z)) for any m, so the result is independent of m and its gradient through m is zero."
+  },
+  {
+    "id": "vecautodiff-post-4",
+    "stage": "post",
+    "question": "You add a new operation with a wrong backward rule. What usually happens?",
+    "options": [
+      "Python raises an exception immediately",
+      "NumPy warns about the shape",
+      "The loss becomes NaN on the first step",
+      "Nothing crashes; the model just trains badly, which is why you gradient-check every operation"
+    ],
+    "correct": 3,
+    "explanation": "A wrong but correctly shaped gradient is silent. Comparing with finite differences on small tensors catches it."
+  }
+]

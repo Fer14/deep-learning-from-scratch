@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mbrl-pre-1",
+    "stage": "pre",
+    "question": "What is the main advantage of model-based RL over model-free RL?",
+    "options": [
+      "It never needs to interact with the environment",
+      "It always finds a better final policy",
+      "It needs far fewer real environment interactions",
+      "It needs less computation per action"
+    ],
+    "correct": 2,
+    "explanation": "A learned model lets you evaluate many plans without touching the real system, which makes model-based methods sample efficient. They usually need more compute per action, not less."
+  },
+  {
+    "id": "mbrl-pre-2",
+    "stage": "pre",
+    "question": "Why does the dynamics model predict s' - s instead of s' directly?",
+    "options": [
+      "The next state is very close to the current one, so the change is a smaller, easier target",
+      "Because s' is not observable",
+      "Because MSE only works on differences",
+      "To make the model a classifier"
+    ],
+    "correct": 0,
+    "explanation": "With a small time step most of s' is a copy of s. Predicting the normalized delta lets the network spend its capacity on what actually changes."
+  },
+  {
+    "id": "mbrl-post-1",
+    "stage": "post",
+    "question": "The learned model has a one-step error of 0.002 degrees but is off by about 1 degree after 30 steps. Why?",
+    "options": [
+      "The model was evaluated on a different environment",
+      "Each prediction is fed back as input, so errors compound, and cart-pole amplifies small deviations",
+      "The optimizer diverged",
+      "The model has too many parameters"
+    ],
+    "correct": 1,
+    "explanation": "Open-loop rollouts accumulate error, and an unstable system like an upright pole amplifies it. This is why planning horizons are kept short."
+  },
+  {
+    "id": "mbrl-post-2",
+    "stage": "post",
+    "question": "In model predictive control, after optimizing a 15-step action sequence, what does the agent do?",
+    "options": [
+      "Executes all 15 actions without looking",
+      "Retrains the model",
+      "Executes the action with the highest Q-value",
+      "Executes only the first action, then plans again from the new real state"
+    ],
+    "correct": 3,
+    "explanation": "Receding-horizon control re-plans at every step, so real observations continuously correct for model errors."
+  },
+  {
+    "id": "mbrl-post-3",
+    "stage": "post",
+    "question": "What does one CEM iteration do with the elite action sequences?",
+    "options": [
+      "Refits the sampling distribution to them so the next candidates are drawn near the best ones",
+      "Uses them as training data for the dynamics model",
+      "Discards them",
+      "Averages their rewards to estimate V(s)"
+    ],
+    "correct": 0,
+    "explanation": "The cross-entropy method moves the sampling distribution toward the top-scoring candidates and samples again."
+  },
+  {
+    "id": "mbrl-post-4",
+    "stage": "post",
+    "question": "Why is disagreement within an ensemble of dynamics models useful for a planner?",
+    "options": [
+      "It reduces the number of parameters",
+      "It makes the models more accurate on training data",
+      "It flags states the models have not learned, where predictions and therefore plans cannot be trusted",
+      "It replaces the reward function"
+    ],
+    "correct": 2,
+    "explanation": "Models trained independently agree where data was plentiful and diverge elsewhere, giving an estimate of epistemic uncertainty that a planner can penalize."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "backprop-pre-1",
+    "stage": "pre",
+    "question": "If y = f(u) and u = g(x), what is dy/dx?",
+    "options": [
+      "f'(x) + g'(x)",
+      "f'(g(x)) * g'(x)",
+      "f'(x) * g'(x)",
+      "f(g'(x))"
+    ],
+    "correct": 1,
+    "explanation": "The chain rule multiplies the outer derivative, evaluated at the inner value, by the inner derivative."
+  },
+  {
+    "id": "backprop-pre-2",
+    "stage": "pre",
+    "question": "In which direction does the backward pass traverse the network?",
+    "options": [
+      "From the loss back toward the inputs",
+      "From the inputs toward the loss",
+      "In random order",
+      "Only through the last layer"
+    ],
+    "correct": 0,
+    "explanation": "Backprop starts with dL/dL = 1 and moves right to left, multiplying by one local derivative per operation."
+  },
+  {
+    "id": "backprop-post-1",
+    "stage": "post",
+    "question": "For Z = X W + b with upstream gradient dZ, what is dW?",
+    "options": [
+      "dZ W^T",
+      "W^T dZ",
+      "dZ X^T",
+      "X^T dZ"
+    ],
+    "correct": 3,
+    "explanation": "dW must have W's shape (d_in, d_out); X^T (d_in, n) times dZ (n, d_out) is the only product that fits."
+  },
+  {
+    "id": "backprop-post-2",
+    "stage": "post",
+    "question": "Why is the bias gradient db a sum of dZ over the batch dimension?",
+    "options": [
+      "Because the bias is initialized to zero",
+      "Because sums are cheaper than means",
+      "Because the bias was broadcast to every row in the forward pass, so its gradient accumulates from every row",
+      "Because of the sigmoid derivative"
+    ],
+    "correct": 2,
+    "explanation": "Broadcasting forward means summing backward: the same b contributed to every sample's output."
+  },
+  {
+    "id": "backprop-post-3",
+    "stage": "post",
+    "question": "Why does the tanh backward step use h1 from the forward pass?",
+    "options": [
+      "Because tanh'(z) = 1 - tanh(z)^2, which is cheap to compute from the cached activation",
+      "Because tanh has no derivative",
+      "Because h1 equals the gradient",
+      "It does not; it recomputes everything from X"
+    ],
+    "correct": 0,
+    "explanation": "Reusing cached forward values is why frameworks store activations, and why training uses more memory than inference."
+  },
+  {
+    "id": "backprop-post-4",
+    "stage": "post",
+    "question": "A gradient check in float64 shows a relative error of 0.3 for every parameter. What is the most likely cause?",
+    "options": [
+      "Floating-point round-off",
+      "eps is slightly too small",
+      "A bug that scales every gradient, such as a missing or extra 1/n",
+      "The network is too small"
+    ],
+    "correct": 2,
+    "explanation": "Correct gradients give around 1e-9. A large, uniform error across all parameters points at a shared factor near the loss, like the batch mean."
+  }
+]

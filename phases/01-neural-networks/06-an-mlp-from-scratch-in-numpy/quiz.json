@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mlp-numpy-pre-1",
+    "stage": "pre",
+    "question": "What is one epoch?",
+    "options": [
+      "One gradient step",
+      "One full pass over the training set",
+      "One forward pass on a single sample",
+      "The time until the loss reaches zero"
+    ],
+    "correct": 1,
+    "explanation": "An epoch processes every training sample once, usually as many minibatch steps."
+  },
+  {
+    "id": "mlp-numpy-pre-2",
+    "stage": "pre",
+    "question": "Why do frameworks split a network into layers that each implement forward and backward?",
+    "options": [
+      "So each layer only needs its local derivative and networks of any depth reuse the same backward loop",
+      "Because NumPy cannot multiply more than two matrices",
+      "To make the forward pass run in parallel",
+      "To avoid using the chain rule"
+    ],
+    "correct": 0,
+    "explanation": "Each layer turns dL/d(output) into dL/d(input). The chain rule is applied by looping over layers in reverse."
+  },
+  {
+    "id": "mlp-numpy-post-1",
+    "stage": "post",
+    "question": "What does the ReLU layer need to cache for its backward pass?",
+    "options": [
+      "Its weights",
+      "The loss value",
+      "The mask of positions where the input was positive",
+      "Nothing"
+    ],
+    "correct": 2,
+    "explanation": "The ReLU derivative is 1 where the input was positive and 0 elsewhere, so the backward pass is grad_out * mask."
+  },
+  {
+    "id": "mlp-numpy-post-2",
+    "stage": "post",
+    "question": "In MLP.step, why must the update be written as param -= lr * grad instead of param = param - lr * grad?",
+    "options": [
+      "It is faster but otherwise equivalent",
+      "The second form changes the learning rate",
+      "The second form computes a different gradient",
+      "The second form rebinds a local name to a new array, leaving the layer's weights unchanged"
+    ],
+    "correct": 3,
+    "explanation": "In-place subtraction modifies the array the layer holds; rebinding a loop variable does not touch it."
+  },
+  {
+    "id": "mlp-numpy-post-3",
+    "stage": "post",
+    "question": "Your NumPy layers overwrite dW on every backward call. What is the PyTorch equivalent you must do explicitly?",
+    "options": [
+      "Call optimizer.zero_grad() before loss.backward(), because torch accumulates gradients",
+      "Call model.eval()",
+      "Call torch.no_grad()",
+      "Nothing; torch also overwrites gradients"
+    ],
+    "correct": 0,
+    "explanation": "loss.backward() adds into .grad. Without zero_grad() gradients from previous steps pile up."
+  },
+  {
+    "id": "mlp-numpy-post-4",
+    "stage": "post",
+    "question": "Why are the test images standardized with the training mean and standard deviation, not their own?",
+    "options": [
+      "The test statistics are always zero",
+      "To avoid leaking test information and to apply the exact same transformation the model was trained on",
+      "Because the test set is smaller",
+      "It does not matter which statistics you use"
+    ],
+    "correct": 1,
+    "explanation": "The preprocessing is part of the model. Fitting it on test data leaks information and shifts the inputs the model sees."
+  }
+]

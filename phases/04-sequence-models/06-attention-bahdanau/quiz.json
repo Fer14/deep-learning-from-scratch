@@ -1,0 +1,80 @@
+[
+  {
+    "id": "bahdanau-pre-1",
+    "stage": "pre",
+    "question": "What limitation of plain seq2seq does attention remove?",
+    "options": [
+      "The need for an embedding layer",
+      "The need for a decoder",
+      "Teacher forcing",
+      "The fixed-size bottleneck: the decoder sees the input only through one context vector"
+    ],
+    "correct": 3,
+    "explanation": "With attention the decoder can read every encoder state, building a new context vector at each output step."
+  },
+  {
+    "id": "bahdanau-pre-2",
+    "stage": "pre",
+    "question": "The attention weights over input positions at one decoder step...",
+    "options": [
+      "are non-negative and sum to 1, because they come from a softmax",
+      "are always one-hot",
+      "are fixed after the encoder runs",
+      "can be any real numbers"
+    ],
+    "correct": 0,
+    "explanation": "Scores go through a softmax over input positions, producing a probability distribution that is used for a weighted average."
+  },
+  {
+    "id": "bahdanau-post-1",
+    "stage": "post",
+    "question": "What is the additive (Bahdanau) score between decoder state s and encoder state h?",
+    "options": [
+      "s . h / sqrt(d)",
+      "v^T tanh(W_s s + W_h h)",
+      "||s - h||^2",
+      "softmax(s) * h"
+    ],
+    "correct": 1,
+    "explanation": "A one-hidden-layer network scores each pair. The dot-product form s . h / sqrt(d) is the transformer's version."
+  },
+  {
+    "id": "bahdanau-post-2",
+    "stage": "post",
+    "question": "Why can W_h h_j be computed once per input sequence instead of at every decoder step?",
+    "options": [
+      "Because W_h is frozen",
+      "Because the softmax is linear",
+      "Because it depends only on the encoder states, not on the decoder state",
+      "Because h_j is always zero"
+    ],
+    "correct": 2,
+    "explanation": "Only the W_s s term changes from step to step, so the projected keys are cached in encode()."
+  },
+  {
+    "id": "bahdanau-post-3",
+    "stage": "post",
+    "question": "For the reversal task, what shape does the learned attention matrix (rows: output steps, columns: input positions) have?",
+    "options": [
+      "A uniform matrix",
+      "The main diagonal",
+      "A single bright column",
+      "An anti-diagonal: output step 1 attends to the last input, step 2 to the second to last, and so on"
+    ],
+    "correct": 3,
+    "explanation": "Reversal outputs input position S first, then S-1, ..., which is the anti-diagonal. The model discovers this alignment from the loss alone."
+  },
+  {
+    "id": "bahdanau-post-4",
+    "stage": "post",
+    "question": "In query/key/value terms, what plays each role in this lesson's attention decoder?",
+    "options": [
+      "Query: encoder states. Keys: decoder state. Values: output tokens",
+      "Query: the decoder state. Keys and values: the encoder states",
+      "Query, keys and values are all the decoder state",
+      "Query: the target token. Keys: the source tokens. Values: the logits"
+    ],
+    "correct": 1,
+    "explanation": "The decoder state asks the question, the encoder states are scored against it and then averaged with those scores."
+  }
+]

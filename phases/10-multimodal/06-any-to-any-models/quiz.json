@@ -1,0 +1,80 @@
+[
+  {
+    "id": "anytoany-pre-1",
+    "stage": "pre",
+    "question": "What is the key idea that lets one autoregressive transformer handle both text and images?",
+    "options": [
+      "Using a separate model for each modality",
+      "Converting every modality into discrete tokens in a shared vocabulary",
+      "Training only on text and describing images in words",
+      "Using diffusion for both"
+    ],
+    "correct": 1,
+    "explanation": "Once images are sequences of integer codes, they can be predicted with the same next-token objective as text."
+  },
+  {
+    "id": "anytoany-pre-2",
+    "stage": "pre",
+    "question": "What does vector quantization do to a patch vector?",
+    "options": [
+      "Rounds each pixel to an integer",
+      "Removes its colour",
+      "Replaces it with the index of the nearest vector in a learned codebook",
+      "Compresses it with JPEG"
+    ],
+    "correct": 2,
+    "explanation": "Each patch becomes the id of its closest codebook entry; decoding looks the entry back up."
+  },
+  {
+    "id": "anytoany-post-1",
+    "stage": "post",
+    "question": "Why does the training loss only cover the tokens after <img> or <txt>?",
+    "options": [
+      "The prefix is the given input; the model should learn to produce the output modality",
+      "Prefix tokens have no embeddings",
+      "It makes the model bidirectional",
+      "Cross-entropy cannot be computed on special tokens"
+    ],
+    "correct": 0,
+    "explanation": "As with answer-only loss in VLMs, the condition is given and the learning signal is spent on the generated part."
+  },
+  {
+    "id": "anytoany-post-2",
+    "stage": "post",
+    "question": "During text-to-image generation, how do you stop the model from emitting a word in the middle of an image?",
+    "options": [
+      "Train longer",
+      "Use a higher temperature",
+      "Remove words from the vocabulary",
+      "Mask the logits so only image-code tokens can be sampled for the 16 image positions"
+    ],
+    "correct": 3,
+    "explanation": "Constrained decoding sets disallowed logits to minus infinity before sampling."
+  },
+  {
+    "id": "anytoany-post-3",
+    "stage": "post",
+    "question": "Why did the training loss plateau around 1.0 instead of reaching zero?",
+    "options": [
+      "The learning rate was too small",
+      "The outputs are genuinely uncertain: many valid ways to draw a digit and several caption templates",
+      "The causal mask was missing",
+      "The codebook was too large"
+    ],
+    "correct": 1,
+    "explanation": "When several continuations are equally correct, the best achievable cross-entropy is their entropy, not zero."
+  },
+  {
+    "id": "anytoany-post-4",
+    "stage": "post",
+    "question": "Why did scikit-learn's KMeans reach a lower inertia than the hand-written k-means?",
+    "options": [
+      "It uses a different distance",
+      "It uses more clusters",
+      "It uses k-means++ initialization, which spreads the starting centroids out",
+      "It normalizes the data"
+    ],
+    "correct": 2,
+    "explanation": "k-means is sensitive to initialization; k-means++ picks seeds far apart and usually converges to a better local optimum."
+  }
+]

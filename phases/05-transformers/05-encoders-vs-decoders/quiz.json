@@ -1,0 +1,80 @@
+[
+  {
+    "id": "enc-dec-pre-1",
+    "stage": "pre",
+    "question": "Which family do GPT-style chat models belong to?",
+    "options": [
+      "Encoder-only",
+      "Encoder-decoder",
+      "Decoder-only",
+      "Convolutional"
+    ],
+    "correct": 2,
+    "explanation": "GPT models are stacks of causally masked transformer blocks trained to predict the next token."
+  },
+  {
+    "id": "enc-dec-pre-2",
+    "stage": "pre",
+    "question": "In cross-attention, where do the queries and the keys/values come from?",
+    "options": [
+      "Queries from the decoder, keys and values from the encoder output",
+      "All three from the decoder",
+      "All three from the encoder",
+      "Queries from the encoder, keys and values from the decoder"
+    ],
+    "correct": 0,
+    "explanation": "The decoder asks the questions; the encoder output (memory) is scored and averaged."
+  },
+  {
+    "id": "enc-dec-post-1",
+    "stage": "post",
+    "question": "In the lesson, changing the last two tokens left the first seven decoder outputs exactly unchanged. Why does that matter?",
+    "options": [
+      "It shows the decoder is not trained",
+      "It proves the causal mask works, so all positions can be trained in parallel without seeing the token they must predict",
+      "It means the decoder ignores its input",
+      "It shows the encoder is broken"
+    ],
+    "correct": 1,
+    "explanation": "Because no information flows from later to earlier positions, next-token training on every position at once is honest, and step-by-step generation behaves identically."
+  },
+  {
+    "id": "enc-dec-post-2",
+    "stage": "post",
+    "question": "The decoder-only and encoder-only addition models had exactly the same number of parameters. What differs between them?",
+    "options": [
+      "Only the attention mask and how the answer positions are arranged and filled",
+      "The encoder has no feed-forward layers",
+      "The decoder has cross-attention",
+      "The encoder uses RNNs"
+    ],
+    "correct": 0,
+    "explanation": "Both are the same Stack plus a linear head. One uses a causal mask and generates; the other attends both ways and fills blanks in one pass."
+  },
+  {
+    "id": "enc-dec-post-3",
+    "stage": "post",
+    "question": "Why are open-ended text generators decoders rather than encoders that fill all positions at once?",
+    "options": [
+      "Encoders cannot be trained with cross-entropy",
+      "Decoders have more parameters",
+      "Encoders are slower",
+      "Each generated token depends on the previous choices; predicting all positions independently cannot coordinate them when many outputs are valid"
+    ],
+    "correct": 3,
+    "explanation": "For addition each digit is determined by the input, so parallel prediction works. For text, autoregressive generation conditions each token on the ones already chosen."
+  },
+  {
+    "id": "enc-dec-post-4",
+    "stage": "post",
+    "question": "Why were 2,000 addition problems held out from training?",
+    "options": [
+      "To make training faster",
+      "Because the vocabulary cannot represent them",
+      "To test whether the model learned addition rather than memorizing the training table",
+      "Because nn.Transformer requires a validation set"
+    ],
+    "correct": 2,
+    "explanation": "Near-perfect accuracy on problems never seen in training shows the models generalize."
+  }
+]

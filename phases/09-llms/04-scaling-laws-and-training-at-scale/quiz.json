@@ -1,0 +1,80 @@
+[
+  {
+    "id": "scaling-pre-1",
+    "stage": "pre",
+    "question": "On a log-log plot of loss versus model size, what shape do scaling laws predict?",
+    "options": [
+      "An approximately straight line",
+      "An exponential curve",
+      "A U shape",
+      "A step function"
+    ],
+    "correct": 0,
+    "explanation": "A power law L = a N^(-alpha) is a straight line in log-log coordinates, with slope -alpha."
+  },
+  {
+    "id": "scaling-pre-2",
+    "stage": "pre",
+    "question": "Why is learning rate warmup used when training large transformers with Adam?",
+    "options": [
+      "It reduces memory usage",
+      "It replaces weight decay",
+      "Early optimizer statistics are noisy, and large first steps can make training diverge",
+      "It makes the model larger over time"
+    ],
+    "correct": 2,
+    "explanation": "Adam's moment estimates start from zero and are unreliable; ramping the learning rate up avoids destructive early updates."
+  },
+  {
+    "id": "scaling-post-1",
+    "stage": "post",
+    "question": "What is the irreducible loss L_inf in a scaling law?",
+    "options": [
+      "The loss of the smallest model",
+      "The loss at initialization",
+      "The weight decay penalty",
+      "The entropy of the data source, which no model can beat"
+    ],
+    "correct": 3,
+    "explanation": "If the next token is genuinely random given the context, even a perfect model pays its entropy. For the synthetic grammar it is about 0.207 nats per character."
+  },
+  {
+    "id": "scaling-post-2",
+    "stage": "post",
+    "question": "Approximately how many FLOPs does training a model with N parameters on D tokens take?",
+    "options": [
+      "N + D",
+      "6 N D",
+      "N^2 D",
+      "2 N / D"
+    ],
+    "correct": 1,
+    "explanation": "About 2N FLOPs per token for the forward pass and 4N for the backward pass gives 6ND."
+  },
+  {
+    "id": "scaling-post-3",
+    "stage": "post",
+    "question": "In the experiment, the 200k-parameter model barely beat the 85k one. Why?",
+    "options": [
+      "It had too many layers to train",
+      "With only 2 tokens per parameter it was undertrained for the fixed data budget",
+      "Larger models always plateau",
+      "The learning rate schedule was missing"
+    ],
+    "correct": 1,
+    "explanation": "Chinchilla suggests about 20 tokens per parameter. Without more data, extra parameters cannot be used."
+  },
+  {
+    "id": "scaling-post-4",
+    "stage": "post",
+    "question": "When accumulating gradients over k micro-batches, what must you do to match the full-batch gradient?",
+    "options": [
+      "Divide each micro-batch loss by k before backward",
+      "Multiply the learning rate by k",
+      "Call optimizer.step() after each micro-batch",
+      "Zero the gradients after each micro-batch"
+    ],
+    "correct": 0,
+    "explanation": "The full-batch loss is the mean over all examples, so each of the k chunk means must be scaled by 1/k before their gradients are summed."
+  }
+]

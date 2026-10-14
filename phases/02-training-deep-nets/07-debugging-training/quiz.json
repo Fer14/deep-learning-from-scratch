@@ -1,0 +1,80 @@
+[
+  {
+    "id": "debugging-pre-1",
+    "stage": "pre",
+    "question": "What cross-entropy loss should an untrained classifier with 10 balanced classes have at step 0?",
+    "options": [
+      "0",
+      "1",
+      "About log(10) = 2.303",
+      "About 10"
+    ],
+    "correct": 2,
+    "explanation": "A network that knows nothing should predict a uniform distribution, giving -log(1/10). A much larger value means the outputs start out overconfident."
+  },
+  {
+    "id": "debugging-pre-2",
+    "stage": "pre",
+    "question": "Why are bugs in neural network training code hard to find?",
+    "options": [
+      "The code usually still runs and the loss still goes down, just worse than it should",
+      "Python has no debugger",
+      "Neural networks always crash on bugs",
+      "Bugs only appear on GPUs"
+    ],
+    "correct": 0,
+    "explanation": "Most bugs degrade training silently instead of raising an error, so you need explicit checks that make them visible."
+  },
+  {
+    "id": "debugging-post-1",
+    "stage": "post",
+    "question": "A gradient check in float64 reports a relative error of 6e-11 for every parameter except b0, which shows 0.8. What does it tell you?",
+    "options": [
+      "The learning rate is too high",
+      "Everything is fine, 0.8 is within tolerance",
+      "The finite-difference step is too small",
+      "The backward pass computes the wrong gradient for b0"
+    ],
+    "correct": 3,
+    "explanation": "Correct gradients give errors around 1e-7 or less. A large error on a single parameter localizes the bug to the code that computes that parameter's gradient."
+  },
+  {
+    "id": "debugging-post-2",
+    "stage": "post",
+    "question": "Your model with a known backprop bug still overfits a single batch of 20 examples. What does this show?",
+    "options": [
+      "The bug does not matter",
+      "Overfitting one batch is necessary but not sufficient; a wrong gradient can still memorize a tiny batch",
+      "The gradient check must be wrong",
+      "The batch was too large"
+    ],
+    "correct": 1,
+    "explanation": "Overfitting one batch checks that the pipeline can learn at all. It does not verify the gradient is correct, which is what the gradient check is for."
+  },
+  {
+    "id": "debugging-post-3",
+    "stage": "post",
+    "question": "Training finishes without NaNs but the loss is stuck at 2.31 for a 10-class problem after a very large learning rate. What is the likely cause?",
+    "options": [
+      "The model has converged to the optimum",
+      "The dataset is too small",
+      "The network died: units were pushed into the negative ReLU region and it outputs a constant",
+      "The labels are one-hot encoded"
+    ],
+    "correct": 2,
+    "explanation": "A loss equal to log C means a uniform, input-independent prediction. A huge early update killing the ReLUs is a classic way to get there."
+  },
+  {
+    "id": "debugging-post-4",
+    "stage": "post",
+    "question": "Training accuracy slowly climbs to 86% but test accuracy stays at about 10% on a 10-class problem. Which bug fits best?",
+    "options": [
+      "Inputs and labels are out of sync, so the network memorizes random labels",
+      "The learning rate is too small",
+      "The model is too small",
+      "The test set is normalized with the training statistics"
+    ],
+    "correct": 0,
+    "explanation": "Networks can memorize random labels on the training set, but nothing generalizes, so test accuracy stays at chance."
+  }
+]

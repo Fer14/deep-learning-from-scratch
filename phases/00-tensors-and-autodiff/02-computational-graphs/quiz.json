@@ -1,0 +1,80 @@
+[
+  {
+    "id": "graphs-pre-1",
+    "stage": "pre",
+    "question": "What does the chain rule give for d/dx of sin(x^2)?",
+    "options": [
+      "cos(x^2)",
+      "2x cos(x^2)",
+      "2x sin(x^2)",
+      "cos(2x)"
+    ],
+    "correct": 1,
+    "explanation": "The derivative of the outer function, cos(x^2), times the derivative of the inner function, 2x."
+  },
+  {
+    "id": "graphs-pre-2",
+    "stage": "pre",
+    "question": "Why is numerical differentiation impractical for training a network with a million weights?",
+    "options": [
+      "It cannot handle nonlinear functions",
+      "It needs about two forward passes per weight for every gradient",
+      "It only works on GPUs",
+      "It always returns zero"
+    ],
+    "correct": 1,
+    "explanation": "Each weight must be nudged separately, so the cost scales with the number of weights, and the result is only approximate."
+  },
+  {
+    "id": "graphs-post-1",
+    "stage": "post",
+    "question": "In reverse mode, why do adjoints use += instead of =?",
+    "options": [
+      "To make the code faster",
+      "Because floating point needs accumulation",
+      "A value used by several nodes receives a contribution from each path, and the chain rule sums them",
+      "To keep the gradient positive"
+    ],
+    "correct": 2,
+    "explanation": "The total derivative is the sum over all paths. A node with several children collects one term from each child."
+  },
+  {
+    "id": "graphs-post-2",
+    "stage": "post",
+    "question": "A function has 1,000,000 inputs and 1 output. How many sweeps does each mode need for the full gradient?",
+    "options": [
+      "Forward mode 1, reverse mode 1,000,000",
+      "Both need 1",
+      "Both need 1,000,000",
+      "Forward mode 1,000,000, reverse mode 1"
+    ],
+    "correct": 3,
+    "explanation": "Forward mode gets one input's derivative per sweep; reverse mode gets all inputs' derivatives for one output per sweep."
+  },
+  {
+    "id": "graphs-post-3",
+    "stage": "post",
+    "question": "What is the main cost of reverse mode compared with forward mode?",
+    "options": [
+      "Memory: intermediate values from the forward pass must be stored for the backward pass",
+      "It is only approximate",
+      "It cannot handle branching graphs",
+      "It needs the function to be linear"
+    ],
+    "correct": 0,
+    "explanation": "Local derivatives such as 1/x or cos(x) need the forward values, so they are kept until the backward pass. That is why training uses more memory than inference."
+  },
+  {
+    "id": "graphs-post-4",
+    "stage": "post",
+    "question": "In PyTorch, what does AccumulateGrad at the bottom of a grad_fn chain do?",
+    "options": [
+      "It computes the forward pass",
+      "It adds the incoming gradient into the .grad of a leaf tensor",
+      "It resets gradients to zero",
+      "It averages gradients over the batch"
+    ],
+    "correct": 1,
+    "explanation": "Leaves such as parameters have no grad_fn of their own; AccumulateGrad adds the arriving adjoint into their .grad attribute."
+  }
+]

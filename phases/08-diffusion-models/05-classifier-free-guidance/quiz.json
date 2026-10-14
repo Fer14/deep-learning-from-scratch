@@ -1,0 +1,80 @@
+[
+  {
+    "id": "cfg-pre-1",
+    "stage": "pre",
+    "question": "How does one network learn both a conditional and an unconditional noise predictor in classifier-free guidance?",
+    "options": [
+      "Two separate networks are trained",
+      "The label is replaced by a null token for a random fraction of training examples",
+      "A classifier is trained on noisy images",
+      "The unconditional model is computed by averaging over all labels at sampling time"
+    ],
+    "correct": 1,
+    "explanation": "Label dropout (20% here) teaches the same weights eps(x_t, t, null)."
+  },
+  {
+    "id": "cfg-pre-2",
+    "stage": "pre",
+    "question": "In image generation tools, what does raising the guidance scale usually do?",
+    "options": [
+      "Makes images follow the prompt more strongly, at the cost of variety",
+      "Makes sampling faster",
+      "Increases the image resolution",
+      "Adds more random noise"
+    ],
+    "correct": 0,
+    "explanation": "It sharpens the distribution toward the condition."
+  },
+  {
+    "id": "cfg-post-1",
+    "stage": "post",
+    "question": "Which guidance scale reproduces the true conditional distribution p(x | y)?",
+    "options": [
+      "s = 0",
+      "s = 8",
+      "Any s > 1",
+      "s = 1"
+    ],
+    "correct": 3,
+    "explanation": "At s = 1 the guided eps is eps_c; the script shows the best fidelity (sliced W 0.038) and 95% class adherence, like real data."
+  },
+  {
+    "id": "cfg-post-2",
+    "stage": "post",
+    "question": "What does eps_c - eps_u correspond to?",
+    "options": [
+      "The data mean",
+      "Random noise",
+      "A scaled gradient of log p(y | x), an implicit classifier",
+      "The noise schedule"
+    ],
+    "correct": 2,
+    "explanation": "By Bayes, grad log p(x | y) - grad log p(x) = grad log p(y | x)."
+  },
+  {
+    "id": "cfg-post-3",
+    "stage": "post",
+    "question": "At scale 8 every sample is classified as class 0, yet the sliced W to real class 0 is the worst. Why?",
+    "options": [
+      "Samples crowd into the most certain part of the class, losing diversity and no longer matching the real conditional distribution",
+      "The model diverged",
+      "The oracle classifier is wrong",
+      "DDIM does not support guidance"
+    ],
+    "correct": 0,
+    "explanation": "Guidance samples from roughly p(x) p(y | x)^s, a narrower distribution than p(x | y)."
+  },
+  {
+    "id": "cfg-post-4",
+    "stage": "post",
+    "question": "Why do implementations stack conditional and unconditional inputs into one batch?",
+    "options": [
+      "It changes the result in a useful way",
+      "It is required by the math",
+      "It computes the same two predictions in one forward pass, which is faster on parallel hardware",
+      "It removes the need for the null token"
+    ],
+    "correct": 2,
+    "explanation": "The script shows a max difference of exactly 0 between the two ways."
+  }
+]

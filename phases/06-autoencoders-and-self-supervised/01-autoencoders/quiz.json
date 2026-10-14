@@ -1,0 +1,80 @@
+[
+  {
+    "id": "autoencoders-pre-1",
+    "stage": "pre",
+    "question": "What is the training target of a plain autoencoder?",
+    "options": [
+      "The class label of the input",
+      "The input itself",
+      "A random noise vector",
+      "The next example in the dataset"
+    ],
+    "correct": 1,
+    "explanation": "An autoencoder is trained to reconstruct its own input, so no labels are needed."
+  },
+  {
+    "id": "autoencoders-pre-2",
+    "stage": "pre",
+    "question": "What stops an autoencoder from simply learning the identity function?",
+    "options": [
+      "The sigmoid on the output",
+      "Using Adam instead of SGD",
+      "A code (bottleneck) much smaller than the input",
+      "Shuffling the training data"
+    ],
+    "correct": 2,
+    "explanation": "With a 2- or 8-number code the network cannot pass every pixel through, so it must keep only the factors that explain most of the data."
+  },
+  {
+    "id": "autoencoders-post-1",
+    "stage": "post",
+    "question": "An autoencoder with no activation functions, trained with squared error, converges to which solution?",
+    "options": [
+      "The same subspace as PCA with the same reconstruction error",
+      "A perfect reconstruction of every image",
+      "A random projection",
+      "The same solution as k-means"
+    ],
+    "correct": 0,
+    "explanation": "The best rank-k linear reconstruction under squared error is the top-k principal subspace; the script shows 0.0529 for both at code size 2."
+  },
+  {
+    "id": "autoencoders-post-2",
+    "stage": "post",
+    "question": "Why does the nonlinear autoencoder beat PCA at the same code size?",
+    "options": [
+      "It uses more training data",
+      "It can map a curved data manifold into the code, while PCA only projects onto a flat subspace",
+      "It uses labels during training",
+      "PCA is computed incorrectly on images"
+    ],
+    "correct": 1,
+    "explanation": "Real images lie near curved surfaces; nonlinear encoders and decoders can unroll and re-roll them."
+  },
+  {
+    "id": "autoencoders-post-3",
+    "stage": "post",
+    "question": "You decode a random point from the 2D code space of a plain autoencoder and get a blurry mess. Why?",
+    "options": [
+      "The decoder has a bug",
+      "Plain autoencoders do not constrain the code space, so random points can fall in regions no training image maps to",
+      "2D codes can never be decoded",
+      "The sigmoid saturates for all codes"
+    ],
+    "correct": 1,
+    "explanation": "Nothing forces the codes to fill a known region; that is what the variational autoencoder adds."
+  },
+  {
+    "id": "autoencoders-post-4",
+    "stage": "post",
+    "question": "The 2D code gives 0.71 nearest-centroid accuracy (chance is 0.10) without using labels in training. What does that show?",
+    "options": [
+      "The autoencoder secretly saw the labels",
+      "The test set is too small to measure anything",
+      "Any random 2D projection of pixels gets the same score",
+      "Reconstruction alone pushed similar digits to similar codes, so the code captures class structure"
+    ],
+    "correct": 3,
+    "explanation": "Similar images need similar codes to be rebuilt similarly, so class structure emerges in the code even though labels were only used afterwards to measure it."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "quant-pre-1",
+    "stage": "pre",
+    "question": "How much smaller are int8 weights than fp32 weights, ignoring scale factors?",
+    "options": [
+      "2 times",
+      "4 times",
+      "8 times",
+      "32 times"
+    ],
+    "correct": 1,
+    "explanation": "fp32 uses 32 bits per value and int8 uses 8, so storage shrinks by a factor of 4."
+  },
+  {
+    "id": "quant-pre-2",
+    "stage": "pre",
+    "question": "Why does generating text one token at a time often get faster when weights are quantized, even if the arithmetic is done in float?",
+    "options": [
+      "Integer addition is exact",
+      "Quantized models have fewer layers",
+      "Generation is memory-bound, so reading fewer bytes per weight saves time",
+      "Quantization removes the softmax"
+    ],
+    "correct": 2,
+    "explanation": "At batch size 1 each weight is read once per token and used for very little compute, so memory bandwidth is the bottleneck."
+  },
+  {
+    "id": "quant-post-1",
+    "stage": "post",
+    "question": "With symmetric 8-bit quantization and scale s, what is the maximum rounding error for a value inside the range?",
+    "options": [
+      "s / 2",
+      "s",
+      "2s",
+      "s / 256"
+    ],
+    "correct": 0,
+    "explanation": "Rounding to the nearest grid point is off by at most half a step."
+  },
+  {
+    "id": "quant-post-2",
+    "stage": "post",
+    "question": "At 2 bits, per-tensor quantization dropped the MLP to chance while per-channel kept 79%. Why?",
+    "options": [
+      "Per-channel uses more bits per weight",
+      "Per-tensor quantization also quantizes the biases",
+      "Per-channel skips the first layer",
+      "With one scale, rows with small weights all round to zero because the grid is set by the largest row"
+    ],
+    "correct": 3,
+    "explanation": "With only a few levels, a scale chosen for the largest row is far too coarse for small rows. Per-channel scales fit each row's own range."
+  },
+  {
+    "id": "quant-post-3",
+    "stage": "post",
+    "question": "In the int8 linear layer, why is the matrix product accumulated in int32?",
+    "options": [
+      "Because PyTorch cannot store int8 tensors",
+      "Sums of many int8 products overflow 8 or 16 bits",
+      "To make the result exactly equal to fp32",
+      "Because the bias is an integer"
+    ],
+    "correct": 1,
+    "explanation": "Each product can be up to 127*127, and hundreds are summed per output, so a wide accumulator is needed before rescaling by s_x * s_w."
+  },
+  {
+    "id": "quant-post-4",
+    "stage": "post",
+    "question": "The hand-written int8 model was smaller than fp32 but slower on CPU, while quantize_dynamic was faster. What explains this?",
+    "options": [
+      "quantize_dynamic uses fewer bits",
+      "The hand-written version has a bug in its scales",
+      "Speedups need optimized low-precision kernels; casting to int32 and using a generic matmul adds work",
+      "fp32 is always slower than int8"
+    ],
+    "correct": 2,
+    "explanation": "Quantization saves memory automatically, but time savings depend on hardware and kernels that compute directly in int8, like FBGEMM or oneDNN."
+  }
+]

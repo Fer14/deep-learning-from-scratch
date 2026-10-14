@@ -1,0 +1,80 @@
+[
+  {
+    "id": "perceptron-pre-1",
+    "stage": "pre",
+    "question": "What does a single artificial neuron compute before its activation?",
+    "options": [
+      "The product of all its inputs",
+      "A weighted sum of its inputs plus a bias",
+      "The maximum of its inputs",
+      "The distance from the input to a stored prototype"
+    ],
+    "correct": 1,
+    "explanation": "A neuron computes z = w^T x + b and then applies an activation function to z."
+  },
+  {
+    "id": "perceptron-pre-2",
+    "stage": "pre",
+    "question": "What shape is the decision boundary of a single perceptron?",
+    "options": [
+      "A hyperplane (a line in 2D)",
+      "A circle",
+      "Any curve the data needs",
+      "A set of axis-aligned boxes"
+    ],
+    "correct": 0,
+    "explanation": "The boundary is the set where w^T x + b = 0, which is a hyperplane."
+  },
+  {
+    "id": "perceptron-post-1",
+    "stage": "post",
+    "question": "When does the perceptron learning rule update its weights?",
+    "options": [
+      "After every sample, by the gradient of the squared error",
+      "Only at the end of each epoch",
+      "Only when a sample is misclassified",
+      "Only when the learning rate decays"
+    ],
+    "correct": 2,
+    "explanation": "The rule is mistake-driven: if y (w^T x + b) <= 0 it adds lr * y * x to w; correct samples cause no update."
+  },
+  {
+    "id": "perceptron-post-2",
+    "stage": "post",
+    "question": "Why does the perceptron never converge on XOR?",
+    "options": [
+      "The learning rate is too large",
+      "XOR has too few samples",
+      "The step function has no derivative",
+      "No single line separates the two XOR classes"
+    ],
+    "correct": 3,
+    "explanation": "XOR is not linearly separable, so every update that fixes one corner breaks another and the mistakes never reach zero."
+  },
+  {
+    "id": "perceptron-post-3",
+    "stage": "post",
+    "question": "What does the perceptron convergence theorem guarantee?",
+    "options": [
+      "A finite number of mistakes if the data is linearly separable",
+      "Convergence on any dataset within one epoch",
+      "The maximum-margin separating hyperplane",
+      "Zero test error"
+    ],
+    "correct": 0,
+    "explanation": "On separable data with margin gamma and radius R the perceptron makes at most (R/gamma)^2 mistakes; it does not promise the max-margin line or good test error."
+  },
+  {
+    "id": "perceptron-post-4",
+    "stage": "post",
+    "question": "Why do modern networks replace the perceptron's step activation?",
+    "options": [
+      "Step functions are too slow to compute",
+      "The step has zero gradient almost everywhere, so gradient descent cannot learn through it",
+      "Step functions only work with two inputs",
+      "Step outputs cannot be stored as floats"
+    ],
+    "correct": 1,
+    "explanation": "Backpropagation needs useful derivatives; a smooth or piecewise-linear activation provides them while the step does not."
+  }
+]

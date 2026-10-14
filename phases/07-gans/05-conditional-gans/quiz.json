@@ -1,0 +1,80 @@
+[
+  {
+    "id": "cgan-pre-1",
+    "stage": "pre",
+    "question": "What distribution does a class-conditional generator learn?",
+    "options": [
+      "p(y | x)",
+      "p(x | y)",
+      "p(z)",
+      "p(x, z)"
+    ],
+    "correct": 1,
+    "explanation": "Given a label y it produces samples x from the class-conditional data distribution."
+  },
+  {
+    "id": "cgan-pre-2",
+    "stage": "pre",
+    "question": "How is a one-hot label typically added to a convolutional discriminator's input?",
+    "options": [
+      "Added to the pixel values",
+      "Multiplied into the image",
+      "Broadcast to label maps over the spatial grid and concatenated as extra channels",
+      "Used as the learning rate"
+    ],
+    "correct": 2,
+    "explanation": "The input becomes (batch, 1 + 10, 8, 8) for 8x8 digits with 10 classes."
+  },
+  {
+    "id": "cgan-post-1",
+    "stage": "post",
+    "question": "What goes wrong if only the generator receives the label?",
+    "options": [
+      "The generator can ignore the label, because the discriminator never checks whether the image matches it",
+      "Training crashes",
+      "The discriminator becomes too strong",
+      "Nothing, it works the same"
+    ],
+    "correct": 0,
+    "explanation": "Only a discriminator that sees (x, y) pairs can reject a realistic 4 labeled as 7."
+  },
+  {
+    "id": "cgan-post-2",
+    "stage": "post",
+    "question": "In the fixed-noise grid, what stays the same down a column (same z, different labels)?",
+    "options": [
+      "The digit identity",
+      "Nothing",
+      "The label",
+      "The style: thickness and slant"
+    ],
+    "correct": 3,
+    "explanation": "The label controls which digit is drawn; the noise carries the remaining variation, like handwriting style."
+  },
+  {
+    "id": "cgan-post-3",
+    "stage": "post",
+    "question": "Why does the script also measure the per-pixel spread within each generated class?",
+    "options": [
+      "To detect conditional mode collapse: one template per class would have spread near 0",
+      "To compute the loss",
+      "To measure the learning rate",
+      "To check the classifier's accuracy"
+    ],
+    "correct": 0,
+    "explanation": "High label agreement alone could be achieved by drawing one perfect 7 every time; spread shows variety (0.153 vs 0.165 for real)."
+  },
+  {
+    "id": "cgan-post-4",
+    "stage": "post",
+    "question": "Why are 'concatenate a one-hot label to z' and 'add a learned label embedding' interchangeable for the first linear layer?",
+    "options": [
+      "They are not; one is always better",
+      "Because one-hot vectors are normalized",
+      "Because W [z; one_hot(y)] = W_z z + W_y[:, y], which is z's projection plus a learned per-class vector",
+      "Because embeddings ignore the label"
+    ],
+    "correct": 2,
+    "explanation": "Multiplying a one-hot vector by a matrix selects one column, exactly what an embedding lookup does."
+  }
+]

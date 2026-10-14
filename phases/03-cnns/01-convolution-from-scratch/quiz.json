@@ -1,0 +1,80 @@
+[
+  {
+    "id": "convolution-pre-1",
+    "stage": "pre",
+    "question": "You apply a 3x3 kernel with no padding and stride 1 to an 8x8 image. What is the output size?",
+    "options": [
+      "8x8",
+      "5x5",
+      "6x6",
+      "9x9"
+    ],
+    "correct": 2,
+    "explanation": "Without padding the kernel fits in H - k + 1 positions per axis: 8 - 3 + 1 = 6."
+  },
+  {
+    "id": "convolution-pre-2",
+    "stage": "pre",
+    "question": "Why does a convolutional layer need far fewer parameters than a dense layer on the same image?",
+    "options": [
+      "It uses lower precision numbers",
+      "The same small kernel is reused at every spatial position",
+      "It skips every other pixel",
+      "It only processes the center of the image"
+    ],
+    "correct": 1,
+    "explanation": "Weight sharing: one k x k kernel per input/output channel pair is slid over the whole image, so the parameter count does not depend on the image size."
+  },
+  {
+    "id": "convolution-post-1",
+    "stage": "post",
+    "question": "What is the shape of the weight tensor of a convolution with 3 input channels, 16 output channels and 5x5 kernels?",
+    "options": [
+      "(16, 3, 5, 5)",
+      "(3, 16, 5, 5)",
+      "(5, 5, 16)",
+      "(16, 5, 5)"
+    ],
+    "correct": 0,
+    "explanation": "PyTorch stores (C_out, C_in, k, k). Each of the 16 kernels spans all 3 input channels."
+  },
+  {
+    "id": "convolution-post-2",
+    "stage": "post",
+    "question": "What does deep learning's 'convolution' compute, compared with mathematical convolution?",
+    "options": [
+      "Exactly the same thing, including the kernel flip",
+      "A Fourier transform of the image",
+      "A cross-correlation: the kernel is not flipped, which does not matter because it is learned",
+      "A pooling operation followed by a dense layer"
+    ],
+    "correct": 2,
+    "explanation": "Libraries compute cross-correlation. A true convolution would flip the kernel, but a learned kernel can simply learn the flipped version."
+  },
+  {
+    "id": "convolution-post-3",
+    "stage": "post",
+    "question": "In im2col, why must the flattened patch order match the flattened kernel order?",
+    "options": [
+      "Because matrix multiplication requires square matrices",
+      "Because the dot product pairs each patch value with a weight by position, so both must be flattened as (channel, row, column)",
+      "Because unfold always returns channels last",
+      "It does not matter; any order gives the same result"
+    ],
+    "correct": 1,
+    "explanation": "Each output value is a dot product between a flattened patch and a flattened kernel. If the orders differ, pixels get multiplied by the wrong weights."
+  },
+  {
+    "id": "convolution-post-4",
+    "stage": "post",
+    "question": "You shift an input image one pixel to the right and convolve it. What happens to the feature map (ignoring borders)?",
+    "options": [
+      "It stays exactly the same",
+      "It becomes all zeros",
+      "It is flipped horizontally",
+      "It is shifted one pixel to the right as well"
+    ],
+    "correct": 3,
+    "explanation": "Convolution is translation equivariant: the same kernel is applied everywhere, so the output shifts by the same amount as the input."
+  }
+]

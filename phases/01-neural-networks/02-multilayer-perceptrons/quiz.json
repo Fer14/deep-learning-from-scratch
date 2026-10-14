@@ -1,0 +1,67 @@
+[
+  {
+    "id": "mlp-pre-1",
+    "stage": "pre",
+    "question": "What is the main limitation of a single perceptron that hidden layers address?",
+    "options": [
+      "It can only draw linear decision boundaries",
+      "It can only take two inputs",
+      "It cannot use a bias",
+      "It needs labels in {0, 1}"
+    ],
+    "correct": 0,
+    "explanation": "One neuron draws one hyperplane, so it cannot solve problems like XOR that need a nonlinear boundary."
+  },
+  {
+    "id": "mlp-pre-2",
+    "stage": "pre",
+    "question": "A batch of 32 inputs with 10 features goes through nn.Linear(10, 4). What is the output shape?",
+    "options": [
+      "(10, 4)",
+      "(4, 32)",
+      "(32, 4)",
+      "(32, 10)"
+    ],
+    "correct": 2,
+    "explanation": "The batch dimension is kept and the feature dimension changes from 10 to 4: (32, 4)."
+  },
+  {
+    "id": "mlp-post-1",
+    "stage": "post",
+    "question": "What happens if you stack three linear layers with no activation function between them?",
+    "options": [
+      "The network becomes able to represent any function",
+      "The network is equivalent to a single linear layer",
+      "Training becomes impossible",
+      "The network becomes a decision tree"
+    ],
+    "correct": 1,
+    "explanation": "Compositions of affine maps are affine: (x W1 + b1) W2 + b2 = x W' + b'. Depth adds nothing without nonlinearities."
+  },
+  {
+    "id": "mlp-post-2",
+    "stage": "post",
+    "question": "In the hand-wired XOR network, what do the two hidden units compute?",
+    "options": [
+      "x1 and x2 copied unchanged",
+      "NAND and NOR",
+      "x1 squared and x2 squared",
+      "OR and AND"
+    ],
+    "correct": 3,
+    "explanation": "XOR = OR and not AND. The hidden layer computes OR and AND, and the output fires when OR is on and AND is off."
+  },
+  {
+    "id": "mlp-post-3",
+    "stage": "post",
+    "question": "How many parameters does a 784-128-10 MLP have?",
+    "options": [
+      "101,770",
+      "100,352",
+      "1,280",
+      "922"
+    ],
+    "correct": 0,
+    "explanation": "784*128 + 128 + 128*10 + 10 = 100,352 + 128 + 1,280 + 10 = 101,770."
+  }
+]

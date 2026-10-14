@@ -1,0 +1,80 @@
+[
+  {
+    "id": "kd-pre-1",
+    "stage": "pre",
+    "question": "What does a student network learn from in knowledge distillation?",
+    "options": [
+      "Only the original one-hot labels",
+      "The teacher's output probabilities (soft targets), optionally combined with labels",
+      "The teacher's weights, copied directly",
+      "The teacher's gradients"
+    ],
+    "correct": 1,
+    "explanation": "The student is trained to match the teacher's output distribution; weights are not copied because the architectures differ."
+  },
+  {
+    "id": "kd-pre-2",
+    "stage": "pre",
+    "question": "What does raising the softmax temperature T above 1 do to a distribution?",
+    "options": [
+      "Makes it more peaked",
+      "Changes which class has the highest probability",
+      "Makes it flatter, while keeping the ranking of the classes",
+      "Makes all probabilities sum to more than 1"
+    ],
+    "correct": 2,
+    "explanation": "Dividing the logits by T > 1 shrinks their differences, so probability spreads out, but the order of the logits is preserved."
+  },
+  {
+    "id": "kd-post-1",
+    "stage": "post",
+    "question": "Why is the soft distillation loss multiplied by T^2?",
+    "options": [
+      "Because the gradients of the soft term shrink like 1/T^2, and the factor keeps them on the same scale as the hard loss",
+      "To convert KL divergence into cross-entropy",
+      "To make the loss always positive",
+      "Because the teacher has T times more parameters"
+    ],
+    "correct": 0,
+    "explanation": "The gradient is (p_s - p_t)/T and the probability differences also scale like 1/T, so the product falls as 1/T^2."
+  },
+  {
+    "id": "kd-post-2",
+    "stage": "post",
+    "question": "In the experiment with no 3s in the transfer set, how did the distilled student learn to recognize 3s?",
+    "options": [
+      "It memorized the test set",
+      "The teacher's weights for class 3 were copied into it",
+      "Random chance",
+      "The teacher's soft outputs on other digits encoded how similar they are to a 3"
+    ],
+    "correct": 3,
+    "explanation": "Soft targets on 5s, 8s and 9s include small, informative probabilities for class 3, which teach the student what makes something look like a 3."
+  },
+  {
+    "id": "kd-post-3",
+    "stage": "post",
+    "question": "Why is F.kl_div called with reduction='batchmean' rather than the default?",
+    "options": [
+      "The default is not differentiable",
+      "'batchmean' divides by the batch size, giving the true mean KL; the default divides by batch times classes",
+      "'batchmean' applies the temperature automatically",
+      "The default ignores the teacher"
+    ],
+    "correct": 1,
+    "explanation": "The KL is a sum over classes. Averaging over classes as well, as 'mean' does, scales the loss down by the number of classes."
+  },
+  {
+    "id": "kd-post-4",
+    "stage": "post",
+    "question": "With only 100 labeled images but 1200 unlabeled ones, what gave the largest accuracy gain for the student?",
+    "options": [
+      "Training longer on the 100 labeled images",
+      "Using a larger temperature on the labeled images",
+      "Letting the teacher provide targets for all 1200 images",
+      "Removing the hidden layer"
+    ],
+    "correct": 2,
+    "explanation": "The distillation loss needs no labels, so the teacher turns unlabeled data into training data, raising accuracy from about 0.89 to about 0.97."
+  }
+]

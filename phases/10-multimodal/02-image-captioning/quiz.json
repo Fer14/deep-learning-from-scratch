@@ -1,0 +1,80 @@
+[
+  {
+    "id": "caption-pre-1",
+    "stage": "pre",
+    "question": "In an encoder-decoder captioner, what does the decoder attend to?",
+    "options": [
+      "Only the previous image",
+      "Nothing; it is a plain language model",
+      "The output vectors of the image encoder, through cross-attention",
+      "The raw pixels directly"
+    ],
+    "correct": 2,
+    "explanation": "Cross-attention uses decoder states as queries and encoder outputs as keys and values."
+  },
+  {
+    "id": "caption-pre-2",
+    "stage": "pre",
+    "question": "What is teacher forcing?",
+    "options": [
+      "Feeding the ground-truth previous words as input during training",
+      "Distilling a large teacher model into a small one",
+      "Forcing the model to output <eos> early",
+      "Freezing the image encoder"
+    ],
+    "correct": 0,
+    "explanation": "The decoder input is the true caption shifted right, so each position predicts the next true word."
+  },
+  {
+    "id": "caption-post-1",
+    "stage": "post",
+    "question": "Why does cross-attention in the decoder not use a causal mask?",
+    "options": [
+      "Because the image tokens are already masked",
+      "Because a causal mask would make training slower",
+      "Because cross-attention has no softmax",
+      "Because the image is fully known, so every word may look at every image token"
+    ],
+    "correct": 3,
+    "explanation": "Causality only matters among generated text tokens; the image is given in full before generation starts."
+  },
+  {
+    "id": "caption-post-2",
+    "stage": "post",
+    "question": "Why keep a 4 x 4 grid of image tokens instead of pooling to a single vector?",
+    "options": [
+      "It uses fewer parameters",
+      "Different words can attend to different regions, preserving spatial information",
+      "Pooling is not differentiable",
+      "The decoder requires exactly 16 inputs"
+    ],
+    "correct": 1,
+    "explanation": "A grid lets cross-attention select the region relevant to each word, as the attention mass on the object's half showed."
+  },
+  {
+    "id": "caption-post-3",
+    "stage": "post",
+    "question": "On unseen colour-shape pairs (such as a green triangle), which word did the captioner get wrong most often?",
+    "options": [
+      "The colour word",
+      "The size word",
+      "The shape word",
+      "The side word"
+    ],
+    "correct": 2,
+    "explanation": "Colour, size and side stayed near perfect, but the model tended to name a shape it had seen with that colour, showing it learned correlations rather than separate concepts."
+  },
+  {
+    "id": "caption-post-4",
+    "stage": "post",
+    "question": "During greedy decoding, how many times is the image encoder run per image?",
+    "options": [
+      "Once, then its tokens are reused for every generated word",
+      "Once per generated word",
+      "Twice, once per decoder layer",
+      "Never; the decoder reads pixels"
+    ],
+    "correct": 0,
+    "explanation": "The image tokens do not depend on the caption, so they are computed once and passed to every decode step."
+  }
+]

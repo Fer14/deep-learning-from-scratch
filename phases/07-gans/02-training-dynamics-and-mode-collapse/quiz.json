@@ -1,0 +1,80 @@
+[
+  {
+    "id": "gan-dynamics-pre-1",
+    "stage": "pre",
+    "question": "What is mode collapse in a GAN?",
+    "options": [
+      "The discriminator outputs NaN",
+      "The generator produces only a few kinds of samples instead of covering the whole data distribution",
+      "The loss goes to zero",
+      "The generator copies the training set exactly"
+    ],
+    "correct": 1,
+    "explanation": "Each sample may look fine, but variety is missing: here, one blob instead of eight clusters."
+  },
+  {
+    "id": "gan-dynamics-pre-2",
+    "stage": "pre",
+    "question": "Early in training the discriminator rejects fakes with D(G(z)) close to 0. What happens to the gradient of the minimax loss log(1 - D(G(z))) with respect to the fake logit?",
+    "options": [
+      "It explodes",
+      "It becomes exactly 1",
+      "It is close to 0, so the generator barely learns",
+      "It changes sign"
+    ],
+    "correct": 2,
+    "explanation": "The derivative is -D, which is tiny when D is near 0; the non-saturating loss has derivative -(1 - D) instead."
+  },
+  {
+    "id": "gan-dynamics-post-1",
+    "stage": "post",
+    "question": "In the collapsed run the losses look normal. Which signal revealed the collapse?",
+    "options": [
+      "The sample spread stayed near 0.2 (the data's is 1.4) while the sample mean jumped around the circle",
+      "The discriminator loss went to zero",
+      "The generator loss diverged",
+      "Training crashed"
+    ],
+    "correct": 0,
+    "explanation": "GAN losses are not quality metrics; monitor sample statistics such as mode coverage and diversity."
+  },
+  {
+    "id": "gan-dynamics-post-2",
+    "stage": "post",
+    "question": "Why does a discriminator with a 10x smaller learning rate cause collapse here?",
+    "options": [
+      "A small learning rate makes D output only 0.5",
+      "It changes the loss function",
+      "It removes the generator's gradients",
+      "A lagging D stays nearly fixed while G moves all its mass to D's current favorite point"
+    ],
+    "correct": 3,
+    "explanation": "Against a fixed discriminator, the generator's best response is a point mass at the maximum of D."
+  },
+  {
+    "id": "gan-dynamics-post-3",
+    "stage": "post",
+    "question": "Why does PacGAN help even with the slow discriminator?",
+    "options": [
+      "It doubles the learning rate",
+      "It removes the discriminator",
+      "Seeing several samples at once lets D detect that a collapsed batch lacks diversity",
+      "It trains G on real data"
+    ],
+    "correct": 2,
+    "explanation": "Four real samples usually come from different modes; four collapsed fakes do not."
+  },
+  {
+    "id": "gan-dynamics-post-4",
+    "stage": "post",
+    "question": "Spectral normalization did not fix the slow-D collapse. Why?",
+    "options": [
+      "spectral_norm only works on convolutions",
+      "It bounds how steep D can be, but collapse here comes from D reacting too slowly",
+      "It was applied to the generator by mistake",
+      "Spectral normalization always causes collapse"
+    ],
+    "correct": 1,
+    "explanation": "Different failures need different fixes: Lipschitz control stabilizes D but does not speed it up."
+  }
+]

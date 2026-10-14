@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mdp-pre-1",
+    "stage": "pre",
+    "question": "What makes a decision process 'Markov'?",
+    "options": [
+      "The rewards are always positive",
+      "The next state depends only on the current state and action, not on the earlier history",
+      "The agent has a finite number of actions",
+      "The environment is deterministic"
+    ],
+    "correct": 1,
+    "explanation": "The Markov property says P(s' | s, a) captures everything relevant about the past. Transitions can still be random and rewards can be negative."
+  },
+  {
+    "id": "mdp-pre-2",
+    "stage": "pre",
+    "question": "In reinforcement learning, what signal replaces the per-example labels of supervised learning?",
+    "options": [
+      "A scalar reward that may arrive many steps after the action that caused it",
+      "The gradient of the environment",
+      "A label for the correct action at every step",
+      "Nothing; RL is unsupervised"
+    ],
+    "correct": 0,
+    "explanation": "The agent only receives rewards, often delayed, and must figure out which earlier actions led to them (credit assignment)."
+  },
+  {
+    "id": "mdp-post-1",
+    "stage": "post",
+    "question": "Which update does value iteration apply to every state?",
+    "options": [
+      "V(s) <- sum_a pi(a|s) [R(s,a) + gamma sum_s' P(s'|s,a) V(s')]",
+      "V(s) <- R(s) only",
+      "V(s) <- max_a [R(s,a) + gamma sum_s' P(s'|s,a) V(s')]",
+      "V(s) <- V(s) + alpha (G - V(s))"
+    ],
+    "correct": 2,
+    "explanation": "Value iteration applies the Bellman optimality operator, which takes a max over actions. The first option is policy evaluation and the last is a Monte Carlo update."
+  },
+  {
+    "id": "mdp-post-2",
+    "stage": "post",
+    "question": "Why does iterating the Bellman update converge for gamma < 1?",
+    "options": [
+      "Because the rewards are bounded by 1",
+      "Because the number of actions is finite",
+      "Because the policy is deterministic",
+      "Because the operator is a contraction: each sweep shrinks the maximum error by at least a factor gamma"
+    ],
+    "correct": 3,
+    "explanation": "The Bellman operator is a gamma-contraction in the max norm, so by the Banach fixed-point theorem repeated application converges to a unique fixed point."
+  },
+  {
+    "id": "mdp-post-3",
+    "stage": "post",
+    "question": "In the lesson, raising the cost per step to -0.6 made the agent jump into the pit from the neighboring cell. Why?",
+    "options": [
+      "Value iteration diverged",
+      "The pit's -1 became cheaper than the expected cost of the long walk to the goal",
+      "The discount factor changed",
+      "The slip probability increased"
+    ],
+    "correct": 1,
+    "explanation": "The optimal policy maximizes total reward. When each step costs 0.6, ending the episode immediately at -1 beats several more steps of -0.6 each."
+  },
+  {
+    "id": "mdp-post-4",
+    "stage": "post",
+    "question": "For a fixed policy, why can you solve for V_pi with a single linear solve?",
+    "options": [
+      "Because the Bellman expectation equation V = R_pi + gamma P_pi V is linear in V",
+      "Because the max operator is linear",
+      "Because P is symmetric",
+      "Because rewards are zero except at terminals"
+    ],
+    "correct": 0,
+    "explanation": "Without the max, the equation is linear, so V_pi = (I - gamma P_pi)^-1 R_pi. The optimality equation has a max and is not linear."
+  }
+]

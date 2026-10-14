@@ -1,0 +1,80 @@
+[
+  {
+    "id": "tensors-pre-1",
+    "stage": "pre",
+    "question": "A batch of 16 RGB images of size 64x64 is usually stored in PyTorch with which shape?",
+    "options": [
+      "(16, 3, 64, 64)",
+      "(64, 64, 16)",
+      "(3, 16, 64)",
+      "(16, 64)"
+    ],
+    "correct": 0,
+    "explanation": "PyTorch uses the NCHW layout: batch, channels, height, width."
+  },
+  {
+    "id": "tensors-pre-2",
+    "stage": "pre",
+    "question": "What is the shape of x.sum(axis=1) if x has shape (4, 5, 6)?",
+    "options": [
+      "(4, 5)",
+      "(5, 6)",
+      "(4, 6)",
+      "(4, 1, 6)"
+    ],
+    "correct": 2,
+    "explanation": "A reduction removes the axis it reduces. Without keepdims the middle axis of size 5 disappears."
+  },
+  {
+    "id": "tensors-post-1",
+    "stage": "post",
+    "question": "Which pair of shapes cannot be broadcast together?",
+    "options": [
+      "(8, 1, 5) and (7, 1)",
+      "(3, 4) and (4,)",
+      "(2, 3, 4) and (3, 1)",
+      "(5, 4) and (5,)"
+    ],
+    "correct": 3,
+    "explanation": "Shapes align from the right: 4 meets 5, they differ and neither is 1, so broadcasting fails."
+  },
+  {
+    "id": "tensors-post-2",
+    "stage": "post",
+    "question": "Why is calling .T on a large matrix essentially free?",
+    "options": [
+      "NumPy transposes it lazily on the GPU",
+      "It returns a view with swapped strides over the same buffer",
+      "It only transposes the first row",
+      "It compresses the matrix first"
+    ],
+    "correct": 1,
+    "explanation": "Transpose changes only metadata (shape and strides). No data is copied, which is also why the result is not contiguous."
+  },
+  {
+    "id": "tensors-post-3",
+    "stage": "post",
+    "question": "y = x + b with x of shape (32, 10) and b of shape (10,). What is the gradient of the loss with respect to b?",
+    "options": [
+      "The upstream gradient summed over axis 0",
+      "The upstream gradient averaged over axis 1",
+      "The first row of the upstream gradient",
+      "A tensor of ones of shape (10,)"
+    ],
+    "correct": 0,
+    "explanation": "b was reused for all 32 rows, so each of its entries receives the sum of the 32 upstream gradients that touched it."
+  },
+  {
+    "id": "tensors-post-4",
+    "stage": "post",
+    "question": "A[:, None, :] - B[None, :, :] with A of shape (300, 16) and B of shape (200, 16) produces which shape?",
+    "options": [
+      "(300, 16)",
+      "(300, 200)",
+      "(300, 200, 16)",
+      "It raises an error"
+    ],
+    "correct": 2,
+    "explanation": "(300, 1, 16) and (1, 200, 16) broadcast to (300, 200, 16): every point of A is paired with every point of B."
+  }
+]

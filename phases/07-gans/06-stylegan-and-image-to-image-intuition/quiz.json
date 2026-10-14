@@ -1,0 +1,80 @@
+[
+  {
+    "id": "stylegan-pre-1",
+    "stage": "pre",
+    "question": "In a StyleGAN generator, what is the input to the first synthesis layer?",
+    "options": [
+      "The noise vector z",
+      "A learned constant tensor; the latent enters through per-layer styles",
+      "A real image",
+      "The class label"
+    ],
+    "correct": 1,
+    "explanation": "All sample-to-sample variation comes from the styles (and noise), not from the input."
+  },
+  {
+    "id": "stylegan-pre-2",
+    "stage": "pre",
+    "question": "In pix2pix, what does the discriminator receive?",
+    "options": [
+      "Only the generated image",
+      "Only the noise vector",
+      "The input image paired with either the real target or the generated output",
+      "The L1 loss value"
+    ],
+    "correct": 2,
+    "explanation": "It is a conditional discriminator: it judges whether the output is a realistic translation of this input."
+  },
+  {
+    "id": "stylegan-post-1",
+    "stage": "post",
+    "question": "What does AdaIN do to a feature map?",
+    "options": [
+      "Normalizes each channel of each sample over space, then applies a scale and bias predicted from the style",
+      "Normalizes over the batch, like batch norm",
+      "Adds the style vector to every pixel without normalization",
+      "Upsamples the feature map"
+    ],
+    "correct": 0,
+    "explanation": "The normalization erases the previous channel statistics; the style writes new ones."
+  },
+  {
+    "id": "stylegan-post-2",
+    "stage": "post",
+    "question": "With coarse blocks from A and the fine block from B, the classifier mostly reports A's digit. What does that show?",
+    "options": [
+      "The fine block is broken",
+      "B's latent was ignored entirely by the generator",
+      "The classifier only looks at fine detail",
+      "Low-resolution blocks control the layout and identity, high-resolution blocks control finer detail"
+    ],
+    "correct": 3,
+    "explanation": "This coarse/fine separation is what style mixing reveals and what makes StyleGAN controllable."
+  },
+  {
+    "id": "stylegan-post-3",
+    "stage": "post",
+    "question": "Truncation (psi = 0.4) reduced diversity but barely changed quality on digits. Why?",
+    "options": [
+      "Truncation only works with a GPU",
+      "The average w decodes to a blend of ten classes, which is not a good digit, so pulling toward it does not make samples more digit-like",
+      "psi must be larger than 1",
+      "The mapping network was not used"
+    ],
+    "correct": 1,
+    "explanation": "Truncation helps when the average latent is itself a plausible sample, as an average face is."
+  },
+  {
+    "id": "stylegan-post-4",
+    "stage": "post",
+    "question": "In the super-resolution experiment, adding the adversarial loss to L1 raised the L1 error but increased sharpness. Why?",
+    "options": [
+      "The adversarial loss is a bug",
+      "L1 is computed incorrectly",
+      "L1 alone favors a smooth average of plausible answers; the adversarial loss pushes toward crisp, realistic strokes even where it must guess",
+      "The adversarial model trained for fewer steps"
+    ],
+    "correct": 2,
+    "explanation": "This is the pix2pix trade-off: pixel accuracy versus realism."
+  }
+]

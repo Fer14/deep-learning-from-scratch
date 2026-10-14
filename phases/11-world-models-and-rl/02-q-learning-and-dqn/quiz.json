@@ -1,0 +1,80 @@
+[
+  {
+    "id": "dqn-pre-1",
+    "stage": "pre",
+    "question": "What information does Q-learning need about the environment?",
+    "options": [
+      "The full transition tensor P(s'|s,a)",
+      "A differentiable simulator",
+      "Only sampled transitions (s, a, r, s') obtained by acting",
+      "Expert demonstrations"
+    ],
+    "correct": 2,
+    "explanation": "Q-learning is model-free: each observed transition is a sample of the Bellman expectation, so it never needs P."
+  },
+  {
+    "id": "dqn-pre-2",
+    "stage": "pre",
+    "question": "Why can't you store a table of Q-values for cart-pole?",
+    "options": [
+      "The state is made of continuous numbers, so there are infinitely many states",
+      "Cart-pole has too many actions",
+      "The rewards are negative",
+      "Tables cannot store floating-point numbers"
+    ],
+    "correct": 0,
+    "explanation": "Position, velocity, angle and angular velocity are real numbers. You need a function approximator that generalizes between nearby states."
+  },
+  {
+    "id": "dqn-post-1",
+    "stage": "post",
+    "question": "What problem does the target network solve in DQN?",
+    "options": [
+      "It speeds up the forward pass",
+      "It keeps the regression target from shifting after every gradient step",
+      "It stores past transitions",
+      "It chooses exploratory actions"
+    ],
+    "correct": 1,
+    "explanation": "Without a frozen copy, each update changes the very targets you are regressing to, which causes oscillation or divergence."
+  },
+  {
+    "id": "dqn-post-2",
+    "stage": "post",
+    "question": "Why does DQN sample random mini-batches from a replay buffer instead of training on the latest transitions?",
+    "options": [
+      "To reduce memory usage",
+      "Because the newest transitions are always wrong",
+      "To make the loss convex",
+      "To break the strong correlation between consecutive transitions and reuse data"
+    ],
+    "correct": 3,
+    "explanation": "Consecutive steps are almost identical; random replay makes batches closer to i.i.d. and lets each transition be used many times."
+  },
+  {
+    "id": "dqn-post-3",
+    "stage": "post",
+    "question": "A cart-pole episode reaches the 200-step time limit with the pole upright. What should the TD target for that last transition be?",
+    "options": [
+      "r + gamma max_a' Q_target(s', a'), because the state is not truly terminal",
+      "r only, because the episode ended",
+      "0",
+      "-1, to penalize the end of the episode"
+    ],
+    "correct": 0,
+    "explanation": "Truncation is not a terminal state. The future would have continued, so you still bootstrap. Only real failures zero the bootstrap term."
+  },
+  {
+    "id": "dqn-post-4",
+    "stage": "post",
+    "question": "In the lesson, the final DQN network scored worse than a checkpoint from the middle of training. What is the most accurate explanation?",
+    "options": [
+      "The learning rate was too small",
+      "The replay buffer was full",
+      "Q-learning with function approximation and bootstrapping has no convergence guarantee, so performance can oscillate",
+      "The cart-pole simulator has a bug"
+    ],
+    "correct": 2,
+    "explanation": "The combination of function approximation, bootstrapping and off-policy learning (the 'deadly triad') can be unstable, so practitioners evaluate periodically and keep the best checkpoint."
+  }
+]

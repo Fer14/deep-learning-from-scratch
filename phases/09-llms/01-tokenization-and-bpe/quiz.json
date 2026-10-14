@@ -1,0 +1,80 @@
+[
+  {
+    "id": "bpe-pre-1",
+    "stage": "pre",
+    "question": "What does a language model actually receive as input?",
+    "options": [
+      "A sequence of integer token ids",
+      "Raw characters as strings",
+      "One-hot vectors of whole sentences",
+      "Audio waveforms of the words"
+    ],
+    "correct": 0,
+    "explanation": "Text is converted to integer ids by a tokenizer, and each id is looked up in an embedding table."
+  },
+  {
+    "id": "bpe-pre-2",
+    "stage": "pre",
+    "question": "What is the main drawback of a word-level vocabulary?",
+    "options": [
+      "Sequences become extremely long",
+      "It cannot represent spaces",
+      "Unseen words become an unknown token and the vocabulary grows huge",
+      "It requires GPU training"
+    ],
+    "correct": 2,
+    "explanation": "Any word not in the vocabulary maps to <unk>, and covering rare words needs a very large embedding table."
+  },
+  {
+    "id": "bpe-post-1",
+    "stage": "post",
+    "question": "In one BPE training step, which pair is merged?",
+    "options": [
+      "The pair that appears first in the text",
+      "The rarest pair, to cover the long tail",
+      "A random pair",
+      "The most frequent adjacent pair"
+    ],
+    "correct": 3,
+    "explanation": "BPE greedily merges the most frequent adjacent pair into a new symbol and repeats."
+  },
+  {
+    "id": "bpe-post-2",
+    "stage": "post",
+    "question": "Why can a byte-level BPE tokenizer never produce an unknown token?",
+    "options": [
+      "Its vocabulary contains every English word",
+      "Every string is a sequence of bytes, and all 256 bytes are in the base vocabulary",
+      "It replaces unknown words with the closest known word",
+      "It lowercases the input"
+    ],
+    "correct": 1,
+    "explanation": "If no merge applies, the text falls back to raw bytes, which are always in the vocabulary."
+  },
+  {
+    "id": "bpe-post-3",
+    "stage": "post",
+    "question": "How does a trained BPE tokenizer encode a new string?",
+    "options": [
+      "It searches all segmentations for the fewest tokens",
+      "It looks up whole words in a dictionary",
+      "It replays the learned merges in the order they were learned",
+      "It picks the longest matching token from the right"
+    ],
+    "correct": 2,
+    "explanation": "Encoding repeatedly merges the present pair with the lowest merge rank, reproducing what training did."
+  },
+  {
+    "id": "bpe-post-4",
+    "stage": "post",
+    "question": "What is the cost of increasing the number of BPE merges?",
+    "options": [
+      "A larger embedding table and output softmax, with each rare token seen less often",
+      "Longer sequences",
+      "Loss of the ability to decode text",
+      "More unknown tokens"
+    ],
+    "correct": 0,
+    "explanation": "More merges shorten sequences but enlarge the vocabulary, so the embedding and softmax grow and rare tokens get less training signal."
+  }
+]

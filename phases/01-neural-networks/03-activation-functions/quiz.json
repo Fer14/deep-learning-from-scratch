@@ -1,0 +1,80 @@
+[
+  {
+    "id": "activations-pre-1",
+    "stage": "pre",
+    "question": "What is ReLU(-3)?",
+    "options": [
+      "-3",
+      "3",
+      "0",
+      "0.05"
+    ],
+    "correct": 2,
+    "explanation": "ReLU(z) = max(0, z), so every negative input becomes 0."
+  },
+  {
+    "id": "activations-pre-2",
+    "stage": "pre",
+    "question": "Why do networks need activation functions between linear layers?",
+    "options": [
+      "To make the forward pass faster",
+      "Without them, stacked linear layers collapse into a single linear map",
+      "To keep the weights positive",
+      "To normalize the inputs"
+    ],
+    "correct": 1,
+    "explanation": "The nonlinearity is what lets depth add expressive power; without it the whole network is one affine function."
+  },
+  {
+    "id": "activations-post-1",
+    "stage": "post",
+    "question": "What is the largest value the derivative of the sigmoid can take?",
+    "options": [
+      "0.25",
+      "0.5",
+      "1",
+      "It is unbounded"
+    ],
+    "correct": 0,
+    "explanation": "sigma'(z) = sigma(z)(1 - sigma(z)) peaks at z = 0 with 0.5 * 0.5 = 0.25, so each sigmoid layer shrinks gradients."
+  },
+  {
+    "id": "activations-post-2",
+    "stage": "post",
+    "question": "What is a dead ReLU?",
+    "options": [
+      "A ReLU whose output overflows to infinity",
+      "A ReLU that is removed by dropout",
+      "A ReLU with a negative slope",
+      "A ReLU unit whose input is negative for every sample, so it never receives gradient"
+    ],
+    "correct": 3,
+    "explanation": "On the negative side ReLU has zero derivative; if a unit never goes positive its weights stop updating. Leaky ReLU avoids this with a small slope."
+  },
+  {
+    "id": "activations-post-3",
+    "stage": "post",
+    "question": "Why does a stable softmax subtract max(z) before exponentiating?",
+    "options": [
+      "It changes the probabilities to be more calibrated",
+      "Softmax is invariant to adding a constant, and the shift prevents exp from overflowing",
+      "It makes the outputs sum to zero",
+      "It turns softmax into a sigmoid"
+    ],
+    "correct": 1,
+    "explanation": "softmax(z - c) = softmax(z) for any constant c; with c = max(z) the largest exponent is e^0 = 1, so nothing overflows."
+  },
+  {
+    "id": "activations-post-4",
+    "stage": "post",
+    "question": "In the 20-layer experiment, ReLU gradients still shrank with weight variance 1/width. What fixed it?",
+    "options": [
+      "Switching to sigmoid",
+      "Removing the biases",
+      "Using weight variance 2/width (He initialization)",
+      "Using a larger batch"
+    ],
+    "correct": 2,
+    "explanation": "ReLU zeroes about half of its inputs, halving the variance at each layer. Doubling the weight variance compensates."
+  }
+]

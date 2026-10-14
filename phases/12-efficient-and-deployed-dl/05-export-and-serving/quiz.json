@@ -1,0 +1,80 @@
+[
+  {
+    "id": "export-pre-1",
+    "stage": "pre",
+    "question": "Why is a state_dict alone not a deployable model?",
+    "options": [
+      "It is too large to load",
+      "It contains only weights; running it requires the original Python class and preprocessing code",
+      "It cannot be loaded on a CPU",
+      "It stores the optimizer instead of the model"
+    ],
+    "correct": 1,
+    "explanation": "A state_dict maps names to tensors. The computation that uses them lives in your Python code, which the serving environment may not have."
+  },
+  {
+    "id": "export-pre-2",
+    "stage": "pre",
+    "question": "Which latency statistic best reflects what the slowest users experience?",
+    "options": [
+      "The minimum",
+      "The mean",
+      "The p99 percentile",
+      "The number of requests"
+    ],
+    "correct": 2,
+    "explanation": "The 99th percentile is the latency 99% of requests stay under; the mean hides the occasional slow request."
+  },
+  {
+    "id": "export-post-1",
+    "stage": "post",
+    "question": "Why does DigitClassifier divide by 16 inside forward() using a registered buffer?",
+    "options": [
+      "So the preprocessing is exported with the model and no client can forget or change it",
+      "Because buffers are trained by the optimizer",
+      "To make the model faster",
+      "Because torch.export cannot handle division"
+    ],
+    "correct": 0,
+    "explanation": "Preprocessing inside the model travels with the artifact. Buffers are saved in the state_dict and exported, but are not trained."
+  },
+  {
+    "id": "export-post-2",
+    "stage": "post",
+    "question": "What does declaring dynamic_shapes={'pixels': {0: Dim('batch', min=1, max=1024)}} do in torch.export?",
+    "options": [
+      "It makes the model accept any number of pixels per image",
+      "It quantizes the batch dimension",
+      "It trains the model on several batch sizes",
+      "It keeps the batch dimension symbolic, so the graph traced with batch 2 is valid for any batch from 1 to 1024"
+    ],
+    "correct": 3,
+    "explanation": "Without it the example's batch size could be specialized into the graph. Only dimension 0 is dynamic; the 64 pixels stay fixed."
+  },
+  {
+    "id": "export-post-3",
+    "stage": "post",
+    "question": "The server receives a request with 3 pixel values instead of 64. What is the right behavior?",
+    "options": [
+      "Pad with zeros and return a prediction",
+      "Return HTTP 400 with an error message explaining the expected shape",
+      "Return the most common label",
+      "Crash so the error is noticed"
+    ],
+    "correct": 1,
+    "explanation": "Malformed input should be rejected with a clear client error, not turned into a confident but meaningless prediction or a server crash."
+  },
+  {
+    "id": "export-post-4",
+    "stage": "post",
+    "question": "What is the current status of TorchScript in PyTorch?",
+    "options": [
+      "It is the only way to run PyTorch models from C++",
+      "It is required for ONNX export",
+      "It still works but is deprecated in favor of torch.export",
+      "It replaced torch.export"
+    ],
+    "correct": 2,
+    "explanation": "torch.jit.script and trace emit deprecation warnings; torch.export, AOTInductor and ExecuTorch are the supported deployment path."
+  }
+]

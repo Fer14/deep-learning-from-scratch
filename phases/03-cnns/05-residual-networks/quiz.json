@@ -1,0 +1,80 @@
+[
+  {
+    "id": "resnet-pre-1",
+    "stage": "pre",
+    "question": "He et al. found that a 56-layer plain CNN had higher training error than a 20-layer one. What does that rule out?",
+    "options": [
+      "Vanishing gradients",
+      "Optimization difficulty",
+      "Overfitting as the explanation, since the training error itself is worse",
+      "Nothing; it is exactly what overfitting looks like"
+    ],
+    "correct": 2,
+    "explanation": "Overfitting means low training error and high test error. Here the deeper net is worse on the training set, so the problem is optimization."
+  },
+  {
+    "id": "resnet-pre-2",
+    "stage": "pre",
+    "question": "What does a residual block compute?",
+    "options": [
+      "y = relu(x + F(x)), where F is a small stack of layers",
+      "y = F(x) * x",
+      "y = F(F(x))",
+      "y = x - F(x) only during training"
+    ],
+    "correct": 0,
+    "explanation": "The block's input is added back to its output, so F only has to learn the correction to the identity."
+  },
+  {
+    "id": "resnet-post-1",
+    "stage": "post",
+    "question": "Why do gradients reach the early layers of a residual network?",
+    "options": [
+      "Residual networks use a larger learning rate",
+      "The identity shortcut contributes a term of 1 to each block's Jacobian, so the upstream gradient passes through unchanged",
+      "Residual blocks have no ReLUs",
+      "Batch normalization is mandatory in ResNets"
+    ],
+    "correct": 1,
+    "explanation": "With x_{l+1} = x_l + F(x_l), dx_{l+1}/dx_l = I + dF/dx_l. The identity term gives a direct path that is not a product of shrinking matrices."
+  },
+  {
+    "id": "resnet-post-2",
+    "stage": "post",
+    "question": "The 30-layer plain network in the lesson finished with a training loss of 2.30. What does that number mean?",
+    "options": [
+      "It is close to perfect classification",
+      "It means the network overfit",
+      "It is a numerical overflow",
+      "It equals ln(10): the network predicts a uniform distribution over 10 classes, so it learned nothing"
+    ],
+    "correct": 3,
+    "explanation": "Cross-entropy of a uniform guess over 10 classes is -ln(1/10) = 2.303."
+  },
+  {
+    "id": "resnet-post-3",
+    "stage": "post",
+    "question": "When does a ResNet block need a projection shortcut instead of the identity?",
+    "options": [
+      "When the block changes the spatial size (stride 2) or the number of channels",
+      "Always, in every block",
+      "Only in the first layer of the network",
+      "Only when batch normalization is disabled"
+    ],
+    "correct": 0,
+    "explanation": "x + F(x) requires matching shapes. A strided 1x1 convolution (plus BN) maps x to the new shape."
+  },
+  {
+    "id": "resnet-post-4",
+    "stage": "post",
+    "question": "Why does the lesson replace torchvision resnet18's stem when training on 32x32 digits?",
+    "options": [
+      "The default stem has no parameters",
+      "The default stem only accepts 3-channel input, and its 7x7 stride-2 conv plus max pool would shrink 32x32 to 8x8 before the first block",
+      "torchvision requires it for weights=None",
+      "The default stem uses dropout"
+    ],
+    "correct": 1,
+    "explanation": "The ImageNet stem downsamples by 4 immediately. For small images a 3x3 stride-1 stem with one input channel keeps enough resolution."
+  }
+]

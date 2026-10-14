@@ -1,0 +1,80 @@
+[
+  {
+    "id": "transfer-pre-1",
+    "stage": "pre",
+    "question": "In transfer learning, which part of a pretrained classifier is usually replaced for the new task?",
+    "options": [
+      "The first convolution",
+      "The batch normalization layers",
+      "The head (final classification layer)",
+      "Nothing is replaced"
+    ],
+    "correct": 2,
+    "explanation": "The head maps features to the source classes. The new task has different classes, so it gets a new head on top of the reused backbone."
+  },
+  {
+    "id": "transfer-pre-2",
+    "stage": "pre",
+    "question": "When does pretraining usually help the most?",
+    "options": [
+      "When the target task has very few labeled examples",
+      "When the target task has millions of labels",
+      "When source and target tasks are unrelated",
+      "When the model is very small"
+    ],
+    "correct": 0,
+    "explanation": "With scarce labels, a from-scratch model cannot learn good features, so reused features give the largest gain."
+  },
+  {
+    "id": "transfer-post-1",
+    "stage": "post",
+    "question": "Why does fine-tuning use a smaller learning rate for the backbone than for the new head?",
+    "options": [
+      "Because the backbone has fewer parameters",
+      "Because the backbone's weights are already useful and large updates would destroy them, while the head starts random",
+      "Because PyTorch requires it",
+      "Because a smaller learning rate makes training faster"
+    ],
+    "correct": 1,
+    "explanation": "The head needs large steps to go from random to useful; the pretrained backbone only needs small adjustments."
+  },
+  {
+    "id": "transfer-post-2",
+    "stage": "post",
+    "question": "Why does set_frozen also call module.eval() on the frozen backbone?",
+    "options": [
+      "To make the forward pass deterministic with dropout only",
+      "Because requires_grad=False is ignored otherwise",
+      "To move the module to the CPU",
+      "Because batch norm keeps updating its running statistics in training mode even when its parameters are frozen"
+    ],
+    "correct": 3,
+    "explanation": "Running mean and variance are buffers updated in every training-mode forward pass, independently of requires_grad."
+  },
+  {
+    "id": "transfer-post-3",
+    "stage": "post",
+    "question": "What is the purpose of the 'random probe' baseline in the lesson?",
+    "options": [
+      "To show that linear heads cannot learn anything",
+      "To check that the linear probe's advantage comes from pretrained features, not merely from training a linear head on any frozen CNN",
+      "To speed up training",
+      "To measure overfitting on the source task"
+    ],
+    "correct": 1,
+    "explanation": "Random convolutional features are already somewhat useful. Comparing against them isolates the contribution of pretraining."
+  },
+  {
+    "id": "transfer-post-4",
+    "stage": "post",
+    "question": "With 30 labels per class, scratch matched fine-tuning and beat the linear probe. What explains this?",
+    "options": [
+      "With enough target data, a model can learn suitable features itself, while frozen features tuned for the source classes cannot adapt",
+      "Pretrained models always get worse with more data",
+      "The linear probe overfits more than the scratch model",
+      "It is a bug in the evaluation"
+    ],
+    "correct": 0,
+    "explanation": "The benefit of pretraining shrinks as target data grows. Frozen features become the bottleneck; fine-tuning removes it."
+  }
+]

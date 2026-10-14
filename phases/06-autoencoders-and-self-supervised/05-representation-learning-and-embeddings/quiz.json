@@ -1,0 +1,80 @@
+[
+  {
+    "id": "embeddings-pre-1",
+    "stage": "pre",
+    "question": "Looking up row id in an embedding table E is mathematically equal to what?",
+    "options": [
+      "one_hot(id) @ E",
+      "E @ E.T",
+      "softmax(E)[id]",
+      "The mean of all rows"
+    ],
+    "correct": 0,
+    "explanation": "An embedding layer is a linear layer applied to a one-hot vector; indexing is just the fast implementation."
+  },
+  {
+    "id": "embeddings-pre-2",
+    "stage": "pre",
+    "question": "Why is cosine similarity popular for comparing embeddings?",
+    "options": [
+      "It is faster than a dot product",
+      "It always returns positive numbers",
+      "It ignores vector length and compares direction only",
+      "It requires no normalization"
+    ],
+    "correct": 2,
+    "explanation": "Norms often encode nuisance factors; cosine is unchanged by rescaling, as Step 4 shows (0.987 vs 0.870 for Euclidean)."
+  },
+  {
+    "id": "embeddings-post-1",
+    "stage": "post",
+    "question": "After a lookup of ids [3, 3, 7] and backward on the sum, which rows of the table have nonzero gradient?",
+    "options": [
+      "All 10 rows",
+      "Only rows 3 and 7",
+      "Only row 3",
+      "None, lookups are not differentiable"
+    ],
+    "correct": 1,
+    "explanation": "Only the rows that were used receive gradient, and row 3 accumulates two contributions."
+  },
+  {
+    "id": "embeddings-post-2",
+    "stage": "post",
+    "question": "Raw pixels reach 0.990 kNN accuracy on the digits. What should you conclude?",
+    "options": [
+      "Embeddings are useless",
+      "kNN is broken",
+      "The supervised encoder failed",
+      "The data is easy, so raw pixels are a strong baseline any learned embedding must be compared against"
+    ],
+    "correct": 3,
+    "explanation": "Always report the raw-input baseline; a learned embedding that does not beat it adds nothing for that task."
+  },
+  {
+    "id": "embeddings-post-3",
+    "stage": "post",
+    "question": "An encoder trained with labels on digits 0-4 gets 0.876 kNN accuracy on digits 5-9, below the label-free autoencoder (0.994). Why?",
+    "options": [
+      "Supervised training keeps only what separates the training classes and discards details needed for new classes",
+      "The supervised encoder has fewer parameters",
+      "kNN does not work with supervised features",
+      "The autoencoder secretly saw the labels"
+    ],
+    "correct": 0,
+    "explanation": "Labels define a narrow notion of similarity; self-supervised objectives keep broader information that transfers."
+  },
+  {
+    "id": "embeddings-post-4",
+    "stage": "post",
+    "question": "For unit-length vectors, how is squared Euclidean distance related to cosine similarity?",
+    "options": [
+      "They are unrelated",
+      "||a - b||^2 = cos(a, b)",
+      "||a - b||^2 = 2 - 2 cos(a, b)",
+      "||a - b||^2 = 1 + cos(a, b)"
+    ],
+    "correct": 2,
+    "explanation": "Expand ||a||^2 + ||b||^2 - 2 a.b with unit norms; nearest neighbors are the same under both after normalization."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ddim-pre-1",
+    "stage": "pre",
+    "question": "What is the main cost of sampling from a DDPM?",
+    "options": [
+      "Loading the dataset",
+      "One network evaluation per step, usually for 1000 steps",
+      "Computing the noise schedule",
+      "Training the discriminator"
+    ],
+    "correct": 1,
+    "explanation": "Lesson 02 took 1000 network calls; DDIM reduces that number."
+  },
+  {
+    "id": "ddim-pre-2",
+    "stage": "pre",
+    "question": "Do you need to retrain a DDPM model to sample it with DDIM?",
+    "options": [
+      "Yes, DDIM needs a different loss",
+      "Yes, DDIM needs a discriminator",
+      "Only the last layer must be retrained",
+      "No, the DDPM loss only depends on the marginals q(x_t | x_0), which DDIM shares"
+    ],
+    "correct": 3,
+    "explanation": "The same trained noise predictor is used; only the sampler changes."
+  },
+  {
+    "id": "ddim-post-1",
+    "stage": "post",
+    "question": "What does eta = 0 mean in the DDIM update?",
+    "options": [
+      "No fresh noise is added, so the map from x_T to x_0 is deterministic",
+      "The model is not used",
+      "Only one step is taken",
+      "The noise is doubled"
+    ],
+    "correct": 0,
+    "explanation": "Sampling the same noise twice gave a max difference of exactly 0."
+  },
+  {
+    "id": "ddim-post-2",
+    "stage": "post",
+    "question": "In the script, how many DDIM steps matched the quality of 1000 DDPM steps?",
+    "options": [
+      "2",
+      "5",
+      "50 to 100",
+      "None; DDIM is always worse"
+    ],
+    "correct": 2,
+    "explanation": "DDIM at 100 and 50 steps reached sliced W 0.022 and 0.025, at the level of DDPM's 0.024."
+  },
+  {
+    "id": "ddim-post-3",
+    "stage": "post",
+    "question": "Why does DDIM inversion require eta = 0?",
+    "options": [
+      "Because eta = 1 is slower",
+      "Because only a deterministic map can be run backward to find the latent that reproduces a given sample",
+      "Because inversion needs a discriminator",
+      "It does not; any eta works"
+    ],
+    "correct": 1,
+    "explanation": "With fresh random noise at each step, there is no single latent that maps to a given output."
+  },
+  {
+    "id": "ddim-post-4",
+    "stage": "post",
+    "question": "With 10 steps, eta = 0 gave sliced W 0.093 while eta = 1 gave 0.129. Why does stochasticity hurt with few steps?",
+    "options": [
+      "Random numbers are expensive",
+      "eta = 1 uses a different model",
+      "The fresh noise injected at each big step does not have enough subsequent steps to be averaged out",
+      "eta = 1 skips the last step"
+    ],
+    "correct": 2,
+    "explanation": "DDPM-style noise only works well with many small steps; the deterministic ODE path is easier to follow with big strides."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "detection-pre-1",
+    "stage": "pre",
+    "question": "What does a semantic segmentation model output for an image?",
+    "options": [
+      "One class label for the whole image",
+      "A list of bounding boxes",
+      "A caption",
+      "A class label for every pixel"
+    ],
+    "correct": 3,
+    "explanation": "Segmentation is dense classification: the output has the same spatial size as the input, with a class per pixel."
+  },
+  {
+    "id": "detection-pre-2",
+    "stage": "pre",
+    "question": "Two boxes each have area 100 and overlap in an area of 50. What is their IoU?",
+    "options": [
+      "0.5",
+      "0.25",
+      "1/3",
+      "2/3"
+    ],
+    "correct": 2,
+    "explanation": "IoU = 50 / (100 + 100 - 50) = 50 / 150 = 1/3."
+  },
+  {
+    "id": "detection-post-1",
+    "stage": "post",
+    "question": "In the grid detector, which cell is responsible for predicting an object?",
+    "options": [
+      "The cell that contains the object's center",
+      "Every cell that overlaps the object",
+      "The top-left cell of the image",
+      "The cell with the highest objectness, chosen after training"
+    ],
+    "correct": 0,
+    "explanation": "Targets are assigned to the cell containing the box center; that cell's box, objectness and class outputs are supervised."
+  },
+  {
+    "id": "detection-post-2",
+    "stage": "post",
+    "question": "Lowering the score threshold to 0.05 raised recall but lowered precision. What did NMS do?",
+    "options": [
+      "It increased the number of boxes",
+      "It removed duplicate boxes overlapping a higher-scoring one, restoring precision while keeping most of the recall",
+      "It retrained the detector",
+      "It changed the class predictions"
+    ],
+    "correct": 1,
+    "explanation": "Duplicates on the same object are false positives. NMS keeps the best-scoring box per object, so precision recovers."
+  },
+  {
+    "id": "detection-post-3",
+    "stage": "post",
+    "question": "Why is pixel accuracy a misleading metric for the segmentation task in this lesson?",
+    "options": [
+      "It cannot be computed on GPU",
+      "It ignores the background class",
+      "About 89% of pixels are background, so predicting background everywhere already scores 89%",
+      "It is always equal to mean IoU"
+    ],
+    "correct": 2,
+    "explanation": "Class imbalance inflates pixel accuracy. Mean IoU weighs every class equally."
+  },
+  {
+    "id": "detection-post-4",
+    "stage": "post",
+    "question": "What do the skip connections in a U-Net provide?",
+    "options": [
+      "High-resolution encoder features to the decoder, so fine spatial detail lost by pooling can be recovered",
+      "A shortcut that bypasses the loss function",
+      "Regularization equivalent to dropout",
+      "A way to remove the need for upsampling"
+    ],
+    "correct": 0,
+    "explanation": "The bottleneck has context but low resolution; concatenating encoder features at each scale gives the decoder precise locations."
+  }
+]

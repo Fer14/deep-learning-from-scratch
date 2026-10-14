@@ -1,0 +1,80 @@
+[
+  {
+    "id": "gan-pre-1",
+    "stage": "pre",
+    "question": "How does a GAN generator learn, given that it never sees real data directly?",
+    "options": [
+      "Through gradients that flow back from the discriminator's judgment of its samples",
+      "By reconstructing real images",
+      "By maximizing an explicit likelihood",
+      "By copying training examples"
+    ],
+    "correct": 0,
+    "explanation": "The generator's loss depends only on D(G(z)); real data reaches it only through the discriminator."
+  },
+  {
+    "id": "gan-pre-2",
+    "stage": "pre",
+    "question": "What is the discriminator trained to do?",
+    "options": [
+      "Generate new samples",
+      "Encode samples into a latent code",
+      "Classify samples as real or generated",
+      "Predict the noise vector z"
+    ],
+    "correct": 2,
+    "explanation": "It is a binary classifier trained with cross-entropy: label 1 for real, 0 for fake."
+  },
+  {
+    "id": "gan-post-1",
+    "stage": "post",
+    "question": "When the generator perfectly matches the data, what does the optimal discriminator output?",
+    "options": [
+      "1 for real and 0 for fake",
+      "0.5 for every input",
+      "0 for every input",
+      "It depends on the noise"
+    ],
+    "correct": 1,
+    "explanation": "D*(x) = p_data / (p_data + p_G) = 1/2 when the densities are equal; the log shows D(real) = D(fake) = 0.50 at the end."
+  },
+  {
+    "id": "gan-post-2",
+    "stage": "post",
+    "question": "Why is the fake batch detached when updating the discriminator?",
+    "options": [
+      "To save memory only",
+      "Because the discriminator cannot process gradients",
+      "To make the losses equal",
+      "So the discriminator's update does not push gradients into the generator"
+    ],
+    "correct": 3,
+    "explanation": "Each player should be updated only on its own objective; detach cuts the graph back to G."
+  },
+  {
+    "id": "gan-post-3",
+    "stage": "post",
+    "question": "Why is it written softplus(-s) instead of -log(sigmoid(s))?",
+    "options": [
+      "They give different values",
+      "softplus is numerically stable for large |s|, while log(sigmoid(s)) underflows to -inf",
+      "softplus has no gradient",
+      "sigmoid is not differentiable"
+    ],
+    "correct": 1,
+    "explanation": "They are mathematically identical, but the logit form avoids computing log(0)."
+  },
+  {
+    "id": "gan-post-4",
+    "stage": "post",
+    "question": "At step 1000 the losses look close to equilibrium but the sliced Wasserstein distance is still 0.674. What does that teach you?",
+    "options": [
+      "GAN losses are not a reliable measure of sample quality; track a separate metric",
+      "The metric is broken",
+      "Training should stop at step 1000",
+      "The discriminator has already won"
+    ],
+    "correct": 0,
+    "explanation": "Losses measure the current game, not distance to the data; both players move together."
+  }
+]

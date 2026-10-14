@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ddpm-pre-1",
+    "stage": "pre",
+    "question": "What does a DDPM network predict during training?",
+    "options": [
+      "Whether the input is real or fake",
+      "The class label",
+      "The noise eps that was added to x_0 to produce x_t",
+      "The timestep t"
+    ],
+    "correct": 2,
+    "explanation": "The loss is ||eps - eps_theta(x_t, t)||^2; knowing eps is equivalent to knowing x_0."
+  },
+  {
+    "id": "ddpm-pre-2",
+    "stage": "pre",
+    "question": "Where does DDPM sampling start?",
+    "options": [
+      "From pure Gaussian noise x_T ~ N(0, I)",
+      "From a training image",
+      "From the data mean",
+      "From a latent code produced by an encoder"
+    ],
+    "correct": 0,
+    "explanation": "The forward process ends at N(0, I), so the learned reverse process starts there."
+  },
+  {
+    "id": "ddpm-post-1",
+    "stage": "post",
+    "question": "Why does the network need t as an input?",
+    "options": [
+      "To compute the learning rate",
+      "Because one network handles every noise level, and the right denoising depends on how much noise there is",
+      "To pick a random seed",
+      "It does not; t is ignored"
+    ],
+    "correct": 1,
+    "explanation": "The same x_t could be slightly noisy data or a heavily noised point; the timestep embedding disambiguates."
+  },
+  {
+    "id": "ddpm-post-2",
+    "stage": "post",
+    "question": "The training loss plateaus near 0.19 instead of going to 0. Why?",
+    "options": [
+      "The learning rate is too high",
+      "The network is too small to fit anything",
+      "There is a bug in the loss",
+      "At small t the noise is tiny relative to the data's spread, so it cannot be identified exactly"
+    ],
+    "correct": 3,
+    "explanation": "Step 5 shows eps MSE around 0.66 at t = 10 and 100 but near 0 at large t; the average is a floor set by the problem."
+  },
+  {
+    "id": "ddpm-post-3",
+    "stage": "post",
+    "question": "At t = 900 the eps MSE is about 0 but the implied x_0 error is large. Why?",
+    "options": [
+      "x_t is almost pure noise, so predicting eps is easy (eps is nearly x_t) but x_0 can only be guessed",
+      "The model overfits at large t",
+      "Large t values are never sampled during training",
+      "The schedule is wrong"
+    ],
+    "correct": 0,
+    "explanation": "x_0 = (x_t - sqrt(1 - ab) eps) / sqrt(ab); dividing by a tiny sqrt(ab) amplifies any error."
+  },
+  {
+    "id": "ddpm-post-4",
+    "stage": "post",
+    "question": "Why is no noise added at the very last sampling step (t = 1)?",
+    "options": [
+      "To save computation",
+      "Because the network is not defined at t = 1",
+      "Because the final output should be the predicted mean, not a noisy sample around it",
+      "Because noise is only added at even steps"
+    ],
+    "correct": 2,
+    "explanation": "Adding sigma_1 * z at the end would put irreducible noise on every sample."
+  }
+]

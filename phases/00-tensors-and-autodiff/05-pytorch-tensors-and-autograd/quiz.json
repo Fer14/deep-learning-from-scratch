@@ -1,0 +1,80 @@
+[
+  {
+    "id": "torchautograd-pre-1",
+    "stage": "pre",
+    "question": "What is the default dtype of torch.tensor([1.0, 2.0])?",
+    "options": [
+      "float64",
+      "float16",
+      "float32",
+      "int64"
+    ],
+    "correct": 2,
+    "explanation": "PyTorch defaults to float32 for floating point data. NumPy defaults to float64, which is why mixing them causes dtype errors."
+  },
+  {
+    "id": "torchautograd-pre-2",
+    "stage": "pre",
+    "question": "Which flag tells PyTorch to record operations on a tensor so it can compute its gradient?",
+    "options": [
+      "requires_grad=True",
+      "track=True",
+      "grad_enabled=True",
+      "autograd=True"
+    ],
+    "correct": 0,
+    "explanation": "Setting requires_grad=True on a leaf makes every operation on it part of the graph."
+  },
+  {
+    "id": "torchautograd-post-1",
+    "stage": "post",
+    "question": "You forget optimizer.zero_grad() in your training loop. What happens?",
+    "options": [
+      "PyTorch raises an error",
+      "Nothing, PyTorch zeros gradients automatically",
+      "Only the first step is affected",
+      "Gradients from every step add up in .grad, so updates use a growing sum of old gradients"
+    ],
+    "correct": 3,
+    "explanation": "backward() accumulates into .grad. Without resetting it, each step's update includes all previous gradients."
+  },
+  {
+    "id": "torchautograd-post-2",
+    "stage": "post",
+    "question": "y has shape (3,). Why does y.backward() fail while y.backward(gradient=v) works?",
+    "options": [
+      "Reverse mode computes v^T J, and for a non-scalar output PyTorch needs you to provide v",
+      "Vectors cannot have gradients",
+      "backward only works on leaves",
+      "The graph was freed"
+    ],
+    "correct": 0,
+    "explanation": "For a scalar the implicit v is 1. For a vector output there is no single gradient, only vector-Jacobian products."
+  },
+  {
+    "id": "torchautograd-post-3",
+    "stage": "post",
+    "question": "Why is the manual weight update written inside torch.no_grad()?",
+    "options": [
+      "To make the update faster on GPU",
+      "Because .grad is read-only otherwise",
+      "So the update itself is not recorded in the graph, and the in-place change to a leaf is allowed",
+      "To zero the gradients"
+    ],
+    "correct": 2,
+    "explanation": "The update is not part of the model. Recording it would grow the graph each step, and PyTorch forbids in-place edits on leaves that require grad outside no_grad."
+  },
+  {
+    "id": "torchautograd-post-4",
+    "stage": "post",
+    "question": "In a custom torch.autograd.Function, what must backward return?",
+    "options": [
+      "The output of forward",
+      "One gradient per input of forward, with None for inputs that need no gradient",
+      "The full Jacobian",
+      "The loss value"
+    ],
+    "correct": 1,
+    "explanation": "backward receives the gradient of the output and returns the gradient for each forward argument in order."
+  }
+]

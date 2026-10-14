@@ -1,0 +1,80 @@
+[
+  {
+    "id": "embeddings-pre-1",
+    "stage": "pre",
+    "question": "What is the cosine similarity between the one-hot vectors of two different words?",
+    "options": [
+      "0, because every pair of one-hot vectors is orthogonal",
+      "1",
+      "It depends on how similar the words are",
+      "-1"
+    ],
+    "correct": 0,
+    "explanation": "Two one-hot vectors with the 1 in different positions have a dot product of 0, so they carry no notion of similarity."
+  },
+  {
+    "id": "embeddings-pre-2",
+    "stage": "pre",
+    "question": "What does the distributional hypothesis say?",
+    "options": [
+      "Word frequencies follow a power law",
+      "Words that appear in similar contexts tend to have similar meanings",
+      "Embeddings must be normally distributed",
+      "Every word has exactly one meaning"
+    ],
+    "correct": 1,
+    "explanation": "It is the principle behind word2vec: learn vectors that predict context, and words with similar contexts get similar vectors."
+  },
+  {
+    "id": "embeddings-post-1",
+    "stage": "post",
+    "question": "What does negative sampling replace in the original skip-gram objective?",
+    "options": [
+      "The embedding lookup",
+      "The context window",
+      "The full softmax over the vocabulary, with a binary task against a few random words",
+      "The optimizer"
+    ],
+    "correct": 2,
+    "explanation": "A softmax costs O(V) per pair. Negative sampling scores the real pair high and k sampled words low with sigmoids, which costs O(k)."
+  },
+  {
+    "id": "embeddings-post-2",
+    "stage": "post",
+    "question": "With window = 2, the model could not learn that 'palace' goes with royal people in 'the king lives in the palace'. Why?",
+    "options": [
+      "The word 'palace' is too rare",
+      "Negative sampling removes it",
+      "The embedding dimension is too small",
+      "'palace' is four positions from 'king', so the pair never appears in the training data"
+    ],
+    "correct": 3,
+    "explanation": "Skip-gram only sees pairs within the window. Relations between words farther apart are invisible to it."
+  },
+  {
+    "id": "embeddings-post-3",
+    "stage": "post",
+    "question": "In the lesson, king - man + woman returned 'princess' instead of 'queen'. What is the best explanation?",
+    "options": [
+      "The corpus never distinguishes king from prince, so their vectors are identical and princess is as valid as queen",
+      "Analogies never work with negative sampling",
+      "The model did not train",
+      "Cosine similarity is the wrong measure"
+    ],
+    "correct": 0,
+    "explanation": "king and prince appear in exactly the same templates. Embeddings can only encode distinctions that the data contains."
+  },
+  {
+    "id": "embeddings-post-4",
+    "stage": "post",
+    "question": "What does nn.Embedding compute for a tensor of token ids?",
+    "options": [
+      "A convolution over the ids",
+      "The rows of its weight matrix at those ids, equivalent to one_hot(ids) @ weight",
+      "A softmax over the vocabulary",
+      "The co-occurrence counts of the ids"
+    ],
+    "correct": 1,
+    "explanation": "It is a trainable lookup table; indexing is just a faster way to multiply by one-hot vectors."
+  }
+]

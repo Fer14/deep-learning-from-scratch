@@ -1,0 +1,80 @@
+[
+  {
+    "id": "score-pre-1",
+    "stage": "pre",
+    "question": "Why does the score grad_x log p(x) not depend on the normalizing constant Z?",
+    "options": [
+      "Because Z is always 1",
+      "Because log p = -E(x) - log Z, and log Z is constant in x, so its gradient is zero",
+      "Because the score is computed numerically",
+      "Because Z only affects the variance"
+    ],
+    "correct": 1,
+    "explanation": "Differentiating with respect to x removes any additive constant."
+  },
+  {
+    "id": "score-pre-2",
+    "stage": "pre",
+    "question": "What is the score of N(mu, s^2 I) at x?",
+    "options": [
+      "-(x - mu) / s^2",
+      "(x - mu) / s^2",
+      "exp(-(x - mu)^2)",
+      "mu - s"
+    ],
+    "correct": 0,
+    "explanation": "It points back to the mean, growing linearly with distance."
+  },
+  {
+    "id": "score-post-1",
+    "stage": "post",
+    "question": "Plain Langevin with the exact score gave a left fraction of 0.52 instead of 0.80. Why?",
+    "options": [
+      "The step size was too large",
+      "The score was computed wrongly",
+      "Each point is pulled to the nearest mode, and crossing the low-density gap to correct the weights is extremely rare",
+      "Langevin cannot sample mixtures in principle"
+    ],
+    "correct": 2,
+    "explanation": "Mixture weights barely affect the score far from the other mode; relative masses are only fixed by rare jumps."
+  },
+  {
+    "id": "score-post-2",
+    "stage": "post",
+    "question": "How does annealed Langevin fix the mode weights?",
+    "options": [
+      "It removes the noise term",
+      "It reweights samples at the end",
+      "It uses a larger step size at the end",
+      "At large noise levels the modes merge, so points distribute by weight before the ladder sharpens them"
+    ],
+    "correct": 3,
+    "explanation": "At sigma = 3 the noisy density is one blob; mass flows according to the weights, then is refined."
+  },
+  {
+    "id": "score-post-3",
+    "stage": "post",
+    "question": "In denoising score matching with x_tilde = x + sigma * eps, what is the regression target for s_theta(x_tilde, sigma)?",
+    "options": [
+      "x",
+      "-eps / sigma",
+      "eps * sigma",
+      "The true score of the data"
+    ],
+    "correct": 1,
+    "explanation": "It is the score of q(x_tilde | x); its minimizer is the true noisy score, which you never need to know."
+  },
+  {
+    "id": "score-post-4",
+    "stage": "post",
+    "question": "How is DDPM's noise predictor related to a score model?",
+    "options": [
+      "They are unrelated",
+      "eps_theta = sigma^2 * score",
+      "eps_theta = -sigma * s_theta: predicting the noise is predicting a scaled score",
+      "eps_theta = 1 / score"
+    ],
+    "correct": 2,
+    "explanation": "The weighted DSM loss ||sigma s_theta + eps||^2 is exactly the DDPM loss with eps_theta = -sigma s_theta."
+  }
+]

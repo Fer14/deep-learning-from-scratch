@@ -1,0 +1,67 @@
+[
+  {
+    "id": "uat-pre-1",
+    "stage": "pre",
+    "question": "What does the universal approximation theorem state, roughly?",
+    "options": [
+      "Any trained network generalizes perfectly",
+      "A one-hidden-layer network with enough units can approximate any continuous function on a bounded region",
+      "Deep networks always beat shallow ones",
+      "Gradient descent always finds the global minimum"
+    ],
+    "correct": 1,
+    "explanation": "It is an existence result about representation on a compact set, not about training or generalization."
+  },
+  {
+    "id": "uat-pre-2",
+    "stage": "pre",
+    "question": "What do you get by subtracting a steep sigmoid shifted right from a steep sigmoid?",
+    "options": [
+      "A straight line",
+      "A sine wave",
+      "A bump that is about 1 on an interval and 0 elsewhere",
+      "A ReLU"
+    ],
+    "correct": 2,
+    "explanation": "sigmoid(k(x - a)) - sigmoid(k(x - b)) is close to 1 between a and b and close to 0 outside."
+  },
+  {
+    "id": "uat-post-1",
+    "stage": "post",
+    "question": "What kind of function does a one-hidden-layer ReLU network with scalar input compute?",
+    "options": [
+      "A continuous piecewise-linear function",
+      "A polynomial",
+      "A step function",
+      "A smooth function with continuous derivatives"
+    ],
+    "correct": 0,
+    "explanation": "Each ReLU contributes a kink at one point, so the sum is linear between kinks and continuous everywhere."
+  },
+  {
+    "id": "uat-post-2",
+    "stage": "post",
+    "question": "A tanh network trained on x in [-2, 2] is evaluated at x = 4. What does the theorem guarantee about that prediction?",
+    "options": [
+      "It is within epsilon of the true value",
+      "It is exactly zero",
+      "It is the average of the training targets",
+      "Nothing; the theorem only covers the region the approximation was built on"
+    ],
+    "correct": 3,
+    "explanation": "Approximation is on a bounded set. Outside it, the saturating tanh units make the output flatten while the true function keeps changing."
+  },
+  {
+    "id": "uat-post-3",
+    "stage": "post",
+    "question": "If one hidden layer is enough in theory, why do practitioners use deep networks?",
+    "options": [
+      "Deep networks need no training data",
+      "The theorem is false",
+      "Some functions need exponentially many units in one layer but few units when composed over several layers",
+      "Shallow networks cannot use nonlinear activations"
+    ],
+    "correct": 2,
+    "explanation": "Depth lets networks reuse and compose features, which can be far more parameter-efficient than a single wide layer."
+  }
+]

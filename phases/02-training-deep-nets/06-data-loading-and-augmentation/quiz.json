@@ -1,0 +1,80 @@
+[
+  {
+    "id": "data-pre-1",
+    "stage": "pre",
+    "question": "You standardize features with the mean and std of the full dataset before splitting into train and test. What is wrong?",
+    "options": [
+      "Nothing, it is the standard approach",
+      "Test-set information leaks into training through the statistics",
+      "Standardization should never be used with neural networks",
+      "The mean must always be zero already"
+    ],
+    "correct": 1,
+    "explanation": "Statistics must be computed on the training set only and then reused for validation and test data, otherwise the evaluation is optimistically biased."
+  },
+  {
+    "id": "data-pre-2",
+    "stage": "pre",
+    "question": "Which property must a data augmentation have?",
+    "options": [
+      "It must be deterministic",
+      "It must make the image larger",
+      "It must not change the label of the example",
+      "It must be applied to the test set as well"
+    ],
+    "correct": 2,
+    "explanation": "Augmentation creates new training examples by transforming inputs in ways that keep the label true, which teaches the model to be invariant to those transforms."
+  },
+  {
+    "id": "data-post-1",
+    "stage": "post",
+    "question": "A dataset of 300 examples is loaded with batch_size=32 and drop_last=True. How many batches per epoch?",
+    "options": [
+      "10",
+      "9",
+      "300",
+      "32"
+    ],
+    "correct": 1,
+    "explanation": "300 // 32 = 9 full batches; the final batch of 12 examples is dropped. Without drop_last you get 10."
+  },
+  {
+    "id": "data-post-2",
+    "stage": "post",
+    "question": "Why are augmentations applied inside the Dataset's __getitem__ rather than once before training?",
+    "options": [
+      "So each epoch sees a fresh random version of every example without storing them",
+      "Because NumPy cannot store augmented images",
+      "To make training deterministic",
+      "Because the DataLoader requires it"
+    ],
+    "correct": 0,
+    "explanation": "Applying random transforms on the fly gives effectively unlimited variations at no storage cost."
+  },
+  {
+    "id": "data-post-3",
+    "stage": "post",
+    "question": "Why is a horizontal flip a poor augmentation for handwritten digits?",
+    "options": [
+      "It is too slow",
+      "It changes the image size",
+      "Flipped digits are often not valid digits or look like another class, so the label is no longer correct",
+      "It only works on color images"
+    ],
+    "correct": 2,
+    "explanation": "Augmentations encode invariances. Digits are not mirror-invariant, so flipping teaches the model something false."
+  },
+  {
+    "id": "data-post-4",
+    "stage": "post",
+    "question": "What should the validation and test sets go through?",
+    "options": [
+      "The same random augmentations as training",
+      "Stronger augmentations than training",
+      "No preprocessing at all",
+      "Only the deterministic preprocessing, such as normalization with the training statistics"
+    ],
+    "correct": 3,
+    "explanation": "Evaluation must measure performance on the real distribution, so it uses only deterministic preprocessing, never random augmentation."
+  }
+]

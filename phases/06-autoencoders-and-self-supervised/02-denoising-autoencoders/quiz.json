@@ -1,0 +1,80 @@
+[
+  {
+    "id": "dae-pre-1",
+    "stage": "pre",
+    "question": "In a denoising autoencoder, what are the input and the target?",
+    "options": [
+      "Input: clean image. Target: noisy image",
+      "Input: noisy image. Target: noisy image",
+      "Input: corrupted image. Target: the clean original",
+      "Input: the label. Target: the image"
+    ],
+    "correct": 2,
+    "explanation": "The input is corrupted on the fly and the loss compares the output with the clean version, so copying is never optimal."
+  },
+  {
+    "id": "dae-pre-2",
+    "stage": "pre",
+    "question": "What goes wrong with a plain autoencoder whose code is wider than its input?",
+    "options": [
+      "It cannot be trained with gradient descent",
+      "It can learn a near-identity map and pass noise straight through",
+      "It always outputs the mean image",
+      "Its loss diverges"
+    ],
+    "correct": 1,
+    "explanation": "The wide plain AE reaches 0.0013 clean MSE but only 0.0484 on noisy inputs: it copies instead of understanding."
+  },
+  {
+    "id": "dae-post-1",
+    "stage": "post",
+    "question": "Under squared-error loss, what does the optimal denoiser output for a noisy input?",
+    "options": [
+      "The posterior mean E[x | x_tilde]",
+      "The noisy input unchanged",
+      "The single most likely training image",
+      "A random sample from the data"
+    ],
+    "correct": 0,
+    "explanation": "The minimizer of expected squared error is the conditional mean, which is why ring outputs land slightly inside radius 1."
+  },
+  {
+    "id": "dae-post-2",
+    "stage": "post",
+    "question": "Why does a wide (256-unit) denoising autoencoder still denoise well?",
+    "options": [
+      "Because width always prevents overfitting",
+      "Because the corruption makes the identity map score the full noise error, so the network must learn the data",
+      "Because it uses a sigmoid output",
+      "Because the code is thrown away at test time"
+    ],
+    "correct": 1,
+    "explanation": "The regularization comes from the objective, not from a narrow bottleneck."
+  },
+  {
+    "id": "dae-post-3",
+    "stage": "post",
+    "question": "On 2D ring data, the vector denoiser(x) - x is approximately proportional to what?",
+    "options": [
+      "The data mean minus x",
+      "A random direction",
+      "The gradient of the decoder weights",
+      "The score, the gradient of the log density of the noisy data"
+    ],
+    "correct": 3,
+    "explanation": "Tweedie's formula: E[x | x_tilde] - x_tilde = sigma^2 * grad log p_sigma(x_tilde). Diffusion models build on this."
+  },
+  {
+    "id": "dae-post-4",
+    "stage": "post",
+    "question": "You use nn.Dropout(p=0.3) on the input as the corruption. Why rescale a masked test image by 1/0.7 before feeding it in eval mode?",
+    "options": [
+      "Because eval mode applies dropout twice",
+      "Because sigmoid needs larger inputs",
+      "Because during training dropout multiplied kept values by 1/(1-p), so the model expects that scale",
+      "It is not needed; the model is scale invariant"
+    ],
+    "correct": 2,
+    "explanation": "Inverted dropout rescales during training and is the identity at eval, so a hand-masked input must be rescaled to match the training statistics."
+  }
+]

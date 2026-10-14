@@ -1,0 +1,80 @@
+[
+  {
+    "id": "wgan-pre-1",
+    "stage": "pre",
+    "question": "P is a point mass at 0 and Q a point mass at theta = 3. What are JS(P, Q) and W1(P, Q)?",
+    "options": [
+      "JS = 3, W1 = log 2",
+      "Both are 0",
+      "JS = log 2, W1 = 3",
+      "Both are log 2"
+    ],
+    "correct": 2,
+    "explanation": "Disjoint supports make JS constant at log 2, while W1 measures how far the mass has to move: |theta|."
+  },
+  {
+    "id": "wgan-pre-2",
+    "stage": "pre",
+    "question": "How does a WGAN critic differ from a standard GAN discriminator?",
+    "options": [
+      "It outputs an unbounded score (no sigmoid) and must be 1-Lipschitz",
+      "It outputs a probability",
+      "It sees only fake samples",
+      "It is trained less often than the generator"
+    ],
+    "correct": 0,
+    "explanation": "The critic estimates E f(real) - E f(fake), a distance, not a classification probability."
+  },
+  {
+    "id": "wgan-post-1",
+    "stage": "post",
+    "question": "Where does WGAN-GP evaluate the gradient penalty?",
+    "options": [
+      "Only on real samples",
+      "Only on generated samples",
+      "On the generator's weights",
+      "On random interpolations between real and fake samples"
+    ],
+    "correct": 3,
+    "explanation": "x_hat = alpha * real + (1 - alpha) * fake, where the optimal critic has unit gradient norm."
+  },
+  {
+    "id": "wgan-post-2",
+    "stage": "post",
+    "question": "Why does gradient_penalty call torch.autograd.grad with create_graph=True?",
+    "options": [
+      "To save memory",
+      "So the penalty, which depends on a gradient, can itself be backpropagated into the critic's weights",
+      "To disable gradients for the generator",
+      "Because the critic has no parameters"
+    ],
+    "correct": 1,
+    "explanation": "Without it the input gradient would be a constant and the penalty would not train the critic."
+  },
+  {
+    "id": "wgan-post-3",
+    "stage": "post",
+    "question": "With weight clipping, 55% of the critic's weights sit at exactly +-0.01 and the W estimate is about 1e-4. What does this show?",
+    "options": [
+      "Clipping is the ideal Lipschitz constraint",
+      "The critic has converged perfectly",
+      "The clipping bound, not the data, dominates what the critic can represent, and its scale becomes arbitrary",
+      "The learning rate is too low to move any weight"
+    ],
+    "correct": 2,
+    "explanation": "Clipping is crude: it limits capacity and makes the critic K-Lipschitz for an unknown, tiny K."
+  },
+  {
+    "id": "wgan-post-4",
+    "stage": "post",
+    "question": "What is the main practical benefit seen in the WGAN-GP log compared with lesson 02's GAN logs?",
+    "options": [
+      "The critic's estimate decreases steadily and correlates (0.97) with an independent quality metric",
+      "Training is faster per step",
+      "No hyperparameters are needed",
+      "The generator never needs noise"
+    ],
+    "correct": 0,
+    "explanation": "A meaningful loss curve lets you monitor and debug training, which plain GAN losses do not allow."
+  }
+]

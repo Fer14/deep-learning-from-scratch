@@ -1,0 +1,80 @@
+[
+  {
+    "id": "kvcache-pre-1",
+    "stage": "pre",
+    "question": "In naive autoregressive generation, what is recomputed at every step?",
+    "options": [
+      "Only the new token",
+      "The tokenizer merges",
+      "The entire prefix, even though earlier positions have not changed",
+      "The model weights"
+    ],
+    "correct": 2,
+    "explanation": "Calling model(ids) on the full sequence reprocesses every earlier position, whose results are identical to the previous step."
+  },
+  {
+    "id": "kvcache-pre-2",
+    "stage": "pre",
+    "question": "Why do the keys and values of earlier positions stay the same when a new token is added in a GPT?",
+    "options": [
+      "The causal mask means each position depends only on itself and earlier tokens",
+      "Keys and values are frozen parameters",
+      "LayerNorm resets them",
+      "The new token is always padding"
+    ],
+    "correct": 0,
+    "explanation": "Because of causal masking, adding a token at the end cannot change any earlier hidden state, so their K and V can be reused."
+  },
+  {
+    "id": "kvcache-post-1",
+    "stage": "post",
+    "question": "During a decode step with a KV cache, what is the shape of the attention scores for one head?",
+    "options": [
+      "(t+1) x (t+1)",
+      "1 x 1",
+      "t x head_dim",
+      "1 x (t+1): one query against all cached keys plus the new one"
+    ],
+    "correct": 3,
+    "explanation": "Only the new position needs an output, so there is a single query row attending over all t+1 keys."
+  },
+  {
+    "id": "kvcache-post-2",
+    "stage": "post",
+    "question": "What bug appears if you forget to offset positions by the cache length during decode?",
+    "options": [
+      "Every new token is embedded as if it were at position 0, so outputs silently degrade",
+      "The cache grows twice as fast",
+      "The program crashes immediately",
+      "Nothing; positions are not used"
+    ],
+    "correct": 0,
+    "explanation": "With learned or rotary positions, the new token must use its absolute position P + t; otherwise the model sees the wrong order."
+  },
+  {
+    "id": "kvcache-post-3",
+    "stage": "post",
+    "question": "A model has 32 layers, 8 KV heads of 128 dims, and you cache 4096 tokens in fp16. How big is the cache per sequence?",
+    "options": [
+      "2 GB",
+      "0.5 GB",
+      "64 MB",
+      "8 GB"
+    ],
+    "correct": 1,
+    "explanation": "2 x 32 x 8 x 128 x 4096 x 2 bytes = 536,870,912 bytes = 0.5 GB."
+  },
+  {
+    "id": "kvcache-post-4",
+    "stage": "post",
+    "question": "What does grouped-query attention change?",
+    "options": [
+      "It removes the causal mask",
+      "It quantizes the weights",
+      "Several query heads share one key/value head, reducing cache size",
+      "It caches the MLP outputs as well"
+    ],
+    "correct": 2,
+    "explanation": "Fewer KV heads means proportionally fewer cached keys and values, with little loss in quality."
+  }
+]

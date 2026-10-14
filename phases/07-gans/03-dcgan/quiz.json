@@ -1,0 +1,80 @@
+[
+  {
+    "id": "dcgan-pre-1",
+    "stage": "pre",
+    "question": "What does a transposed convolution with kernel 4, stride 2, padding 1 do to the spatial size?",
+    "options": [
+      "Halves it",
+      "Keeps it the same",
+      "Doubles it",
+      "Quadruples it"
+    ],
+    "correct": 2,
+    "explanation": "out = (in - 1) * 2 - 2 + 4 = 2 * in; this is the standard DCGAN upsampling block."
+  },
+  {
+    "id": "dcgan-pre-2",
+    "stage": "pre",
+    "question": "Why is a convolutional generator a better fit for images than an MLP generator?",
+    "options": [
+      "It has no parameters",
+      "It reuses local filters across positions, so it builds in that nearby pixels are related",
+      "It does not need a discriminator",
+      "It always produces higher resolution"
+    ],
+    "correct": 1,
+    "explanation": "Weight sharing and locality are the same advantages CNNs have for classification."
+  },
+  {
+    "id": "dcgan-post-1",
+    "stage": "post",
+    "question": "How can you compute a transposed convolution with an ordinary convolution?",
+    "options": [
+      "Insert stride - 1 zeros between pixels, pad by kernel - 1 - padding, convolve with the spatially flipped kernel",
+      "Run the convolution backwards in time",
+      "Invert the convolution matrix",
+      "Average-pool the input and convolve"
+    ],
+    "correct": 0,
+    "explanation": "The scratch function does exactly that and matches F.conv_transpose2d to 1e-6."
+  },
+  {
+    "id": "dcgan-post-2",
+    "stage": "post",
+    "question": "Why is the data rescaled to [-1, 1]?",
+    "options": [
+      "Because the discriminator needs negative inputs",
+      "Because batch norm requires it",
+      "Because the classifier was trained on it",
+      "Because the generator's last activation is tanh, whose range is [-1, 1]"
+    ],
+    "correct": 3,
+    "explanation": "The generator must be able to output every value real data takes."
+  },
+  {
+    "id": "dcgan-post-3",
+    "stage": "post",
+    "question": "Is a transposed convolution the inverse of a convolution?",
+    "options": [
+      "Yes, it undoes the convolution exactly",
+      "No, it is the adjoint (multiplication by C transpose), which has the right shape but does not recover the input",
+      "Yes, but only for stride 1",
+      "No, it is unrelated to convolution"
+    ],
+    "correct": 1,
+    "explanation": "The name 'deconvolution' is misleading: it maps back to the input's shape, not to the input's values."
+  },
+  {
+    "id": "dcgan-post-4",
+    "stage": "post",
+    "question": "Compared with the VAE samples from Phase 06, the DCGAN digits are sharper. Why?",
+    "options": [
+      "The GAN uses more training data",
+      "The GAN has more latent dimensions",
+      "The discriminator penalizes blur, while a per-pixel likelihood rewards averaging uncertain pixels",
+      "GANs use a sigmoid output"
+    ],
+    "correct": 2,
+    "explanation": "Blurry images are easy to tell from real ones, so the generator is pushed toward crisp strokes."
+  }
+]

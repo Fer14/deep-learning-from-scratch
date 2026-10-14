@@ -1,0 +1,80 @@
+[
+  {
+    "id": "pruning-pre-1",
+    "stage": "pre",
+    "question": "What score does magnitude pruning use to decide which weights to remove?",
+    "options": [
+      "The gradient of each weight",
+      "The absolute value of each weight",
+      "The layer index",
+      "A random number"
+    ],
+    "correct": 1,
+    "explanation": "Weights with small |w| contribute little to the output, so they are removed first."
+  },
+  {
+    "id": "pruning-pre-2",
+    "stage": "pre",
+    "question": "You zero out 90% of the weights in a dense matrix but keep its shape. With a standard dense matmul, how much faster is the forward pass?",
+    "options": [
+      "About 10x faster",
+      "About 2x faster",
+      "About the same speed",
+      "It becomes slower than before by 10x"
+    ],
+    "correct": 2,
+    "explanation": "A dense kernel multiplies every entry, zero or not. You need sparse kernels or smaller matrices to save compute."
+  },
+  {
+    "id": "pruning-post-1",
+    "stage": "post",
+    "question": "Why does global pruning outperform layer-wise pruning at high sparsity?",
+    "options": [
+      "It lets redundant layers lose more weights and protects small, critical layers",
+      "It prunes biases as well",
+      "It uses gradients instead of magnitudes",
+      "It always prunes fewer weights"
+    ],
+    "correct": 0,
+    "explanation": "A single threshold adapts sparsity to each layer. In the lesson the 256x256 middle layer lost 94% at 90% total sparsity while the input layer lost only 75%."
+  },
+  {
+    "id": "pruning-post-2",
+    "stage": "post",
+    "question": "Why is the mask reapplied after every optimizer step during fine-tuning?",
+    "options": [
+      "To speed up training",
+      "To reset the optimizer state",
+      "To change which weights are pruned",
+      "Because gradient updates would otherwise make pruned weights nonzero again"
+    ],
+    "correct": 3,
+    "explanation": "Pruned weights still receive gradients (and Adam momentum), so without the mask they would grow back."
+  },
+  {
+    "id": "pruning-post-3",
+    "stage": "post",
+    "question": "What does the cubic sparsity schedule do differently from a linear one?",
+    "options": [
+      "It prunes slowly at first and fast at the end",
+      "It prunes fast in early rounds and makes only small changes in the last rounds",
+      "It prunes the same amount every round",
+      "It only prunes the last layer"
+    ],
+    "correct": 1,
+    "explanation": "s_r = s_final (1 - (1 - r/R)^3) removes the many redundant weights early and gives the network time to adapt when the remaining weights matter most."
+  },
+  {
+    "id": "pruning-post-4",
+    "stage": "post",
+    "question": "What does torch.nn.utils.prune.l1_unstructured do to a Linear layer's weight?",
+    "options": [
+      "Deletes the weight tensor and creates a smaller one",
+      "Converts it to a sparse tensor",
+      "Replaces it with weight_orig and weight_mask and recomputes weight = weight_orig * weight_mask in a forward pre-hook",
+      "Quantizes it to int8"
+    ],
+    "correct": 2,
+    "explanation": "The pruning utility reparameterizes the weight with a mask; prune.remove later makes it permanent. The tensor keeps its dense shape."
+  }
+]

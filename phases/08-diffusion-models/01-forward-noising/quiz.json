@@ -1,0 +1,80 @@
+[
+  {
+    "id": "forward-noising-pre-1",
+    "stage": "pre",
+    "question": "Does the forward diffusion process have learnable parameters?",
+    "options": [
+      "No, it is a fixed noising process defined by the schedule",
+      "Yes, the encoder is learned like in a VAE",
+      "Yes, the noise is predicted by a network",
+      "Only the final step is learned"
+    ],
+    "correct": 0,
+    "explanation": "q(x_t | x_{t-1}) is fixed; only the reverse process is learned."
+  },
+  {
+    "id": "forward-noising-pre-2",
+    "stage": "pre",
+    "question": "Why is x_{t-1} multiplied by sqrt(1 - beta_t) before adding noise of variance beta_t?",
+    "options": [
+      "To make training faster",
+      "To keep the total variance bounded (unit variance stays unit variance)",
+      "To make the process deterministic",
+      "It is not; only noise is added"
+    ],
+    "correct": 1,
+    "explanation": "(1 - beta) * 1 + beta = 1, so the variance does not grow without bound."
+  },
+  {
+    "id": "forward-noising-post-1",
+    "stage": "post",
+    "question": "What is q(x_t | x_0)?",
+    "options": [
+      "N(x_0, t * I)",
+      "N(0, I) for every t",
+      "N(sqrt(alpha_bar_t) x_0, (1 - alpha_bar_t) I)",
+      "Uniform noise"
+    ],
+    "correct": 2,
+    "explanation": "Composing Gaussian steps gives a Gaussian whose mean shrinks by sqrt(alpha_bar_t) and whose noise variance is 1 - alpha_bar_t."
+  },
+  {
+    "id": "forward-noising-post-2",
+    "stage": "post",
+    "question": "Why does the closed form matter for training?",
+    "options": [
+      "It removes the need for a neural network",
+      "It makes sampling deterministic",
+      "It guarantees perfect samples",
+      "You can produce a noisy x_t for any random t with one multiply-add instead of running t steps"
+    ],
+    "correct": 3,
+    "explanation": "Training picks random timesteps; the closed form makes each example O(1) to create."
+  },
+  {
+    "id": "forward-noising-post-3",
+    "stage": "post",
+    "question": "With the linear schedule, a classifier is at chance on noised digits from about t = 700. What does that suggest?",
+    "options": [
+      "The schedule wastes many steps at noise levels where no information about the image remains",
+      "The classifier is broken",
+      "More steps should be added at the end",
+      "Digits are too large"
+    ],
+    "correct": 0,
+    "explanation": "This is the motivation for the cosine schedule, which keeps information longer (0.35 at t = 700)."
+  },
+  {
+    "id": "forward-noising-post-4",
+    "stage": "post",
+    "question": "At which SNR do signal and noise have equal power?",
+    "options": [
+      "+40 dB",
+      "0 dB (SNR = 1)",
+      "-40 dB",
+      "SNR = 0"
+    ],
+    "correct": 1,
+    "explanation": "SNR = alpha_bar / (1 - alpha_bar) = 1 when alpha_bar = 0.5; the linear schedule reaches it at t = 260, the cosine one at t = 497."
+  }
+]

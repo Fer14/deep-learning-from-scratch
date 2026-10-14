@@ -1,0 +1,80 @@
+[
+  {
+    "id": "efficient-pre-1",
+    "stage": "pre",
+    "question": "If you double the sequence length, how does the memory for the attention score matrix change?",
+    "options": [
+      "It stays the same",
+      "It doubles",
+      "It is multiplied by 4",
+      "It is multiplied by 8"
+    ],
+    "correct": 2,
+    "explanation": "The score matrix has n^2 entries, so doubling n multiplies it by 4."
+  },
+  {
+    "id": "efficient-pre-2",
+    "stage": "pre",
+    "question": "What does FlashAttention compute compared with standard softmax attention?",
+    "options": [
+      "Exactly the same result, without storing the full n x n matrix",
+      "An approximation with lower accuracy",
+      "Attention over a local window only",
+      "Linear attention"
+    ],
+    "correct": 0,
+    "explanation": "FlashAttention is exact. It tiles the computation with the online softmax so the matrix never has to be materialized in main memory."
+  },
+  {
+    "id": "efficient-post-1",
+    "stage": "post",
+    "question": "In the online softmax, why are the running sum and accumulator multiplied by exp(old_max - new_max) when a new block arrives?",
+    "options": [
+      "To add noise for regularization",
+      "To normalize the values V",
+      "To apply the causal mask",
+      "Because earlier exponentials were computed relative to the old maximum and must be rescaled to the new one"
+    ],
+    "correct": 3,
+    "explanation": "exp(s - m_old) * exp(m_old - m_new) = exp(s - m_new), so all partial results end up on the same scale and the final division is exact."
+  },
+  {
+    "id": "efficient-post-2",
+    "stage": "post",
+    "question": "What makes linear attention O(n) instead of O(n^2)?",
+    "options": [
+      "It skips every other token",
+      "Replacing exp(q.k) with phi(q).phi(k) lets you compute phi(K)^T V once (a d x d matrix) and reuse it for every query",
+      "It uses lower precision",
+      "It only attends to the previous token"
+    ],
+    "correct": 1,
+    "explanation": "By associativity, (phi(Q) phi(K)^T) V = phi(Q) (phi(K)^T V), and the right-hand side never forms an n x n matrix."
+  },
+  {
+    "id": "efficient-post-3",
+    "stage": "post",
+    "question": "In the benchmark, how did the extra memory of F.scaled_dot_product_attention grow from n = 512 to n = 4096 compared with naive attention?",
+    "options": [
+      "Both grew quadratically",
+      "SDPA used more memory than naive attention",
+      "Naive attention grew about 4x per doubling (to over 1 GB), while SDPA grew about 2x per doubling (to 8 MB)",
+      "Neither used any extra memory"
+    ],
+    "correct": 2,
+    "explanation": "The fused kernel never stores the score matrix, so its memory is linear in n."
+  },
+  {
+    "id": "efficient-post-4",
+    "stage": "post",
+    "question": "With 8 query heads and 2 key/value heads (grouped-query attention), what happens to the KV cache?",
+    "options": [
+      "It shrinks by 4x, because only 2 heads of keys and values are stored",
+      "It doubles",
+      "It is unchanged",
+      "It disappears entirely"
+    ],
+    "correct": 0,
+    "explanation": "Per token and layer, the cache stores 2 * kv_heads * d_head values: 256 instead of 1024 in the lesson."
+  }
+]

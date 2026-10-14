@@ -1,0 +1,80 @@
+[
+  {
+    "id": "losses-pre-1",
+    "stage": "pre",
+    "question": "Which loss is the usual default for multiclass classification networks?",
+    "options": [
+      "Mean squared error",
+      "Mean absolute error",
+      "Cross-entropy on softmax outputs",
+      "Hinge loss on sigmoid outputs"
+    ],
+    "correct": 2,
+    "explanation": "Softmax plus cross-entropy is the categorical negative log-likelihood and gives the clean p - y gradient."
+  },
+  {
+    "id": "losses-pre-2",
+    "stage": "pre",
+    "question": "What happens to MSE when one prediction is off by a very large amount?",
+    "options": [
+      "That point dominates the loss because its error is squared",
+      "MSE ignores outliers",
+      "MSE becomes negative",
+      "MSE stays the same as MAE"
+    ],
+    "correct": 0,
+    "explanation": "Squaring makes a single large residual dominate both the average and the gradient."
+  },
+  {
+    "id": "losses-post-1",
+    "stage": "post",
+    "question": "What is the gradient of mean softmax cross-entropy with respect to the logits of one sample in a batch of n?",
+    "options": [
+      "(y - p)^2 / n",
+      "p (1 - p) / n",
+      "log(p) / n",
+      "(p - onehot(y)) / n"
+    ],
+    "correct": 3,
+    "explanation": "The softmax Jacobian cancels against the log, leaving prediction minus target, divided by n for the batch mean."
+  },
+  {
+    "id": "losses-post-2",
+    "stage": "post",
+    "question": "Why should you call F.binary_cross_entropy_with_logits instead of applying sigmoid and then F.binary_cross_entropy?",
+    "options": [
+      "It trains a different model",
+      "It computes the loss from logits with log-sum-exp, avoiding log(0) when the model is very confident",
+      "It does not need labels",
+      "It is only faster on GPUs"
+    ],
+    "correct": 1,
+    "explanation": "sigmoid(200) rounds to exactly 1.0, so log(1 - p) becomes -inf. The logit form uses logaddexp and stays finite."
+  },
+  {
+    "id": "losses-post-3",
+    "stage": "post",
+    "question": "A freshly initialized 10-class classifier has a first-batch cross-entropy of about 2.3. What does that tell you?",
+    "options": [
+      "It predicts roughly uniform probabilities, which is the expected starting point",
+      "The model has already overfit",
+      "The labels are wrong",
+      "The learning rate is too high"
+    ],
+    "correct": 0,
+    "explanation": "Uniform probabilities give CE = log 10 = 2.30. A much larger starting loss usually signals a bug or a bad initialization."
+  },
+  {
+    "id": "losses-post-4",
+    "stage": "post",
+    "question": "What is Huber loss?",
+    "options": [
+      "Cross-entropy with label smoothing",
+      "MSE divided by MAE",
+      "Quadratic for small errors and linear for large errors",
+      "A loss that ignores errors smaller than delta"
+    ],
+    "correct": 2,
+    "explanation": "Huber behaves like MSE near zero (smooth gradients) and like MAE far away (robust to outliers)."
+  }
+]

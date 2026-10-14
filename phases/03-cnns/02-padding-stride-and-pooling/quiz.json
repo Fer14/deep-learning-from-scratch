@@ -1,0 +1,80 @@
+[
+  {
+    "id": "padding-pre-1",
+    "stage": "pre",
+    "question": "What padding keeps a 3x3 convolution with stride 1 from shrinking the image?",
+    "options": [
+      "p = 0",
+      "p = 1",
+      "p = 2",
+      "p = 3"
+    ],
+    "correct": 1,
+    "explanation": "With p = (k - 1) / 2 = 1, the formula gives n + 2 - 3 + 1 = n."
+  },
+  {
+    "id": "padding-pre-2",
+    "stage": "pre",
+    "question": "A 2x2 max pool with stride 2 is applied to a 4x4 feature map. What is the output size?",
+    "options": [
+      "4x4",
+      "3x3",
+      "1x1",
+      "2x2"
+    ],
+    "correct": 3,
+    "explanation": "floor((4 - 2) / 2) + 1 = 2 per axis: each non-overlapping 2x2 window becomes one value."
+  },
+  {
+    "id": "padding-post-1",
+    "stage": "post",
+    "question": "What is the output size of a 7x7 convolution with padding 3 and stride 2 on a 224x224 image?",
+    "options": [
+      "112x112",
+      "109x109",
+      "224x224",
+      "56x56"
+    ],
+    "correct": 0,
+    "explanation": "floor((224 + 6 - 7) / 2) + 1 = floor(223 / 2) + 1 = 111 + 1 = 112. This is ResNet's stem."
+  },
+  {
+    "id": "padding-post-2",
+    "stage": "post",
+    "question": "During backpropagation through a 2x2 max pool, which inputs receive gradient?",
+    "options": [
+      "All four inputs equally",
+      "None; pooling has no parameters so it blocks gradients",
+      "Only the input that had the maximum value in each window",
+      "Only the top-left input of each window"
+    ],
+    "correct": 2,
+    "explanation": "The max acts as a selector: the window's gradient goes entirely to the winning input and the others get zero."
+  },
+  {
+    "id": "padding-post-3",
+    "stage": "post",
+    "question": "Which statement about pooling and shifts is accurate?",
+    "options": [
+      "Max pooling makes a CNN completely invariant to translations",
+      "Average pooling amplifies small shifts",
+      "Pooling has no effect on how the output reacts to shifts",
+      "Pooling reduces sensitivity to small shifts within a window, but shifts across window boundaries still change the output"
+    ],
+    "correct": 3,
+    "explanation": "In the lesson a one-pixel shift changed the raw maps by about 70% and the pooled maps by about 48%: more robust, not invariant."
+  },
+  {
+    "id": "padding-post-4",
+    "stage": "post",
+    "question": "How many pixels per side does a 3x3 kernel with dilation 2 cover?",
+    "options": [
+      "3",
+      "5",
+      "6",
+      "9"
+    ],
+    "correct": 1,
+    "explanation": "The effective size is d(k - 1) + 1 = 2 * 2 + 1 = 5, with still only 9 weights."
+  }
+]

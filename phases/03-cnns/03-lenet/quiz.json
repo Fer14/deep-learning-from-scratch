@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lenet-pre-1",
+    "stage": "pre",
+    "question": "As you go deeper into LeNet-5, what happens to the spatial size and the number of channels?",
+    "options": [
+      "Spatial size shrinks while the number of channels grows",
+      "Both grow",
+      "Both shrink",
+      "Spatial size grows while channels shrink"
+    ],
+    "correct": 0,
+    "explanation": "Sizes go 32, 28, 14, 10, 5 while channels go 1, 6, 16: fewer positions, more features per position."
+  },
+  {
+    "id": "lenet-pre-2",
+    "stage": "pre",
+    "question": "What makes a tensor inside an nn.Module trainable by the optimizer?",
+    "options": [
+      "Setting dtype to float64",
+      "Creating it inside forward()",
+      "Wrapping it in nn.Parameter and assigning it as a module attribute",
+      "Moving it to the GPU"
+    ],
+    "correct": 2,
+    "explanation": "nn.Parameter registers the tensor so model.parameters() yields it and the optimizer updates it."
+  },
+  {
+    "id": "lenet-post-1",
+    "stage": "post",
+    "question": "In LeNet-5, what is the flattened size that enters the first dense layer?",
+    "options": [
+      "120",
+      "784",
+      "1024",
+      "400"
+    ],
+    "correct": 3,
+    "explanation": "After the second pool the tensor is 16 x 5 x 5 = 400."
+  },
+  {
+    "id": "lenet-post-2",
+    "stage": "post",
+    "question": "Where are most of LeNet-5's 61,706 parameters?",
+    "options": [
+      "In the first convolution",
+      "In the dense layers, mostly the 400 -> 120 layer",
+      "In the pooling layers",
+      "Evenly split between conv and dense layers"
+    ],
+    "correct": 1,
+    "explanation": "fc1 alone has 48,120 parameters; both convolutions together have about 2,600."
+  },
+  {
+    "id": "lenet-post-3",
+    "stage": "post",
+    "question": "On centered digits the MLP was almost as accurate as LeNet. Where did the CNN clearly win in the lesson?",
+    "options": [
+      "On training speed",
+      "On parameter count",
+      "On test digits shifted by a few pixels",
+      "On the training loss"
+    ],
+    "correct": 2,
+    "explanation": "Shifted digits dropped the MLP to about 27% while the CNNs kept roughly 40-50%, because shared local filters still fire on shifted strokes."
+  },
+  {
+    "id": "lenet-post-4",
+    "stage": "post",
+    "question": "Why does your ScratchConv2d not need a hand-written backward pass?",
+    "options": [
+      "Because convolutions have zero gradient",
+      "Because it is built from differentiable tensor ops (unfold, permute, matmul), so autograd derives the backward pass",
+      "Because the optimizer computes gradients numerically",
+      "Because nn.Module always uses cuDNN"
+    ],
+    "correct": 1,
+    "explanation": "Autograd records unfold, reshape and matmul in the graph and applies their known derivatives in reverse."
+  }
+]

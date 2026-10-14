@@ -1,0 +1,80 @@
+[
+  {
+    "id": "optimizers-pre-1",
+    "stage": "pre",
+    "question": "On f(x, y) = 0.5 * (x^2 + 100 y^2), what is the largest learning rate for which plain gradient descent does not diverge?",
+    "options": [
+      "2",
+      "1",
+      "0.02",
+      "0.0001"
+    ],
+    "correct": 2,
+    "explanation": "Each step multiplies y by (1 - 100 lr). It stays in (-1, 1) only if lr < 2/100 = 0.02. The steepest direction caps the learning rate."
+  },
+  {
+    "id": "optimizers-pre-2",
+    "stage": "pre",
+    "question": "Why do we train on minibatches instead of the full dataset?",
+    "options": [
+      "A minibatch gradient is an unbiased estimate that is much cheaper to compute",
+      "Minibatch gradients are always more accurate",
+      "The full-dataset gradient does not exist for neural networks",
+      "Minibatches remove the need for a learning rate"
+    ],
+    "correct": 0,
+    "explanation": "Averaging the gradient over a random batch gives an unbiased but noisy estimate at a fraction of the cost, so you can take many more steps."
+  },
+  {
+    "id": "optimizers-post-1",
+    "stage": "post",
+    "question": "With momentum v = beta v + g and beta = 0.9, what happens to gradient components that flip sign every step?",
+    "options": [
+      "They are amplified by 10x",
+      "They mostly cancel out in the velocity",
+      "They are clipped to zero exactly",
+      "They make the optimizer diverge"
+    ],
+    "correct": 1,
+    "explanation": "Alternating signs add up to roughly zero in the running sum, which damps the zig-zag, while consistent directions accumulate speed."
+  },
+  {
+    "id": "optimizers-post-2",
+    "stage": "post",
+    "question": "What does Adam divide the (bias-corrected) first moment by?",
+    "options": [
+      "The learning rate",
+      "The number of steps taken",
+      "The square root of a moving average of squared gradients",
+      "The norm of the weights"
+    ],
+    "correct": 2,
+    "explanation": "m_hat / (sqrt(v_hat) + eps) normalizes each parameter's step by the typical size of its gradient, giving per-parameter step sizes."
+  },
+  {
+    "id": "optimizers-post-3",
+    "stage": "post",
+    "question": "Why does Adam apply bias correction m / (1 - beta1^t)?",
+    "options": [
+      "To make the update scale-invariant",
+      "Because the moving averages start at zero and underestimate the true moments early on",
+      "To implement weight decay",
+      "To prevent division by zero"
+    ],
+    "correct": 1,
+    "explanation": "After t steps the averaging weights only sum to 1 - beta^t. Dividing by it removes the bias toward the zero initialization."
+  },
+  {
+    "id": "optimizers-post-4",
+    "stage": "post",
+    "question": "How much extra memory does Adam need compared with plain SGD?",
+    "options": [
+      "None",
+      "One scalar",
+      "One array the size of the dataset",
+      "Two arrays the size of the parameters"
+    ],
+    "correct": 3,
+    "explanation": "Adam stores the first moment m and second moment v for every parameter, plus a step counter. That is two extra parameter-sized arrays, which must also be saved in checkpoints."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "devices-pre-1",
+    "stage": "pre",
+    "question": "Why are GPUs well suited to deep learning?",
+    "options": [
+      "They have a higher clock speed than CPUs",
+      "They run Python faster",
+      "They have thousands of simple cores and high memory bandwidth, ideal for large matrix multiplications",
+      "They have more RAM than CPUs"
+    ],
+    "correct": 2,
+    "explanation": "Neural networks are dominated by large, parallel matrix operations, which match the GPU's many cores and fast memory."
+  },
+  {
+    "id": "devices-pre-2",
+    "stage": "pre",
+    "question": "What happens if you add a CPU tensor to a CUDA tensor?",
+    "options": [
+      "PyTorch raises an error because all inputs must be on the same device",
+      "The result is computed on the CPU",
+      "PyTorch silently moves both to the GPU",
+      "The result is a NumPy array"
+    ],
+    "correct": 0,
+    "explanation": "Operations run where their inputs live, and PyTorch refuses to mix devices instead of copying implicitly."
+  },
+  {
+    "id": "devices-post-1",
+    "stage": "post",
+    "question": "You time y = x @ x on a CUDA tensor with time.perf_counter() and no synchronization. What do you measure?",
+    "options": [
+      "The exact kernel time",
+      "Mostly the time to queue the kernel, because CUDA calls return before the GPU finishes",
+      "The time of the PCIe transfer",
+      "Twice the real time"
+    ],
+    "correct": 1,
+    "explanation": "CUDA execution is asynchronous. Without torch.cuda.synchronize() the clock stops before the work is done."
+  },
+  {
+    "id": "devices-post-2",
+    "stage": "post",
+    "question": "Why can the GPU be slower than the CPU for very small matrices?",
+    "options": [
+      "GPUs cannot multiply small matrices",
+      "Small matrices use float64",
+      "Fixed kernel launch overhead and data transfer dominate when there is little work",
+      "The GPU cache is too large"
+    ],
+    "correct": 2,
+    "explanation": "A kernel launch costs a few microseconds regardless of size; a tiny matmul does far less work than that overhead."
+  },
+  {
+    "id": "devices-post-3",
+    "stage": "post",
+    "question": "After del big_tensor, nvidia-smi still shows the memory as used. Why?",
+    "options": [
+      "The tensor was not really deleted",
+      "PyTorch's caching allocator keeps the freed block reserved for reuse",
+      "nvidia-smi only updates once per minute",
+      "GPU memory can never be freed"
+    ],
+    "correct": 1,
+    "explanation": "memory_allocated drops, but memory_reserved stays until torch.cuda.empty_cache() returns cached blocks to the driver."
+  },
+  {
+    "id": "devices-post-4",
+    "stage": "post",
+    "question": "Which practice best avoids slow training caused by data movement?",
+    "options": [
+      "Copy the model to the GPU at every step",
+      "Convert tensors to NumPy between operations",
+      "Use float64 everywhere",
+      "Move the model to the device once, create tensors on the device, and use pinned memory for input batches"
+    ],
+    "correct": 3,
+    "explanation": "Host-device copies are slow compared with on-device compute, so you minimize them and make the unavoidable ones fast."
+  }
+]

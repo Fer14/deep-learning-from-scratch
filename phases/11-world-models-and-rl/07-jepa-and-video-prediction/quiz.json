@@ -1,0 +1,80 @@
+[
+  {
+    "id": "jepa-pre-1",
+    "stage": "pre",
+    "question": "A video model trained with pixel MSE faces several equally likely futures. What does it tend to predict?",
+    "options": [
+      "The most likely future, sharply",
+      "A random one of the futures",
+      "A blurry average of the possible futures",
+      "A blank frame"
+    ],
+    "correct": 2,
+    "explanation": "MSE is minimized by the conditional mean, which for multimodal futures is a blend of them, visible as blur."
+  },
+  {
+    "id": "jepa-pre-2",
+    "stage": "pre",
+    "question": "What does a JEPA predict?",
+    "options": [
+      "The embedding of the target, computed by a target encoder",
+      "The pixels of the next frame",
+      "The class label of the video",
+      "The reward of the next step"
+    ],
+    "correct": 0,
+    "explanation": "A joint-embedding predictive architecture maps the context's embedding to the target's embedding and never decodes pixels."
+  },
+  {
+    "id": "jepa-post-1",
+    "stage": "post",
+    "question": "In the naive setup, where the same encoder produces the target and gradients flow into it, what happened?",
+    "options": [
+      "It learned better features than JEPA",
+      "Training diverged to infinity",
+      "It learned only position, not velocity",
+      "The loss reached zero and the embeddings collapsed to nearly the same vector for every input"
+    ],
+    "correct": 3,
+    "explanation": "A constant encoder makes prediction trivial. The embedding std dropped to about 0.001 and the linear probes scored 0."
+  },
+  {
+    "id": "jepa-post-2",
+    "stage": "post",
+    "question": "How is the target encoder updated in JEPA?",
+    "options": [
+      "By its own optimizer with a larger learning rate",
+      "As an exponential moving average of the context encoder's weights, without gradients",
+      "It is never updated after initialization",
+      "By copying the predictor's weights"
+    ],
+    "correct": 1,
+    "explanation": "theta_target <- d * theta_target + (1 - d) * theta_context, applied after each optimizer step, with the target branch under no_grad."
+  },
+  {
+    "id": "jepa-post-3",
+    "stage": "post",
+    "question": "Why is a linear probe a reasonable way to evaluate these encoders?",
+    "options": [
+      "It measures whether useful information, like position and velocity, is present and linearly readable in frozen embeddings",
+      "It fine-tunes the encoder for the task",
+      "It measures reconstruction quality",
+      "It is the loss JEPA trains on"
+    ],
+    "correct": 0,
+    "explanation": "A probe keeps the encoder fixed and only fits a linear map, so its score reflects what the representation already encodes."
+  },
+  {
+    "id": "jepa-post-4",
+    "stage": "post",
+    "question": "Why does the pixel predictor's loss stay well above zero in this lesson even after training?",
+    "options": [
+      "The learning rate was too low",
+      "The decoder is too small to draw a ball",
+      "Each frame contains fresh random clutter that no model can predict",
+      "The test set is different from the training set"
+    ],
+    "correct": 2,
+    "explanation": "Per-frame clutter is pure noise. The pixel loss keeps demanding it, while JEPA's encoder can discard it."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "vit-pre-1",
+    "stage": "pre",
+    "question": "How many tokens does a 224x224 image produce with 16x16 patches, including a [CLS] token?",
+    "options": [
+      "196",
+      "197",
+      "224",
+      "50,176"
+    ],
+    "correct": 1,
+    "explanation": "(224 / 16)^2 = 14 * 14 = 196 patches, plus 1 [CLS] token."
+  },
+  {
+    "id": "vit-pre-2",
+    "stage": "pre",
+    "question": "What is the role of the [CLS] token in a ViT classifier?",
+    "options": [
+      "It stores the image label during training",
+      "It marks the end of the sequence",
+      "It is a learned token that gathers information from all patches through attention; its final state feeds the classifier",
+      "It replaces the position embeddings"
+    ],
+    "correct": 2,
+    "explanation": "The classification head reads only the [CLS] position of the last layer."
+  },
+  {
+    "id": "vit-post-1",
+    "stage": "post",
+    "question": "The linear patch embedding is equivalent to which layer?",
+    "options": [
+      "A Conv2d with kernel size and stride equal to the patch size",
+      "A 3x3 Conv2d with stride 1",
+      "A max pooling layer",
+      "An nn.Embedding lookup"
+    ],
+    "correct": 0,
+    "explanation": "The same linear map applied to every non-overlapping P x P patch is a convolution with kernel = stride = P; the script checked they are identical."
+  },
+  {
+    "id": "vit-post-2",
+    "stage": "post",
+    "question": "On 1,437 digit images, the small CNN beat both ViTs with a quarter of the parameters. What is the main reason?",
+    "options": [
+      "Transformers cannot process images",
+      "The ViT had a bug in its attention",
+      "The CNN was trained longer",
+      "The CNN has locality and translation equivariance built in, while the ViT must learn them from data, which needs many more examples"
+    ],
+    "correct": 3,
+    "explanation": "This is the inductive bias trade-off from the ViT paper: ViTs win only with large-scale data or pretraining."
+  },
+  {
+    "id": "vit-post-3",
+    "stage": "post",
+    "question": "Why does a ViT need position embeddings?",
+    "options": [
+      "Without them attention treats the patches as an unordered set and cannot know where each patch came from",
+      "To normalize pixel values",
+      "To make the [CLS] token trainable",
+      "To reduce the number of parameters"
+    ],
+    "correct": 0,
+    "explanation": "Self-attention is permutation equivariant. Learned position embeddings let the model recover the 2D layout, which the lesson showed in their similarity structure."
+  },
+  {
+    "id": "vit-post-4",
+    "stage": "post",
+    "question": "How does a ViT's receptive field compare with a CNN's?",
+    "options": [
+      "A ViT only sees one patch per layer",
+      "They are always the same",
+      "Every ViT layer can attend to the whole image, while a CNN's receptive field grows gradually with depth",
+      "A CNN sees the whole image in its first layer"
+    ],
+    "correct": 2,
+    "explanation": "Attention is global from the first block; convolutions only combine neighborhoods and need depth or pooling to see far."
+  }
+]

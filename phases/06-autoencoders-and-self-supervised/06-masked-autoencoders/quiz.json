@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mae-pre-1",
+    "stage": "pre",
+    "question": "Why does MAE mask a large fraction (around 75%) of patches on natural images?",
+    "options": [
+      "To save disk space",
+      "Because images are redundant, so small masks can be filled by local interpolation without understanding content",
+      "Because transformers cannot process more than 25% of an image",
+      "To make the decoder larger"
+    ],
+    "correct": 1,
+    "explanation": "Heavy masking makes the task require reasoning about the whole object rather than copying nearby pixels."
+  },
+  {
+    "id": "mae-pre-2",
+    "stage": "pre",
+    "question": "In a Vision Transformer, what is a token?",
+    "options": [
+      "A single pixel",
+      "A whole image",
+      "A word from a caption",
+      "A linearly embedded patch of pixels plus a position embedding"
+    ],
+    "correct": 3,
+    "explanation": "The image is cut into non-overlapping patches; each becomes one token."
+  },
+  {
+    "id": "mae-post-1",
+    "stage": "post",
+    "question": "What does the MAE encoder receive as input during pretraining?",
+    "options": [
+      "Only the visible patches with their position embeddings",
+      "All patches, with masked ones set to zero",
+      "Mask tokens only",
+      "The decoder's output"
+    ],
+    "correct": 0,
+    "explanation": "Mask tokens are only added before the decoder, which keeps the encoder cheap and matches how it is used on full images."
+  },
+  {
+    "id": "mae-post-2",
+    "stage": "post",
+    "question": "Why is the reconstruction loss computed only on masked patches?",
+    "options": [
+      "Because visible patches have no pixels",
+      "To make training slower",
+      "Because reconstructing given patches is trivial and would dilute the learning signal",
+      "Because the decoder cannot output visible patches"
+    ],
+    "correct": 2,
+    "explanation": "That is also why the raw prediction looks noisy at visible positions in mae_reconstructions.png."
+  },
+  {
+    "id": "mae-post-3",
+    "stage": "post",
+    "question": "Given noise = rand(N, 16) and shuffle = argsort(noise), what is argsort(shuffle)?",
+    "options": [
+      "The same permutation",
+      "The identity",
+      "The inverse permutation, used to put tokens back in their original order",
+      "A sorted copy of noise"
+    ],
+    "correct": 2,
+    "explanation": "argsort of a permutation is its inverse, so gather with restore unshuffles the tokens."
+  },
+  {
+    "id": "mae-post-4",
+    "stage": "post",
+    "question": "The MAE linear probe does not beat raw pixels, yet fine-tuning from MAE weights with 50 labels gives 0.800 vs 0.647 from random init. What is the lesson?",
+    "options": [
+      "MAE pretraining does not work",
+      "MAE features are rich but not linearly separable; their value appears when the whole encoder is fine-tuned",
+      "Fine-tuning is always worse than probing",
+      "The random init got lucky"
+    ],
+    "correct": 1,
+    "explanation": "The MAE paper reports the same pattern: weaker linear probes than contrastive methods, stronger fine-tuning."
+  }
+]

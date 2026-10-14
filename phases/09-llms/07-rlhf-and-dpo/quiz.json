@@ -1,0 +1,80 @@
+[
+  {
+    "id": "rlhf-pre-1",
+    "stage": "pre",
+    "question": "What kind of human feedback does RLHF typically collect?",
+    "options": [
+      "Hand-written perfect answers for every prompt",
+      "Pairwise comparisons saying which of two responses is better",
+      "Numeric gradients",
+      "Token-level corrections of spelling"
+    ],
+    "correct": 1,
+    "explanation": "Comparing two answers is much easier and more consistent for people than writing ideal answers or giving absolute scores."
+  },
+  {
+    "id": "rlhf-pre-2",
+    "stage": "pre",
+    "question": "Why can you not simply backpropagate 'answer quality' into the language model?",
+    "options": [
+      "Language models have no gradients",
+      "Quality is always zero",
+      "Quality is judged by people and is not a differentiable function of the weights",
+      "The softmax blocks gradients"
+    ],
+    "correct": 2,
+    "explanation": "Human judgments are a black box. RLHF learns a differentiable proxy (the reward model) or, in DPO, a loss built from the comparisons."
+  },
+  {
+    "id": "rlhf-post-1",
+    "stage": "post",
+    "question": "What is the reward model's training loss under the Bradley-Terry model?",
+    "options": [
+      "-log sigmoid(r(chosen) - r(rejected))",
+      "(r(chosen) - 1)^2 + r(rejected)^2",
+      "Cross-entropy over the vocabulary",
+      "KL(pi || pi_ref)"
+    ],
+    "correct": 0,
+    "explanation": "P(chosen beats rejected) = sigmoid of the score difference; maximizing its log-likelihood gives this loss."
+  },
+  {
+    "id": "rlhf-post-2",
+    "stage": "post",
+    "question": "In the experiment, what happened when RLHF ran with beta = 0 (no KL penalty)?",
+    "options": [
+      "The policy stayed identical to SFT",
+      "The true reward dropped below SFT",
+      "Training diverged with NaNs",
+      "The policy collapsed onto near-copies of one sequence the reward model liked, with a large KL"
+    ],
+    "correct": 3,
+    "explanation": "Without a leash the policy exploits the reward model and loses diversity: reward hacking."
+  },
+  {
+    "id": "rlhf-post-3",
+    "stage": "post",
+    "question": "What does DPO not need that RLHF with PPO does?",
+    "options": [
+      "A reference model",
+      "Preference pairs",
+      "A separately trained reward model and sampling from the policy during training",
+      "A beta hyperparameter"
+    ],
+    "correct": 2,
+    "explanation": "DPO trains directly on preference pairs with a classification loss; the policy's log-ratio to the reference acts as an implicit reward."
+  },
+  {
+    "id": "rlhf-post-4",
+    "stage": "post",
+    "question": "What is DPO's implicit reward for a response y?",
+    "options": [
+      "beta * log(pi(y) / pi_ref(y))",
+      "The reward model score r(y)",
+      "The length of y",
+      "log pi_ref(y)"
+    ],
+    "correct": 0,
+    "explanation": "From the closed-form optimum of the KL-regularized objective, r(y) = beta log(pi(y)/pi_ref(y)) plus a constant that cancels in comparisons."
+  }
+]

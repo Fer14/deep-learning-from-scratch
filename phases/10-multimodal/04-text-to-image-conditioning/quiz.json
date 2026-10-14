@@ -1,0 +1,80 @@
+[
+  {
+    "id": "t2i-pre-1",
+    "stage": "pre",
+    "question": "In a text-to-image diffusion model, when does the denoiser see the prompt?",
+    "options": [
+      "Only at the first denoising step",
+      "Only after sampling, to rank images",
+      "At every denoising step, through the conditioning input",
+      "Never; the prompt selects a pretrained model"
+    ],
+    "correct": 2,
+    "explanation": "The model learns p(x_t-1 | x_t, text), so the text encoding is fed to the denoiser at every step."
+  },
+  {
+    "id": "t2i-pre-2",
+    "stage": "pre",
+    "question": "What does a guidance scale of w = 1 correspond to in classifier-free guidance?",
+    "options": [
+      "The plain conditional model",
+      "The unconditional model",
+      "Twice the prompt strength",
+      "No denoising at all"
+    ],
+    "correct": 0,
+    "explanation": "uncond + 1 * (cond - uncond) = cond. w = 0 is unconditional and w > 1 extrapolates past the conditional prediction."
+  },
+  {
+    "id": "t2i-post-1",
+    "stage": "post",
+    "question": "What does a FiLM layer compute from the conditioning vector c?",
+    "options": [
+      "An attention map over pixels",
+      "A per-feature scale and shift applied to the hidden activations",
+      "A new noise schedule",
+      "The caption tokens"
+    ],
+    "correct": 1,
+    "explanation": "gamma, beta = W c + b, then h * (1 + gamma) + beta: every hidden unit is modulated by the condition."
+  },
+  {
+    "id": "t2i-post-2",
+    "stage": "post",
+    "question": "Why is the caption replaced by a null token for about 10% of training examples?",
+    "options": [
+      "To regularize the text encoder",
+      "To speed up training",
+      "To make the images noisier",
+      "So the same network also learns the unconditional prediction needed for classifier-free guidance"
+    ],
+    "correct": 3,
+    "explanation": "Guidance needs both cond and uncond predictions; caption dropout trains both in one model."
+  },
+  {
+    "id": "t2i-post-3",
+    "stage": "post",
+    "question": "In Stable Diffusion's cross-attention, what plays the role of the queries?",
+    "options": [
+      "The text tokens",
+      "The timestep embedding",
+      "The image (latent) features at each spatial position",
+      "The VAE decoder"
+    ],
+    "correct": 2,
+    "explanation": "Image positions query the sequence of text tokens (keys and values), so each region can pick the words relevant to it."
+  },
+  {
+    "id": "t2i-post-4",
+    "stage": "post",
+    "question": "In the experiment, what happened as guidance increased from 1 to 5?",
+    "options": [
+      "Prompt adherence collapsed",
+      "Samples became identical copies of training images",
+      "Nothing changed",
+      "Adherence stayed near perfect while samples became noisier, with saturated colours"
+    ],
+    "correct": 3,
+    "explanation": "Extrapolating past the conditional model exaggerates prompt features and adds artifacts; the trade-off is adherence versus fidelity and diversity."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "rnn-pre-1",
+    "stage": "pre",
+    "question": "How does the number of parameters of an RNN depend on the sequence length?",
+    "options": [
+      "It grows linearly with the length",
+      "It grows quadratically with the length",
+      "It does not depend on it, because the same weights are used at every step",
+      "It must be fixed to the longest sequence in the dataset"
+    ],
+    "correct": 2,
+    "explanation": "W_xh, W_hh and W_hy are shared across time, just like a CNN kernel is shared across space."
+  },
+  {
+    "id": "rnn-pre-2",
+    "stage": "pre",
+    "question": "In a character-level language model, what is the target for the input 'the mil'?",
+    "options": [
+      "'the mil' itself",
+      "'he mill': the same text shifted one character to the left",
+      "Only the next character 'l'",
+      "The reversed string 'lim eht'"
+    ],
+    "correct": 1,
+    "explanation": "At every position the model predicts the next character, so the targets are the inputs shifted by one."
+  },
+  {
+    "id": "rnn-post-1",
+    "stage": "post",
+    "question": "With a 24-character vocabulary, what is the cross-entropy loss of a model that predicts the uniform distribution?",
+    "options": [
+      "ln(24), about 3.18",
+      "0",
+      "1/24",
+      "24"
+    ],
+    "correct": 0,
+    "explanation": "Cross-entropy of a uniform guess over V classes is -ln(1/V) = ln V."
+  },
+  {
+    "id": "rnn-post-2",
+    "stage": "post",
+    "question": "What happens when you sample with a temperature above 1?",
+    "options": [
+      "The model always picks the most likely character",
+      "The model is retrained",
+      "Generation becomes deterministic",
+      "The distribution flattens, rare characters get sampled more often, and errors can snowball"
+    ],
+    "correct": 3,
+    "explanation": "Dividing logits by T > 1 reduces the gaps between them, so the softmax becomes closer to uniform."
+  },
+  {
+    "id": "rnn-post-3",
+    "stage": "post",
+    "question": "nn.RNN returns (outputs, h_n). What is the difference?",
+    "options": [
+      "outputs are logits, h_n are probabilities",
+      "outputs contains the hidden state at every time step; h_n contains only the final hidden state per layer",
+      "They are identical copies",
+      "h_n is the initial hidden state"
+    ],
+    "correct": 1,
+    "explanation": "outputs has shape (batch, steps, hidden) with batch_first=True; h_n has shape (num_layers, batch, hidden)."
+  },
+  {
+    "id": "rnn-post-4",
+    "stage": "post",
+    "question": "Why does the training loop clip the gradient norm?",
+    "options": [
+      "To make training deterministic",
+      "To reduce memory usage",
+      "Because gradients flow through the same W_hh at every step and can occasionally become very large, causing destructive updates",
+      "Because cross-entropy has no gradient otherwise"
+    ],
+    "correct": 2,
+    "explanation": "Repeated multiplication by W_hh can make gradients explode. Clipping rescales them to a maximum norm."
+  }
+]

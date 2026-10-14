@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lstm-pre-1",
+    "stage": "pre",
+    "question": "What range of values does an LSTM gate produce?",
+    "options": [
+      "Any real number",
+      "Between -1 and 1",
+      "Between 0 and 1, because it is a sigmoid",
+      "Only exactly 0 or 1"
+    ],
+    "correct": 2,
+    "explanation": "Gates are sigmoid layers. Their outputs multiply other vectors elementwise, acting as soft switches."
+  },
+  {
+    "id": "lstm-pre-2",
+    "stage": "pre",
+    "question": "Which update makes the LSTM cell state different from a vanilla RNN hidden state?",
+    "options": [
+      "c_t = f_t * c_(t-1) + i_t * g_t, an additive update with no weight matrix on the c path",
+      "c_t = tanh(c_(t-1) W)",
+      "c_t = c_(t-1) W_hh",
+      "c_t = softmax(c_(t-1))"
+    ],
+    "correct": 0,
+    "explanation": "The cell is carried forward by elementwise scaling and addition, not by a matrix multiply and squashing."
+  },
+  {
+    "id": "lstm-post-1",
+    "stage": "post",
+    "question": "What is dc_t / dc_(t-1) along the LSTM cell path?",
+    "options": [
+      "W_hh^T",
+      "diag(1 - c_t^2)",
+      "The output gate o_t",
+      "diag(f_t), the forget gate"
+    ],
+    "correct": 3,
+    "explanation": "Differentiating c_t = f_t * c_(t-1) + i_t * g_t with respect to c_(t-1) (holding gates fixed) gives f_t."
+  },
+  {
+    "id": "lstm-post-2",
+    "stage": "post",
+    "question": "Why did the LSTM with forget bias 3 learn the 60-step task while the one with bias 1 did not, in 400 steps?",
+    "options": [
+      "Bias 3 adds more parameters",
+      "With bias 3 the forget gates start near 0.95, so the cell keeps its content and the gradient reaches the first input",
+      "Bias 3 disables the input gate",
+      "Bias 1 causes exploding gradients"
+    ],
+    "correct": 1,
+    "explanation": "0.73^60 is tiny, 0.95^60 is not. The gradient table showed bias 3 passing essentially the full gradient back."
+  },
+  {
+    "id": "lstm-post-3",
+    "stage": "post",
+    "question": "In the GRU, what does an update gate value z_t = 1 do?",
+    "options": [
+      "Replaces the state with the new candidate",
+      "Resets the state to zero",
+      "Copies the previous state h_(t-1) unchanged",
+      "Doubles the state"
+    ],
+    "correct": 2,
+    "explanation": "h_t = (1 - z_t) * n_t + z_t * h_(t-1), so z = 1 keeps the old state."
+  },
+  {
+    "id": "lstm-post-4",
+    "stage": "post",
+    "question": "Why does the GRU need separate input and hidden biases for the candidate?",
+    "options": [
+      "Because the reset gate multiplies only the hidden part h_(t-1) W_hn + b_hn, so the two biases are not interchangeable",
+      "Because PyTorch requires two biases for every layer",
+      "Because the update gate has no bias",
+      "It does not; they could always be merged"
+    ],
+    "correct": 0,
+    "explanation": "n_t = tanh(x W_xn + b_xn + r * (h W_hn + b_hn)): b_hn is scaled by r and b_xn is not."
+  }
+]

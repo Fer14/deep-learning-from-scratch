@@ -1,0 +1,80 @@
+[
+  {
+    "id": "positional-pre-1",
+    "stage": "pre",
+    "question": "Why does a transformer need positional encodings while an RNN does not?",
+    "options": [
+      "Transformers have fewer parameters",
+      "Attention treats its input as a set (permutation equivariant), while an RNN reads tokens in order",
+      "RNNs use embeddings and transformers do not",
+      "Positional encodings speed up training"
+    ],
+    "correct": 1,
+    "explanation": "Self-attention weights depend only on content. Without positions, shuffling the input just shuffles the output."
+  },
+  {
+    "id": "positional-pre-2",
+    "stage": "pre",
+    "question": "How is a learned absolute position embedding used?",
+    "options": [
+      "It is multiplied with the attention weights",
+      "It replaces the token embedding",
+      "A trainable vector for each position is added to the token embedding at the input",
+      "It is applied only to the values"
+    ],
+    "correct": 2,
+    "explanation": "x_i = embed(token_i) + p_i, with p a trainable n_max x d matrix."
+  },
+  {
+    "id": "positional-post-1",
+    "stage": "post",
+    "question": "Without any positional information, the reversal model reached about 27% token accuracy. What strategy gives that number?",
+    "options": [
+      "Predicting the most frequent token of the sequence at every position",
+      "Predicting token 0 everywhere",
+      "Copying the input in order",
+      "Random guessing among 10 tokens"
+    ],
+    "correct": 0,
+    "explanation": "It can only compute functions of the bag of tokens. Guessing the mode is correct for about a quarter of positions with 12 tokens over 10 symbols; random guessing would give 10%."
+  },
+  {
+    "id": "positional-post-2",
+    "stage": "post",
+    "question": "Which property of the sinusoidal encoding did the script verify?",
+    "options": [
+      "All position vectors are orthogonal",
+      "Its values grow linearly with position",
+      "It is learned during training",
+      "PE(p + k) is a fixed rotation of PE(p), and PE(p) . PE(p + k) depends only on k"
+    ],
+    "correct": 3,
+    "explanation": "Each dimension pair is a sine/cosine at one frequency, so a shift rotates each pair by a fixed angle."
+  },
+  {
+    "id": "positional-post-3",
+    "stage": "post",
+    "question": "Where is RoPE applied?",
+    "options": [
+      "Added to the token embeddings once at the input",
+      "To the queries and keys inside every attention layer, as a position-dependent rotation",
+      "To the values only",
+      "To the output logits"
+    ],
+    "correct": 1,
+    "explanation": "Rotating q at position m and k at position n makes their dot product depend on n - m."
+  },
+  {
+    "id": "positional-post-4",
+    "stage": "post",
+    "question": "RoPE only encodes relative offsets, yet it solved reversal, which needs absolute positions. How?",
+    "options": [
+      "RoPE secretly adds absolute embeddings",
+      "Reversal does not need positions",
+      "The edges reveal absolute position: position 0 only sees keys at positive offsets and position 11 only at negative ones",
+      "The MLP memorized every sequence"
+    ],
+    "correct": 2,
+    "explanation": "With bidirectional attention, the set of available offsets differs by position, so absolute position can be inferred."
+  }
+]

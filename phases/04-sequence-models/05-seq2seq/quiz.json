@@ -1,0 +1,80 @@
+[
+  {
+    "id": "seq2seq-pre-1",
+    "stage": "pre",
+    "question": "In a basic seq2seq model, what information about the input does the decoder receive?",
+    "options": [
+      "Every encoder hidden state",
+      "The raw input tokens",
+      "Only the encoder's final hidden state (the context vector)",
+      "Nothing; the decoder works alone"
+    ],
+    "correct": 2,
+    "explanation": "The encoder's last state initializes the decoder. That single vector is the decoder's only view of the input."
+  },
+  {
+    "id": "seq2seq-pre-2",
+    "stage": "pre",
+    "question": "What is the role of the <eos> token?",
+    "options": [
+      "It marks where the decoder should stop generating",
+      "It is the first decoder input",
+      "It pads short sequences",
+      "It separates encoder and decoder weights"
+    ],
+    "correct": 0,
+    "explanation": "The decoder is trained to emit <eos> after the last real token, so at test time generation stops when it appears."
+  },
+  {
+    "id": "seq2seq-post-1",
+    "stage": "post",
+    "question": "What is teacher forcing?",
+    "options": [
+      "Training with a larger learning rate at the start",
+      "Freezing the encoder during training",
+      "Using a pretrained teacher model to label data",
+      "Feeding the ground-truth previous token to the decoder during training instead of its own prediction"
+    ],
+    "correct": 3,
+    "explanation": "It makes training stable and parallel across decoder steps, at the cost of exposure bias at test time."
+  },
+  {
+    "id": "seq2seq-post-2",
+    "stage": "post",
+    "question": "On the reversal task, exact-match accuracy fell from 1.0 at length 4 to about 0.23 at length 12. What is the main cause?",
+    "options": [
+      "The vocabulary is too small",
+      "The whole input must be squeezed into one fixed-size context vector, which cannot hold long sequences precisely",
+      "Teacher forcing was disabled",
+      "The <eos> token was missing"
+    ],
+    "correct": 1,
+    "explanation": "This is the seq2seq bottleneck. Per-position accuracy showed the errors concentrate in the middle of long outputs."
+  },
+  {
+    "id": "seq2seq-post-3",
+    "stage": "post",
+    "question": "Why are the first output digits of the reversal nearly always correct?",
+    "options": [
+      "They are the last digits the encoder read, so they are freshest in the context vector",
+      "They are always zero",
+      "The decoder copies them from the padding",
+      "Greedy decoding always gets the first token right"
+    ],
+    "correct": 0,
+    "explanation": "Reversal outputs the most recently read digits first; the earliest-read digits have to survive the whole encoding."
+  },
+  {
+    "id": "seq2seq-post-4",
+    "stage": "post",
+    "question": "What does pack_padded_sequence change when you run an RNN on a padded batch?",
+    "options": [
+      "It removes the need for an embedding layer",
+      "It sorts the vocabulary",
+      "Each sequence stops at its true length, so final states are not computed over padding",
+      "It doubles the batch size"
+    ],
+    "correct": 2,
+    "explanation": "Without packing, the final hidden state of a short sequence would include steps over padding tokens."
+  }
+]

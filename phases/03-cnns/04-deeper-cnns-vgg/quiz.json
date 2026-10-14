@@ -1,0 +1,80 @@
+[
+  {
+    "id": "vgg-pre-1",
+    "stage": "pre",
+    "question": "What is the receptive field of a unit after two stacked 3x3 convolutions (stride 1)?",
+    "options": [
+      "3x3",
+      "6x6",
+      "9x9",
+      "5x5"
+    ],
+    "correct": 3,
+    "explanation": "Each layer adds k - 1 = 2 pixels: 1 + 2 + 2 = 5."
+  },
+  {
+    "id": "vgg-pre-2",
+    "stage": "pre",
+    "question": "Which design rule describes VGG?",
+    "options": [
+      "Only 3x3 convolutions with padding 1, 2x2 max pools, and channels doubling after each pool",
+      "A different kernel size in every layer, chosen by search",
+      "No pooling at all, only strided 7x7 convolutions",
+      "Only 1x1 convolutions"
+    ],
+    "correct": 0,
+    "explanation": "VGG fixes every choice except depth: small kernels, simple pools, and stages that halve resolution while doubling channels."
+  },
+  {
+    "id": "vgg-post-1",
+    "stage": "post",
+    "question": "With C input and output channels, how do the weights of two 3x3 layers compare to one 5x5 layer?",
+    "options": [
+      "They are equal: 25 C^2",
+      "18 C^2 vs 25 C^2: the stack is cheaper and adds a nonlinearity",
+      "36 C^2 vs 25 C^2: the stack is more expensive",
+      "9 C vs 25 C"
+    ],
+    "correct": 1,
+    "explanation": "Each 3x3 layer has 9 C^2 weights, so two have 18 C^2, about 28% fewer than one 5x5, with an extra ReLU in between."
+  },
+  {
+    "id": "vgg-post-2",
+    "stage": "post",
+    "question": "In VGG-11, where are about 93% of the parameters?",
+    "options": [
+      "In the first convolutional stage",
+      "In the max pooling layers",
+      "In the fully connected classifier head",
+      "Spread evenly across all layers"
+    ],
+    "correct": 2,
+    "explanation": "The first dense layer alone maps 25,088 features to 4,096 units (about 102M weights). The convolutions hold about 9M."
+  },
+  {
+    "id": "vgg-post-3",
+    "stage": "post",
+    "question": "In receptive field arithmetic, why does a 2x2 stride-2 pool make later layers grow the field faster?",
+    "options": [
+      "It doubles the jump, so each later k x k kernel adds (k - 1) * jump input pixels instead of k - 1",
+      "It doubles the number of channels",
+      "It removes the padding",
+      "It does not; pooling has no effect on the receptive field"
+    ],
+    "correct": 0,
+    "explanation": "After a stride-2 layer, neighboring units are 2 input pixels apart, so every later kernel step covers twice as much input."
+  },
+  {
+    "id": "vgg-post-4",
+    "stage": "post",
+    "question": "On 16x16 digits the single wide 7x7 layer matched or beat the tiny VGG. What is the right conclusion?",
+    "options": [
+      "Depth never helps CNNs",
+      "3x3 kernels are worse than 7x7 kernels",
+      "VGG has a bug",
+      "On small, easy images a shallow model already sees enough; depth pays off on large images with many classes"
+    ],
+    "correct": 3,
+    "explanation": "Depth buys a large receptive field and feature hierarchies. A 16x16 digit does not need them, and a deeper plain net is harder to train."
+  }
+]

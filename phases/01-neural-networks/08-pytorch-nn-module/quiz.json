@@ -1,0 +1,80 @@
+[
+  {
+    "id": "nn-module-pre-1",
+    "stage": "pre",
+    "question": "Which method of an nn.Module subclass do you normally implement to define the computation?",
+    "options": [
+      "__call__",
+      "backward",
+      "forward",
+      "step"
+    ],
+    "correct": 2,
+    "explanation": "You write forward; calling model(x) goes through Module.__call__, which runs hooks and then forward. Autograd handles backward."
+  },
+  {
+    "id": "nn-module-pre-2",
+    "stage": "pre",
+    "question": "What does model.parameters() return?",
+    "options": [
+      "All trainable tensors registered anywhere in the module tree",
+      "Only the parameters of the last layer",
+      "The hyperparameters passed to __init__",
+      "The gradients of the last backward pass"
+    ],
+    "correct": 0,
+    "explanation": "It recursively walks submodules and yields every registered nn.Parameter, which is what the optimizer needs."
+  },
+  {
+    "id": "nn-module-post-1",
+    "stage": "post",
+    "question": "How does nn.Module discover that self.fc1 = nn.Linear(2, 32) is a submodule?",
+    "options": [
+      "By parsing the source code of __init__",
+      "You must call self.add_module explicitly every time",
+      "Through the forward pass",
+      "Module.__setattr__ intercepts the assignment and records any Module or Parameter value"
+    ],
+    "correct": 3,
+    "explanation": "Attribute assignment goes through __setattr__, which sorts values into _modules, _parameters and buffers. That is why super().__init__() must run first."
+  },
+  {
+    "id": "nn-module-post-2",
+    "stage": "post",
+    "question": "What is the difference between a buffer and a parameter?",
+    "options": [
+      "Buffers live on the CPU only",
+      "Buffers are saved in the state_dict and moved by .to(), but are not returned by parameters() and not trained",
+      "Buffers are not saved in the state_dict",
+      "There is no difference"
+    ],
+    "correct": 1,
+    "explanation": "Buffers hold model state such as batch norm running stats or normalization constants that the optimizer must not update."
+  },
+  {
+    "id": "nn-module-post-3",
+    "stage": "post",
+    "question": "What does model.eval() do?",
+    "options": [
+      "Disables gradient computation",
+      "Freezes all parameters",
+      "Sets training=False on every submodule so layers like dropout and batch norm use their inference behavior",
+      "Evaluates the model on the test set"
+    ],
+    "correct": 2,
+    "explanation": "eval() only flips a flag. To stop autograd from recording, use torch.no_grad() or torch.inference_mode()."
+  },
+  {
+    "id": "nn-module-post-4",
+    "stage": "post",
+    "question": "You store layers in a plain Python list attribute. What goes wrong?",
+    "options": [
+      "Their parameters are not registered, so the optimizer and state_dict never see them",
+      "The forward pass raises an error",
+      "The layers are trained twice",
+      "Nothing; lists work like nn.ModuleList"
+    ],
+    "correct": 0,
+    "explanation": "__setattr__ only registers Module and Parameter values, not lists of them. nn.ModuleList and nn.ModuleDict exist to fix this."
+  }
+]

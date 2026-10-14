@@ -1,0 +1,80 @@
+[
+  {
+    "id": "batching-pre-1",
+    "stage": "pre",
+    "question": "Why can a GPU process a batch of 16 images in about the same time as one image for a small model?",
+    "options": [
+      "The GPU skips images that look alike",
+      "At small batch sizes the time is dominated by fixed overhead such as kernel launches, not by arithmetic",
+      "Batches are compressed before processing",
+      "The GPU processes only the first image"
+    ],
+    "correct": 1,
+    "explanation": "Small workloads leave most GPU cores idle, so adding examples barely changes the time until the hardware is saturated."
+  },
+  {
+    "id": "batching-pre-2",
+    "stage": "pre",
+    "question": "In eval mode, what kind of function is a BatchNorm layer?",
+    "options": [
+      "A per-channel affine function with fixed parameters",
+      "A function whose output depends on the other examples in the batch",
+      "A nonlinear activation",
+      "A random function"
+    ],
+    "correct": 0,
+    "explanation": "With running statistics frozen, BatchNorm computes gamma * (y - mu) / sqrt(var + eps) + beta, a fixed scale and shift per channel."
+  },
+  {
+    "id": "batching-post-1",
+    "stage": "post",
+    "question": "When folding BatchNorm into the preceding convolution, what happens to the convolution's weights?",
+    "options": [
+      "They are replaced by gamma",
+      "They are normalized to unit norm",
+      "They are left unchanged and only the bias changes",
+      "Each output filter is multiplied by gamma / sqrt(var + eps) for its channel"
+    ],
+    "correct": 3,
+    "explanation": "W' = W * factor per output channel, and b' = (b - mu) * factor + beta, so conv'(x) equals bn(conv(x))."
+  },
+  {
+    "id": "batching-post-2",
+    "stage": "post",
+    "question": "At half of batch-1 capacity, dynamic batching with max_wait = 1 ms raised median latency. Why?",
+    "options": [
+      "Batches are slower to compute than single requests",
+      "The simulation has a bug",
+      "With light traffic, requests mostly wait for the timer to expire before their small batch is launched",
+      "The server dropped requests"
+    ],
+    "correct": 2,
+    "explanation": "The fixed policy waits up to max_wait for companions. At low load few arrive, so the wait is pure added latency."
+  },
+  {
+    "id": "batching-post-3",
+    "stage": "post",
+    "question": "At twice batch-1 capacity, why did latency explode without batching but stay near 1 ms with dynamic batching?",
+    "options": [
+      "Without batching the server handles fewer requests per second than arrive, so the queue grows; batching raises throughput enough to keep up",
+      "Dynamic batching drops half of the requests",
+      "Dynamic batching uses a faster model",
+      "Without batching the server crashes"
+    ],
+    "correct": 0,
+    "explanation": "When arrival rate exceeds service rate the queue grows without bound. Larger batches serve many requests per launch, so capacity rises above the arrival rate."
+  },
+  {
+    "id": "batching-post-4",
+    "stage": "post",
+    "question": "On a CPU, autocast to bfloat16 made the model much slower. What is the lesson?",
+    "options": [
+      "bfloat16 is always slower than float32",
+      "Reduced precision only helps when the hardware and kernels support it natively, so always measure",
+      "autocast is broken on CPUs",
+      "The model must be retrained in bfloat16"
+    ],
+    "correct": 1,
+    "explanation": "Without native low-precision kernels, the runtime converts back and forth or uses slow fallbacks. Gains depend on the hardware."
+  }
+]

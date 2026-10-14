@@ -1,0 +1,80 @@
+[
+  {
+    "id": "mha-pre-1",
+    "stage": "pre",
+    "question": "With d_model = 512 and 8 heads, what is the dimension of each head?",
+    "options": [
+      "512",
+      "4096",
+      "64",
+      "8"
+    ],
+    "correct": 2,
+    "explanation": "d_head = d_model / h = 512 / 8 = 64."
+  },
+  {
+    "id": "mha-pre-2",
+    "stage": "pre",
+    "question": "How does the number of parameters of a multi-head attention layer change when you go from 1 to 8 heads at fixed d_model?",
+    "options": [
+      "It does not change",
+      "It is multiplied by 8",
+      "It is divided by 8",
+      "It is multiplied by 64"
+    ],
+    "correct": 0,
+    "explanation": "W_q, W_k, W_v and W_o are all d_model x d_model regardless of h; heads only regroup the columns."
+  },
+  {
+    "id": "mha-post-1",
+    "stage": "post",
+    "question": "What do view(batch, n, h, d_head).transpose(1, 2) achieve?",
+    "options": [
+      "They randomly assign dimensions to heads",
+      "They split the last axis into h column groups and move the head axis next to the batch axis so all heads run as one batched matmul",
+      "They copy Q h times",
+      "They compute the attention weights"
+    ],
+    "correct": 1,
+    "explanation": "A head is a contiguous slice of d_head columns. The transpose makes the shape (batch, h, n, d_head) for batched attention."
+  },
+  {
+    "id": "mha-post-2",
+    "stage": "post",
+    "question": "In nn.MultiheadAttention, what does True mean in a boolean attn_mask?",
+    "options": [
+      "The position is allowed to be attended",
+      "The position is a padding token",
+      "The head is disabled",
+      "The position is NOT allowed to be attended, the opposite of F.scaled_dot_product_attention"
+    ],
+    "correct": 3,
+    "explanation": "That is why the lesson passes ~causal to nn.MultiheadAttention but causal to its own module."
+  },
+  {
+    "id": "mha-post-3",
+    "stage": "post",
+    "question": "In the neighbor task, what did the heads of the 4-head model learn?",
+    "options": [
+      "All four heads attended uniformly to every position",
+      "Two heads attended to the next position and two to the previous position",
+      "Each head attended only to itself",
+      "Heads attended to random positions"
+    ],
+    "correct": 1,
+    "explanation": "The most common offsets were [1, 9, 9, 1] (mod 10): two next-token heads and two previous-token heads."
+  },
+  {
+    "id": "mha-post-4",
+    "stage": "post",
+    "question": "The 1-head model also solved the neighbor task. How?",
+    "options": [
+      "It memorized the training set",
+      "It ignored the attention layer",
+      "It split its weight unevenly between both neighbors, and the MLP decoded the blended value",
+      "It used two softmaxes internally"
+    ],
+    "correct": 2,
+    "explanation": "Weights of about 0.34 and 0.61 produce a blend from which the MLP can still recover both tokens. Multiple heads give each lookup its own clean distribution instead."
+  }
+]

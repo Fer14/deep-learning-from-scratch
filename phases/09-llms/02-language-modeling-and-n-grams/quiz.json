@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ngram-pre-1",
+    "stage": "pre",
+    "question": "What does an autoregressive language model predict at each step?",
+    "options": [
+      "The probability distribution of the next token given the previous ones",
+      "The sentiment of the whole sentence",
+      "The grammatical role of each word",
+      "Which tokens should be deleted"
+    ],
+    "correct": 0,
+    "explanation": "The chain rule factors a sequence probability into next-token conditionals, and the model estimates each one."
+  },
+  {
+    "id": "ngram-pre-2",
+    "stage": "pre",
+    "question": "A model assigns uniform probability to 30 possible characters. What is its perplexity?",
+    "options": [
+      "1",
+      "log(30)",
+      "30",
+      "0.033"
+    ],
+    "correct": 2,
+    "explanation": "Perplexity is exp of the average negative log-likelihood; for a uniform distribution over V options it equals V."
+  },
+  {
+    "id": "ngram-post-1",
+    "stage": "post",
+    "question": "Why does validation perplexity get worse for high-order n-grams on a small corpus?",
+    "options": [
+      "Training becomes numerically unstable",
+      "Most long contexts in new text were never seen, so estimates fall back to smoothing",
+      "Higher orders use fewer characters",
+      "Perplexity is undefined for n above 4"
+    ],
+    "correct": 1,
+    "explanation": "The number of possible contexts grows as V^(n-1); the counts become sparse and the model overfits the exact contexts it saw."
+  },
+  {
+    "id": "ngram-post-2",
+    "stage": "post",
+    "question": "What does add-k smoothing do?",
+    "options": [
+      "Removes rare characters from the vocabulary",
+      "Averages the predictions of k different models",
+      "Multiplies all counts by k",
+      "Adds k pseudo-counts to every outcome so none has zero probability"
+    ],
+    "correct": 3,
+    "explanation": "P = (count + k) / (total + kV). It prevents zero probabilities, at the price of flattening the distribution."
+  },
+  {
+    "id": "ngram-post-3",
+    "stage": "post",
+    "question": "A neural bigram (a free V x V logit table) is trained with cross-entropy to convergence. What does it learn?",
+    "options": [
+      "The same conditional probabilities as normalized bigram counts",
+      "A uniform distribution",
+      "Word embeddings that generalize to unseen contexts",
+      "The trigram distribution"
+    ],
+    "correct": 0,
+    "explanation": "Maximum likelihood over a free table has the count ratios as its solution, so gradient descent recovers the counting model."
+  },
+  {
+    "id": "ngram-post-4",
+    "stage": "post",
+    "question": "What fundamental limitation of n-grams do neural language models address?",
+    "options": [
+      "N-grams cannot generate text",
+      "N-grams cannot be evaluated with perplexity",
+      "Each context is counted independently, so similar contexts share no statistics",
+      "N-grams require a GPU"
+    ],
+    "correct": 2,
+    "explanation": "Neural models map contexts to vectors, so similar contexts give similar predictions and unseen contexts still get sensible estimates."
+  }
+]

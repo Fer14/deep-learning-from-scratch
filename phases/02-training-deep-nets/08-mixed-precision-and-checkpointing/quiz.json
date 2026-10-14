@@ -1,0 +1,80 @@
+[
+  {
+    "id": "amp-pre-1",
+    "stage": "pre",
+    "question": "What is the largest finite value representable in float16?",
+    "options": [
+      "About 3.4e38",
+      "65504",
+      "1",
+      "2^31"
+    ],
+    "correct": 1,
+    "explanation": "float16 has only 5 exponent bits, so its maximum is 65504. Anything larger overflows to infinity."
+  },
+  {
+    "id": "amp-pre-2",
+    "stage": "pre",
+    "question": "Why do people train with 16-bit floats at all?",
+    "options": [
+      "16-bit math is more accurate",
+      "It is required by PyTorch",
+      "Modern GPUs run 16-bit matmuls much faster and 16-bit activations use half the memory",
+      "It removes the need for an optimizer"
+    ],
+    "correct": 2,
+    "explanation": "Tensor cores and similar hardware give several times higher throughput for 16-bit inputs, and smaller activations mean bigger batches or models."
+  },
+  {
+    "id": "amp-post-1",
+    "stage": "post",
+    "question": "Why does mixed precision keep a float32 copy of the weights?",
+    "options": [
+      "Small updates added to a float16 weight round away and are lost",
+      "float16 weights cannot be multiplied",
+      "To make the model file smaller",
+      "Because the loss is in float32"
+    ],
+    "correct": 0,
+    "explanation": "Around 1.0 the float16 spacing is about 1e-3, so updates smaller than that do nothing. Accumulating updates in float32 master weights keeps them."
+  },
+  {
+    "id": "amp-post-2",
+    "stage": "post",
+    "question": "What does dynamic loss scaling do when the scaled gradients contain inf or NaN?",
+    "options": [
+      "Clips them to 65504 and continues",
+      "Stops training",
+      "Doubles the scale",
+      "Skips the optimizer step and halves the scale"
+    ],
+    "correct": 3,
+    "explanation": "An overflow means the scale is too large. The step is discarded and the scale reduced; after a run of good steps it grows again."
+  },
+  {
+    "id": "amp-post-3",
+    "stage": "post",
+    "question": "Why does bfloat16 training usually not need loss scaling?",
+    "options": [
+      "bfloat16 has more mantissa bits than float16",
+      "bfloat16 has the same 8-bit exponent as float32, so small gradients do not underflow",
+      "bfloat16 is only used for inference",
+      "bfloat16 automatically rescales gradients"
+    ],
+    "correct": 1,
+    "explanation": "bfloat16 trades precision for range: it can represent values down to about 1e-38, so gradients stay nonzero without scaling."
+  },
+  {
+    "id": "amp-post-4",
+    "stage": "post",
+    "question": "You resume training from a checkpoint that contains only the model weights, using Adam and a cosine schedule. What goes wrong?",
+    "options": [
+      "Nothing, the weights are all that matter",
+      "The model architecture changes",
+      "Adam's moment estimates, the schedule position and the data order are reset, so the resumed run differs from an uninterrupted one",
+      "The weights are loaded in the wrong dtype"
+    ],
+    "correct": 2,
+    "explanation": "A full checkpoint needs optimizer, scheduler, scaler and RNG state too. With all of them, the resume is bit-identical."
+  }
+]

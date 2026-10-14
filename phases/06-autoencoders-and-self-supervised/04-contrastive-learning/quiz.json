@@ -1,0 +1,80 @@
+[
+  {
+    "id": "contrastive-pre-1",
+    "stage": "pre",
+    "question": "In SimCLR, what is a positive pair?",
+    "options": [
+      "Two images with the same label",
+      "Two random augmentations of the same image",
+      "An image and its reconstruction",
+      "Two images from different classes"
+    ],
+    "correct": 1,
+    "explanation": "No labels are used: the positive is the other augmented view of the same image."
+  },
+  {
+    "id": "contrastive-pre-2",
+    "stage": "pre",
+    "question": "A classifier trained on raw pixels of centered digits drops from 97% to 33% on digits shifted by one pixel. What does that tell you about raw pixels as a representation?",
+    "options": [
+      "They are not invariant to small translations",
+      "They contain no information about the digit",
+      "The classifier is underfitting",
+      "The shift changes the label"
+    ],
+    "correct": 0,
+    "explanation": "A 1-pixel shift moves every value, so the pixel vector changes a lot even though the digit does not."
+  },
+  {
+    "id": "contrastive-post-1",
+    "stage": "post",
+    "question": "With a batch of N images, how many candidates compete in the softmax for each view in NT-Xent?",
+    "options": [
+      "N",
+      "2N",
+      "2N - 1 (one positive and 2N - 2 negatives)",
+      "N - 1"
+    ],
+    "correct": 2,
+    "explanation": "All 2N views except the anchor itself, which is masked with -inf. Chance-level loss is log(2N - 1)."
+  },
+  {
+    "id": "contrastive-post-2",
+    "stage": "post",
+    "question": "Why do you usually keep the representation h before the projection head rather than z after it?",
+    "options": [
+      "z has more dimensions",
+      "h is normalized and z is not",
+      "The head is randomly initialized and never trained",
+      "The head absorbs the invariances the loss demands, so h keeps more information useful for other tasks"
+    ],
+    "correct": 3,
+    "explanation": "In the script z is more shift-invariant (0.947 on shifted digits) but h is better on clean data (0.990 vs 0.983, and 0.893 vs 0.853 with few labels)."
+  },
+  {
+    "id": "contrastive-post-3",
+    "stage": "post",
+    "question": "How do you write NT-Xent with F.cross_entropy?",
+    "options": [
+      "Use the similarity matrix with the diagonal masked as logits, and the index of each view's sibling as the target class",
+      "Use the labels of the digits as targets",
+      "Use the embeddings themselves as logits",
+      "It cannot be written as a cross-entropy"
+    ],
+    "correct": 0,
+    "explanation": "Each row is a classification problem over the other views; the correct class is the positive."
+  },
+  {
+    "id": "contrastive-post-4",
+    "stage": "post",
+    "question": "You remove the random shift from the augmentations. What do you expect?",
+    "options": [
+      "Nothing changes; contrastive learning is always shift invariant",
+      "The learned features become less robust to shifted test images",
+      "The loss can no longer be computed",
+      "The model starts using labels"
+    ],
+    "correct": 1,
+    "explanation": "The invariances come from the augmentations: only what augmentation changes is something the network learns to ignore."
+  }
+]
