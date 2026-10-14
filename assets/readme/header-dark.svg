@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="THOTH · Deep Learning from Scratch: learning from pyramids. 13 phases from tensors and autodiff at the base up to transformers, diffusion, LLMs, multimodal and world models">
   <defs>
     <pattern id="paper" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-      <circle cx="0" cy="0" r="1" fill="#ece6dc" fill-opacity="0.08"/>
+      <circle cx="0" cy="0" r="1" fill="#e9ecdf" fill-opacity="0.08"/>
     </pattern>
     <pattern id="paperRule" x="0" y="0" width="100" height="6" patternUnits="userSpaceOnUse">
       <rect width="4" height="3" fill="#a9b77a"/>
@@ -15,21 +15,21 @@
     </style>
   </defs>
 
-  <rect width="1280" height="420" fill="#1a1714"/>
+  <rect width="1280" height="420" fill="#14160f"/>
   <rect width="1280" height="420" fill="url(#paper)"/>
 
-  <g transform="translate(49.36, -5.37) scale(0.08627)"><path fill="#ece6dc" fill-rule="evenodd" d="M 77 410 H 204 V 460 H 166 V 665 H 116 V 460 H 77 Z M 230 410 H 281 V 512 H 333 V 410 H 384 V 665 H 333 V 563 H 281 V 665 H 230 Z M 410 410 H 614 V 665 H 410 Z M 512 458 L 443 591 L 512 617 L 581 591 Z M 640 410 H 768 V 460 H 729 V 665 H 679 V 460 H 640 Z M 794 410 H 845 V 512 H 897 V 410 H 947 V 665 H 897 V 563 H 845 V 665 H 794 Z"/></g>
-  <g class="mono" font-size="11" letter-spacing="2.4" fill="#a39a90" text-anchor="end">
+  <g transform="translate(49.36, -5.37) scale(0.08627)"><path fill="#e9ecdf" fill-rule="evenodd" d="M 77 410 H 204 V 460 H 166 V 665 H 116 V 460 H 77 Z M 230 410 H 281 V 512 H 333 V 410 H 384 V 665 H 333 V 563 H 281 V 665 H 230 Z M 410 410 H 614 V 665 H 410 Z M 512 458 L 443 591 L 512 617 L 581 591 Z M 640 410 H 768 V 460 H 729 V 665 H 679 V 460 H 640 Z M 794 410 H 845 V 512 H 897 V 410 H 947 V 665 H 897 V 563 H 845 V 665 H 794 Z"/></g>
+  <g class="mono" font-size="11" letter-spacing="2.4" fill="#9ba191" text-anchor="end">
     <text x="1224" y="47">© 2026  ·  OPEN SOURCE  ·  MIT LICENSE</text>
   </g>
   <line x1="56" y1="64" x2="1224" y2="64" stroke="#a9b77a" stroke-width="0.6" stroke-opacity="0.4"/>
 
   <g transform="translate(56, 110)">
     <text class="display" x="0" y="58" font-size="68" letter-spacing="1.5" fill="#a9b77a">DEEP LEARNING</text>
-    <text class="display" x="0" y="124" font-size="68" letter-spacing="1.5" fill="#ece6dc">FROM SCRATCH.</text>
+    <text class="display" x="0" y="124" font-size="68" letter-spacing="1.5" fill="#e9ecdf">FROM SCRATCH.</text>
   </g>
 
-  <g class="serif" font-size="17" fill="#ece6dc">
+  <g class="serif" font-size="17" fill="#e9ecdf">
     <text x="56" y="296">Learning from pyramids: deep learning from first principles, one phase at a time.</text>
   </g>
 
@@ -46,32 +46,32 @@
     <g>
       <polygon class="bp" points="768.0,352.0 992.0,352.0 981.0,322.4 785.9,322.4" fill="#a9b77a" fill-opacity="0.03" stroke-width="1.1"/>
       <polygon class="bp" points="992.0,352.0 1046.0,330.0 1028.1,303.2 981.0,322.4" fill="#a9b77a" fill-opacity="0.10" stroke-width="1.1"/>
-      <polygon class="bp" points="785.9,322.4 981.0,322.4 1028.1,303.2 833.0,303.2" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="785.9,322.4 981.0,322.4 1028.1,303.2 833.0,303.2" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="789.8,315.9 978.7,315.9 968.9,289.5 805.8,289.5" fill="#a9b77a" fill-opacity="0.05" stroke-width="1.1"/>
       <polygon class="bp" points="978.7,315.9 1024.2,297.4 1008.2,273.5 968.9,289.5" fill="#a9b77a" fill-opacity="0.13" stroke-width="1.1"/>
-      <polygon class="bp" points="805.8,289.5 968.9,289.5 1008.2,273.5 845.1,273.5" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="805.8,289.5 968.9,289.5 1008.2,273.5 845.1,273.5" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="809.7,283.1 966.5,283.1 956.8,256.6 825.6,256.6" fill="#a9b77a" fill-opacity="0.07" stroke-width="1.1"/>
       <polygon class="bp" points="966.5,283.1 1004.3,267.7 988.4,243.8 956.8,256.6" fill="#a9b77a" fill-opacity="0.16" stroke-width="1.1"/>
-      <polygon class="bp" points="825.6,256.6 956.8,256.6 988.4,243.8 857.2,243.8" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="825.6,256.6 956.8,256.6 988.4,243.8 857.2,243.8" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="829.5,250.2 954.4,250.2 944.6,223.8 845.5,223.8" fill="#a9b77a" fill-opacity="0.09" stroke-width="1.1"/>
       <polygon class="bp" points="954.4,250.2 984.5,237.9 968.5,214.1 944.6,223.8" fill="#a9b77a" fill-opacity="0.19" stroke-width="1.1"/>
-      <polygon class="bp" points="845.5,223.8 944.6,223.8 968.5,214.1 869.4,214.1" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="845.5,223.8 944.6,223.8 968.5,214.1 869.4,214.1" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="849.4,217.4 942.2,217.4 932.5,190.9 865.3,190.9" fill="#a9b77a" fill-opacity="0.11" stroke-width="1.1"/>
       <polygon class="bp" points="942.2,217.4 964.6,208.2 948.7,184.3 932.5,190.9" fill="#a9b77a" fill-opacity="0.22" stroke-width="1.1"/>
-      <polygon class="bp" points="865.3,190.9 932.5,190.9 948.7,184.3 881.5,184.3" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="865.3,190.9 932.5,190.9 948.7,184.3 881.5,184.3" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="869.2,184.5 930.1,184.5 920.3,158.1 885.2,158.1" fill="#a9b77a" fill-opacity="0.13" stroke-width="1.1"/>
       <polygon class="bp" points="930.1,184.5 944.8,178.5 928.8,154.6 920.3,158.1" fill="#a9b77a" fill-opacity="0.25" stroke-width="1.1"/>
-      <polygon class="bp" points="885.2,158.1 920.3,158.1 928.8,154.6 893.7,154.6" fill="#1a1714" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
+      <polygon class="bp" points="885.2,158.1 920.3,158.1 928.8,154.6 893.7,154.6" fill="#14160f" fill-opacity="0.6" stroke-width="0.8" stroke-opacity="0.7"/>
     </g>
     <g>
       <polygon class="bp" points="889.1,151.6 918.0,151.6 907.0,122.0" fill="#a9b77a" fill-opacity="0.15" stroke-width="1.5"/>
@@ -96,7 +96,7 @@
     <text x="1062" y="174.8">LLMS · MULTIMODAL</text>
     <text x="1062" y="140.3">WORLD MODELS · DEPLOY</text>
   </g>
-  <g class="mono" font-size="8.5" letter-spacing="0.8" fill="#a39a90">
+  <g class="mono" font-size="8.5" letter-spacing="0.8" fill="#9ba191">
     <text x="1062" y="351.2">PHASE 00 · 01 · 02</text>
     <text x="1062" y="316.7">PHASE 03 · 04</text>
     <text x="1062" y="283.9">PHASE 05</text>
@@ -107,5 +107,5 @@
   </g>
 
   <rect x="0" y="408" width="1280" height="6" fill="url(#paperRule)"/>
-  <line x1="0" y1="404" x2="1280" y2="404" stroke="#ece6dc" stroke-opacity="0.16" stroke-width="0.8"/>
+  <line x1="0" y1="404" x2="1280" y2="404" stroke="#e9ecdf" stroke-opacity="0.16" stroke-width="0.8"/>
 </svg>

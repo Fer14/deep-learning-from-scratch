@@ -2,7 +2,7 @@ from pathlib import Path
 
 THEMES = {
     "light": {"bg": "#fafaf5", "ink": "#1a1a1a", "muted": "#7a7a78", "accent": "#4f5d2f", "dot": "#1a1a1a"},
-    "dark": {"bg": "#1a1714", "ink": "#ece6dc", "muted": "#a39a90", "accent": "#a9b77a", "dot": "#ece6dc"},
+    "dark": {"bg": "#14160f", "ink": "#e9ecdf", "muted": "#9ba191", "accent": "#a9b77a", "dot": "#e9ecdf"},
 }
 
 LAYERS = [
